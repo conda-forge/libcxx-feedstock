@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
-{% set version = "3.8.1" %}
-{% set sha256 = "77d7f3784c88096d785bd705fa1bab7031ce184cd91ba8a7008abf55264eeecc" %}
+{% set version = "3.9.1" %}
+{% set sha256 = "25e615e428f60e651ed09ffd79e563864e3f4bc69a9e93ee41505c419d1a7461" %}
 
 package:
   name: {{ name }}
@@ -13,7 +13,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [(unix and py27) or win]
+  skip: true  # [(unix and py<36) or win]
   features:   # [win and py35]
     - vc14    # [win and py35]
 
@@ -54,5 +54,6 @@ about:
 
 extra:
   recipe-maintainers:
+    - SylvainCorlay
     - inducer
     - mattwala
