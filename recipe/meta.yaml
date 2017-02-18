@@ -35,7 +35,6 @@ requirements:
 
   run:
     - system  # [linux and not armv7l]
-    - clangdev =={{ version }}
 
 test:
   requires:
