@@ -32,9 +32,6 @@ requirements:
     # For downloading libcxxabi
     - curl
 
-  run:
-    - clangdev =={{ version }}
-
 test:
   requires:
     - python {{ environ['PY_VER'] + '*' }}  # [win]
