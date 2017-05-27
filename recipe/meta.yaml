@@ -1,6 +1,7 @@
 {% set name = "libcxx" %}
-{% set version = "3.9.1" %}
-{% set sha256 = "25e615e428f60e651ed09ffd79e563864e3f4bc69a9e93ee41505c419d1a7461" %}
+{% set version = "4.0.0" %}
+{% set build_number = "0" %}
+{% set sha256 = "4f4d33c4ad69bf9e360eebe6b29b7b19486948b1a41decf89d4adec12473cf96" %}
 
 package:
   name: {{ name }}
@@ -12,10 +13,10 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
-  skip: true  # [(unix and py<36) or win]
-  features:   # [win and py35]
-    - vc14    # [win and py35]
+  number: {{ build_number }}
+  skip: true  # [(unix and py3k) or win]
+  features:   # [win and py36]
+    - vc14    # [win and py36]
 
 requirements:
   build:
