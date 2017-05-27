@@ -1,6 +1,7 @@
 mkdir build
 cd build
 
+export CC=clang CXX=clang++
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
