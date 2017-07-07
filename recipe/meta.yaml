@@ -14,7 +14,7 @@ source:
 
 build:
   number: {{ build_number }}
-  skip: true  # [(unix and py3k) or win]
+  skip: true  # [(unix and py3k) or (win and py<36)]
   features:   # [win and py36]
     - vc14    # [win and py36]
 
