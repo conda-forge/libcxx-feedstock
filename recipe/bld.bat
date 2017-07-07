@@ -3,20 +3,11 @@ cd build
 
 set BUILD_CONFIG=Release
 
-REM Configure step
-if "%ARCH%"=="32" (
-    set CMAKE_GENERATOR=Visual Studio 12 2013
-) else (
-    set CMAKE_GENERATOR=Visual Studio 12 2013 Win64
-)
-set CMAKE_GENERATOR_TOOLSET=v120_xp
-
 @rem Reduce build times and package size by removing unused stuff
 set CMAKE_CUSTOM=-DLLVM_INCLUDE_TESTS=OFF ^
     -DLLVM_INCLUDE_DOCS=OFF
 
-cmake -G "%CMAKE_GENERATOR%" ^
-    -T "%CMAKE_GENERATOR_TOOLSET%" ^
+cmake -G "NMake Makefiles" ^
     -DCMAKE_BUILD_TYPE="%BUILD_CONFIG%" ^
     -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
     -DCMAKE_INSTALL_PREFIX:PATH=%LIBRARY_PREFIX% ^
