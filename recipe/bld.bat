@@ -9,7 +9,7 @@ cmake -G "NMake Makefiles" ^
     -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
     -DLLVM_INCLUDE_TESTS=OFF ^
     -DLLVM_INCLUDE_DOCS=OFF ^
-    %SRC_DIR%
+    "%SRC_DIR%"
 if errorlevel 1 exit 1
 
 REM Build step
