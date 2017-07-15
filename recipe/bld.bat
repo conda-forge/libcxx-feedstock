@@ -16,6 +16,7 @@ cmake -G "NMake Makefiles" ^
     -DLLVM_INCLUDE_DIR="%LIBRARY_INC%" ^
     -DLLVM_INCLUDE_TESTS=OFF ^
     -DLLVM_INCLUDE_DOCS=OFF ^
+    -DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY=OFF ^
     "%SRC_DIR%"
 if errorlevel 1 exit 1
 
