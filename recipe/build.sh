@@ -1,18 +1,4 @@
-mkdir build
-cd build
-
 export CC=clang CXX=clang++
-cmake \
-  -DCMAKE_INSTALL_PREFIX=$PREFIX \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DLLVM_ENABLE_RTTI=ON \
-  -DLLVM_INCLUDE_TESTS=OFF \
-  -DLLVM_INCLUDE_DOCS=OFF \
-  ..
-
-make -j${CPU_COUNT}
-make install
-cd ..
 
 # Build libcxxabi
 curl -L -O http://llvm.org/releases/${PKG_VERSION}/libcxxabi-${PKG_VERSION}.src.tar.xz
@@ -25,7 +11,8 @@ cd build
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
-  -DLIBCXXABI_LIBCXX_PATH=../../include \
+  -DLIBCXXABI_LIBCXX_PATH=../../ \
+  -DLIBCXXABI_LIBCXX_INCLUDES=../../include \
   ..
 
 make -j${CPU_COUNT}
