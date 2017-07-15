@@ -28,6 +28,7 @@ requirements:
     # "compiling .pyc files" fails without this:
     - python
 
+    - dirent  # [win]
     - clangdev =={{ version }}
     - curl
 
