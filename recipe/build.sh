@@ -1,4 +1,15 @@
+mkdir build
+cd build
+
 export CC=clang CXX=clang++
+cmake \
+  -DCMAKE_INSTALL_PREFIX=$PREFIX \
+  -DCMAKE_BUILD_TYPE=Release \
+  ..
+
+make -j${CPU_COUNT}
+make install
+cd ..
 
 # Build libcxxabi
 curl -L -O http://llvm.org/releases/${PKG_VERSION}/libcxxabi-${PKG_VERSION}.src.tar.xz
@@ -31,4 +42,5 @@ cmake \
   ..
 
 make -j${CPU_COUNT}
+rm ${PREFIX}/lib/libc++.*
 make install
