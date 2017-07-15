@@ -16,7 +16,7 @@ cd ..
 
 # Build libcxxabi
 curl -L -O http://llvm.org/releases/${PKG_VERSION}/libcxxabi-${PKG_VERSION}.src.tar.xz
-tar -xvf libcxxabi-${PKG_VERSION}.src.tar.xz
+tar -xvf libcxxabi-${PKG_VERSION}.src.tar.xz --no-same-owner
 cd libcxxabi-${PKG_VERSION}.src
 
 mkdir build
