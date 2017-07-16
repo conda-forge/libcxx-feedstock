@@ -11,6 +11,9 @@ source:
   fn: {{ name }}-{{ version }}.src.tar.xz
   url: http://llvm.org/releases/{{ version }}/{{ name }}-{{ version }}.src.tar.xz
   sha256: {{ sha256 }}
+  patches:
+    # Cache LLVM_CMAKE_PATH and note as path.
+    - HandleOutOfTreeLLVM.cmake.diff
 
 build:
   number: {{ build_number }}
