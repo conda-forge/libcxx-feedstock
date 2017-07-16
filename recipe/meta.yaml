@@ -22,6 +22,9 @@ requirements:
   build:
     - toolchain
     - cmake >=3.4.3
+    # Needed to unpack the source tarball
+    - m2-tar                                # [win]
+    - m2-xz                                 # [win]
 
     - system  # [linux and not armv7l]
 
