@@ -34,7 +34,7 @@ if errorlevel 1 exit 1
 nmake install
 if errorlevel 1 exit 1
 
-cd ..
+cd ..\..
 if errorlevel 1 exit 1
 
 :: Build libcxxabi
@@ -74,6 +74,9 @@ nmake install
 if errorlevel 1 exit 1
 
 cd ..\..
+if errorlevel 1 exit 1
+
+cd "libcxx-%PKG_VERSION%.src"
 if errorlevel 1 exit 1
 
 :: Build libcxx with libcxxabi
