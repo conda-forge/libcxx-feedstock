@@ -1,3 +1,7 @@
+:: Prep build
+xcopy "%LIBRARY_LIB%\cmake\llvm" "%LIBRARY_LIB%\cmake\modules" /s /h /e /k /f /c
+if errorlevel 1 exit 1
+
 mkdir build
 cd build
 
@@ -30,4 +34,8 @@ if errorlevel 1 exit 1
 
 REM Install step
 cmake --build . --config "%BUILD_CONFIG%" --target install
+if errorlevel 1 exit 1
+
+:: Clean up after build
+rmdir "%LIBRARY_LIB%\cmake\modules" /s /q
 if errorlevel 1 exit 1
