@@ -1,5 +1,5 @@
 :: Prep build
-xcopy "%LIBRARY_LIB%\cmake\llvm" "%LIBRARY_LIB%\cmake\modules" /s /h /e /k /f /c
+xcopy "%LIBRARY_LIB%\cmake\llvm" "%LIBRARY_LIB%\cmake\modules\" /s /h /e /k /f /c
 if errorlevel 1 exit 1
 
 mkdir build
