@@ -90,6 +90,10 @@ if errorlevel 1 exit 1
 nmake install
 if errorlevel 1 exit 1
 
+:: Install headers
+xcopy "..\include" "%LIBRARY_INC%\" /s /h /e /k /f /c
+if errorlevel 1 exit 1
+
 cd ..\..
 if errorlevel 1 exit 1
 
