@@ -52,7 +52,9 @@ if errorlevel 1 exit 1
 cd "libcxxabi-%PKG_VERSION%.src"
 if errorlevel 1 exit 1
 
-echo "" > src\config.h
+:: Need this file to exist to build.
+:: Upstream removed it because it was empty.
+copy NUL > src\config.h
 
 mkdir build
 if errorlevel 1 exit 1
