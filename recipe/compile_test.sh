@@ -1,3 +1,5 @@
+set -e
+
 FILES=test_sources/*.c
 for f in $FILES
 do
