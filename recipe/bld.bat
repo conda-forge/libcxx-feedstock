@@ -1,3 +1,7 @@
+:: Prep build
+xcopy "%LIBRARY_LIB%\cmake\llvm" "%LIBRARY_LIB%\cmake\modules" /s /h /e /k /f /c
+if errorlevel 1 exit 1
+
 :: Build libcxx to start (needed for bootstrapping)
 mkdir build
 if errorlevel 1 exit 1
@@ -134,4 +138,8 @@ popd
 if errorlevel 1 exit 1
 
 nmake install
+if errorlevel 1 exit 1
+
+:: Clean up after build
+rmdir "%LIBRARY_LIB%\cmake\modules" /s /q
 if errorlevel 1 exit 1
