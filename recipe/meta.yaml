@@ -33,6 +33,7 @@ requirements:
     - python {{ environ['PY_VER'] + '*' }}  # [win]
 
     - clangdev =={{ version }}
+    - curl
 
   run:
     - system  # [linux and not armv7l]

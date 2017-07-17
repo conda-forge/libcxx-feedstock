@@ -22,8 +22,8 @@ cd build
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
-  -DLIBCXXABI_LIBCXX_PATH=../../ \
-  -DLIBCXXABI_LIBCXX_INCLUDES=../../include \
+  -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR \
+  -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
   ..
 
 make -j${CPU_COUNT}
@@ -38,7 +38,7 @@ cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
   -DLIBCXX_CXX_ABI=libcxxabi \
-  -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi-${PKG_VERSION}.src/include \
+  -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$SRC_DIR/libcxxabi-${PKG_VERSION}.src/include \
   ..
 
 make -j${CPU_COUNT}
