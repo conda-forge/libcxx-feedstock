@@ -54,6 +54,7 @@ if errorlevel 1 exit 1
 
 :: Patch to avoid unistd.h include, which causes issues on Windows.
 patch "src\config.h" "%RECIPE_DIR%\config_drop_unistd.diff"
+patch "src\cxa_exception_storage.cpp" "%RECIPE_DIR%\libcpp_tls_error.diff"
 if errorlevel 1 exit 1
 
 mkdir build
