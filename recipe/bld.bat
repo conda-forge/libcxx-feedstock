@@ -52,8 +52,9 @@ if errorlevel 1 exit 1
 cd "libcxxabi-%PKG_VERSION%.src"
 if errorlevel 1 exit 1
 
-:: Truncate file to avoid `unistd.h` include.
-copy /y NUL > src\config.h
+:: Remove as it is unneeded.
+:: Also has a unistd.h include, which causes issues on Windows.
+del src\config.h
 
 mkdir build
 if errorlevel 1 exit 1
