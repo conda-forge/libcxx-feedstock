@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
 {% set version = "4.0.0" %}
-{% set build_number = "0" %}
+{% set build_number = "1" %}
 {% set sha256 = "4f4d33c4ad69bf9e360eebe6b29b7b19486948b1a41decf89d4adec12473cf96" %}
 
 package:
@@ -65,3 +65,4 @@ extra:
     - inducer
     - mattwala
     - jakirkham
+    - isuruf
