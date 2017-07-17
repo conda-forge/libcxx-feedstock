@@ -5,6 +5,8 @@ export CC=clang CXX=clang++
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_INCLUDE_TESTS=OFF \
+  -DLLVM_INCLUDE_DOCS=OFF \
   ..
 
 make -j${CPU_COUNT}
@@ -24,6 +26,8 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR \
   -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
+  -DLLVM_INCLUDE_TESTS=OFF \
+  -DLLVM_INCLUDE_DOCS=OFF \
   ..
 
 make -j${CPU_COUNT}
@@ -39,6 +43,8 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DLIBCXX_CXX_ABI=libcxxabi \
   -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$SRC_DIR/libcxxabi-${PKG_VERSION}.src/include \
+  -DLLVM_INCLUDE_TESTS=OFF \
+  -DLLVM_INCLUDE_DOCS=OFF \
   ..
 
 make -j${CPU_COUNT}
