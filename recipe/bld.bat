@@ -52,9 +52,9 @@ if errorlevel 1 exit 1
 cd "libcxxabi-%PKG_VERSION%.src"
 if errorlevel 1 exit 1
 
-:: Remove as it is unneeded.
-:: Also has a unistd.h include, which causes issues on Windows.
-del src\config.h
+:: Patch to avoid unistd.h include, which causes issues on Windows.
+patch "src\config.h" "%RECIPE_DIR%\config_drop_unistd.diff"
+if errorlevel 1 exit 1
 
 mkdir build
 if errorlevel 1 exit 1
