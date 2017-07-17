@@ -7,7 +7,7 @@ index 7fee839..f44c921 100644
      set(LLVM_PATH ${LLVM_PATH} CACHE PATH "Path to LLVM source tree")
      set(LLVM_MAIN_SRC_DIR ${LLVM_PATH})
 -    set(LLVM_CMAKE_PATH "${LLVM_PATH}/cmake/modules")
-+    set(LLVM_CMAKE_PATH "${LLVM_PATH}/cmake/modules" CACHE PATH "Path to LLVM CMake modules")
++    set(LLVM_CMAKE_PATH "${LLVM_CMAKE_PATH}" CACHE PATH "Path to LLVM CMake modules")
    elseif(LLVM_CONFIG_PATH)
      message(STATUS "Found LLVM_CONFIG_PATH as ${LLVM_CONFIG_PATH}")
      set(LIBCXX_USING_INSTALLED_LLVM 1)
