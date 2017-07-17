@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
 {% set version = "4.0.0" %}
-{% set build_number = "0" %}
+{% set build_number = "1" %}
 {% set sha256 = "4f4d33c4ad69bf9e360eebe6b29b7b19486948b1a41decf89d4adec12473cf96" %}
 
 package:
@@ -33,6 +33,7 @@ requirements:
     - python {{ environ['PY_VER'] + '*' }}  # [win]
 
     - clangdev =={{ version }}
+    - curl
 
   run:
     - system  # [linux and not armv7l]
@@ -41,11 +42,16 @@ requirements:
 test:
   requires:
     - python {{ environ['PY_VER'] + '*' }}  # [win]
+  files:
+    - test_sources
+    - compile_test.sh
 
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
 
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+
+    - bash compile_test.sh   # [unix]
 
 about:
   home: http://llvm.org/
@@ -59,3 +65,4 @@ extra:
     - inducer
     - mattwala
     - jakirkham
+    - isuruf
