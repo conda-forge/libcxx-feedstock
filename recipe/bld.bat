@@ -126,7 +126,7 @@ cmake ^
   -DLIBCXX_ENABLE_STATIC:BOOL=ON ^
   -DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY:BOOL=OFF ^
   -DLIBCXX_CXX_ABI=libcxxabi ^
-  -DLIBCXX_CXX_ABI_INCLUDE_PATHS:PATH="..\libcxxabi-%PKG_VERSION%.src\include" ^
+  -DLIBCXX_CXX_ABI_INCLUDE_PATHS:PATH="..\..\libcxxabi-%PKG_VERSION%.src\include" ^
   ..
 if errorlevel 1 exit 1
 
