@@ -40,7 +40,6 @@ requirements:
 test:
   requires:
     - python {{ environ['PY_VER'] + '*' }}  # [win]
-    - m2-bash                               # [win]
   files:
     - test_sources
     - compile_test.sh
@@ -50,7 +49,7 @@ test:
 
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
 
-    - bash -lc "./compile_test.sh"
+    - bash compile_test.sh   # [unix]
 
 about:
   home: http://llvm.org/
