@@ -32,11 +32,11 @@ cmake ^
     ..
 if errorlevel 1 exit 1
 
-REM Build step
+:: Build step
 cmake --build . --config "%BUILD_CONFIG%"
 if errorlevel 1 exit 1
 
-REM Install step
+:: Install step
 cmake --build . --config "%BUILD_CONFIG%" --target install
 if errorlevel 1 exit 1
 
