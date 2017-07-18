@@ -81,6 +81,8 @@ cmake ^
   -DLIBCXXABI_ENABLE_STATIC:BOOL=ON ^
   -DCMAKE_C_COMPILER:PATH="%LIBRARY_BIN%\clang-cl.exe" ^
   -DCMAKE_CXX_COMPILER:PATH="%LIBRARY_BIN%\clang-cl.exe" ^
+  -DCMAKE_C_FLAGS_RELEASE="/MT" ^
+  -DCMAKE_CXX_FLAGS_RELEASE="/MT" ^
   ..
 if errorlevel 1 exit 1
 
