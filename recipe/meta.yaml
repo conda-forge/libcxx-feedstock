@@ -42,7 +42,8 @@ test:
     - python {{ environ['PY_VER'] + '*' }}  # [win]
   files:
     - test_sources
-    - compile_test.sh
+    - compile_test.sh   # [unix]
+    - compile_test.bat  # [win]
 
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
@@ -50,6 +51,7 @@ test:
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
 
     - bash compile_test.sh   # [unix]
+    - compile_test.bat       # [win]
 
 about:
   home: http://llvm.org/
