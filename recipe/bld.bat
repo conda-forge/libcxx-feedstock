@@ -33,11 +33,11 @@ cmake ^
 if errorlevel 1 exit 1
 
 :: Build step
-cmake --build . --config "%BUILD_CONFIG%"
+nmake
 if errorlevel 1 exit 1
 
 :: Install step
-cmake --build . --config "%BUILD_CONFIG%" --target install
+nmake install
 if errorlevel 1 exit 1
 
 :: Clean up after build
