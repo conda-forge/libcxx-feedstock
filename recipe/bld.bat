@@ -3,9 +3,13 @@ xcopy "%LIBRARY_LIB%\cmake\llvm" "%LIBRARY_LIB%\cmake\modules\" /s /h /e /k /f /
 if errorlevel 1 exit 1
 
 mkdir build
+if errorlevel 1 exit 1
+
 cd build
+if errorlevel 1 exit 1
 
 set BUILD_CONFIG=Release
+if errorlevel 1 exit 1
 
 cmake ^
     -G "NMake Makefiles" ^
