@@ -1,0 +1,11 @@
+diff --git a/src/config.h b/src/config.h
+index f2710c0..c823552 100644
+--- a/src/config.h
++++ b/src/config.h
+@@ -14,6 +14,4 @@
+ #ifndef LIBCXXABI_CONFIG_H
+ #define LIBCXXABI_CONFIG_H
+ 
+-#include <unistd.h>
+-
+ // Set this in the CXXFLAGS when you need it, because otherwise we'd have to
