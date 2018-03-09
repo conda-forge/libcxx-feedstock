@@ -1,7 +1,7 @@
 {% set name = "libcxx" %}
-{% set version = "5.0.0" %}
+{% set version = "6.0.0" %}
 {% set build_number = "0" %}
-{% set sha256 = "eae5981e9a21ef0decfcac80a1af584ddb064a32805f95a57c7c83a5eb28c9b1" %}
+{% set sha256 = "70931a87bde9d358af6cb7869e7535ec6b015f7e6df64def6d2ecdd954040dd9" %}
 
 package:
   name: {{ name }}
