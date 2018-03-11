@@ -21,7 +21,11 @@ build:
 requirements:
   build:
     - toolchain
-    - cmake >=3.4.3
+
+    # Temporarily preventing CMake 3.10:
+    # https://github.com/conda-forge/libcxx-feedstock/pull/18#issuecomment-372082075
+    - cmake >=3.4.3,<3.10
+
     # "compiling .pyc files" fails without this
     - python
     - clangdev =={{ version }}
