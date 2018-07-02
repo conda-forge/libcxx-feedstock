@@ -1,4 +1,4 @@
-set -e
+set -ex
 
 FILES=test_sources/*.c
 for f in $FILES

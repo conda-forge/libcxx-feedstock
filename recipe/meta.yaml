@@ -14,8 +14,7 @@ source:
 
 build:
   number: {{ build_number }}
-  ignore_run_exports:
-    - clangdev
+  merge_build_host: true
 
 requirements:
   build:
