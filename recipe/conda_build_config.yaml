@@ -1,0 +1,7 @@
+python:
+  - 2.7  # [unix]
+  - 3.6  # [win]
+cmake:
+  # Temporarily preventing CMake 3.10:
+  # https://github.com/conda-forge/libcxx-feedstock/pull/18#issuecomment-372082075
+  - '>=3.4,<3.10'

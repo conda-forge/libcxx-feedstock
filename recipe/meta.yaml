@@ -14,23 +14,20 @@ source:
 
 build:
   number: {{ build_number }}
-  skip: true  # [(unix and py3k) or (win and py<36)]
-  features:   # [win and py36]
-    - vc14    # [win and py36]
+  ignore_run_exports:
+    - clangdev
 
 requirements:
   build:
-    - toolchain
-
-    # Temporarily preventing CMake 3.10:
-    # https://github.com/conda-forge/libcxx-feedstock/pull/18#issuecomment-372082075
-    - cmake >=3.4.3,<3.10
-
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - cmake
     # "compiling .pyc files" fails without this
     - python
     - clangdev =={{ version }}
     # For downloading libcxxabi
     - curl
+  host: []
 
   # run_constrained pins clangdev version *if to be installed*
   # without making it a dependency
