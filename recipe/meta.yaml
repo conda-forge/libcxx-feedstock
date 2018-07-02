@@ -36,6 +36,7 @@ requirements:
 
 test:
   requires:
+    - {{ compiler('cxx') }}  # [win]
     - clangdev
     - python  # [win]
   files:
