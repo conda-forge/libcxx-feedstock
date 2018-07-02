@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
 {% set version = "6.0.0" %}
-{% set build_number = "0" %}
+{% set build_number = "1" %}
 {% set sha256 = "70931a87bde9d358af6cb7869e7535ec6b015f7e6df64def6d2ecdd954040dd9" %}
 
 package:
@@ -32,8 +32,15 @@ requirements:
     # For downloading libcxxabi
     - curl
 
+  # run_constrained pins clangdev version *if to be installed*
+  # without making it a dependency
+  # this feature requires conda >=4.4
+  run_constrained:
+    - clangdev =={{ version }}
+
 test:
   requires:
+    - clangdev
     - python {{ environ['PY_VER'] + '*' }}  # [win]
   files:
     - test_sources
