@@ -9,12 +9,6 @@ cxx_compiler:
 pin_run_as_build:
   curl:
     max_pin: x
-  python:
-    min_pin: x.x
-    max_pin: x.x
-python:
-- '3.6'
 zip_keys:
-- - python
-  - c_compiler
+- - c_compiler
   - cxx_compiler
