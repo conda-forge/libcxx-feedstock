@@ -1,0 +1,45 @@
+From 5638e7b9c4143cbef0f12405ce65bf7b1dd1c13d Mon Sep 17 00:00:00 2001
+From: Sam Clegg <sbc@chromium.org>
+Date: Sat, 16 Dec 2017 18:59:50 +0000
+Subject: [PATCH] [libcxx] Add WebAssembly support
+
+It turns out that this is the only change required in libcxx
+for it to compile with the new `wasm32-unknown-unknown-wasm`
+target recently added to Clang.
+
+Patch by Nicholas Wilson!
+
+Differential Revision: https://reviews.llvm.org/D41073
+
+git-svn-id: https://llvm.org/svn/llvm-project/libcxx/trunk@320925 91177308-0d34-0410-b5e6-96231b3b80d8
+---
+ include/__config           | 2 ++
+ src/include/config_elast.h | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/include/__config b/include/__config
+index 0d933f806..d0f95ef28 100644
+--- a/include/__config
++++ b/include/__config
+@@ -45,6 +45,8 @@
+ #define _LIBCPP_OBJECT_FORMAT_MACHO 1
+ #elif defined(_WIN32)
+ #define _LIBCPP_OBJECT_FORMAT_COFF  1
++#elif defined(__wasm__)
++#define _LIBCPP_OBJECT_FORMAT_WASM  1
+ #else
+ #error Unknown object file format
+ #endif
+diff --git a/src/include/config_elast.h b/src/include/config_elast.h
+index 8328978ef..4c4d853c2 100644
+--- a/src/include/config_elast.h
++++ b/src/include/config_elast.h
+@@ -24,7 +24,7 @@
+ #define _LIBCPP_ELAST __ELASTERROR
+ #elif defined(__Fuchsia__)
+ // No _LIBCPP_ELAST needed on Fuchsia
+-#elif defined(__linux__)
++#elif defined(__linux__) || defined(_LIBCPP_HAS_MUSL_LIBC)
+ #define _LIBCPP_ELAST 4095
+ #elif defined(__APPLE__)
+ // No _LIBCPP_ELAST needed on Apple
