@@ -14,40 +14,27 @@ source:
 
 build:
   number: {{ build_number }}
-  skip: true  # [(unix and py3k) or (win and py<36)]
-  features:   # [win and py36]
-    - vc14    # [win and py36]
+  skip: true  # [win and vc<14]
 
 requirements:
   build:
-    - toolchain
-
-    # Temporarily preventing CMake 3.10:
-    # https://github.com/conda-forge/libcxx-feedstock/pull/18#issuecomment-372082075
-    - cmake >=3.4.3,<3.10
-
-    # "compiling .pyc files" fails without this
-    - python
-    - clangdev =={{ version }}
+    - cmake >=3.10.2
+    - {{ compiler('cxx') }}
     # For downloading libcxxabi
     - curl
-
-  run:
+  host:
     - clangdev =={{ version }}
+  run:
+    - llvm-meta =={{ version }}
 
 test:
-  requires:
-    - python {{ environ['PY_VER'] + '*' }}  # [win]
   files:
     - test_sources
     - compile_test.sh   # [unix]
     - compile_test.bat  # [win]
-
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-
     - bash compile_test.sh   # [unix]
     - compile_test.bat       # [win]
 
@@ -64,3 +51,4 @@ extra:
     - mattwala
     - jakirkham
     - isuruf
+
