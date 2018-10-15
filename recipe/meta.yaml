@@ -28,6 +28,8 @@ requirements:
     - llvm-meta =={{ version }}
 
 test:
+  requires:
+    - clangdev =={{ version }}
   files:
     - test_sources
     - compile_test.sh   # [unix]
