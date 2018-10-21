@@ -9,6 +9,8 @@ package:
 source:
   - url: http://llvm.org/releases/{{ version }}/libcxx-{{ version }}.src.tar.xz
     sha256: 9b342625ba2f4e65b52764ab2061e116c0337db2179c6bce7f9a0d70c52134f0
+    patches:
+      - install_dll.diff
 
   - url: http://llvm.org/releases/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
     sha256: 9b45c759ff397512eae4d938ff82827b1bd7ccba49920777e5b5e460baeb245f          # [unix]
