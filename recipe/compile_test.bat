@@ -40,4 +40,3 @@ test_clang
 if errorlevel 1 exit 1
 popd
 if errorlevel 1 exit 1
-
