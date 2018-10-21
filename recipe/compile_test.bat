@@ -43,4 +43,3 @@ for /f "usebackq" %%i in (`dir /b ^| findstr /i "^.*\.cpp$"`) do (
     if errorlevel 1 exit 1
 )
 popd
-if errorlevel 1 exit 1
