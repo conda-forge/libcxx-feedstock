@@ -14,12 +14,8 @@ make install
 cd ..
 
 # Build libcxxabi
-curl -L -O http://llvm.org/releases/${PKG_VERSION}/libcxxabi-${PKG_VERSION}.src.tar.xz
-tar -xvf libcxxabi-${PKG_VERSION}.src.tar.xz --no-same-owner
-cd libcxxabi-${PKG_VERSION}.src
-
-mkdir build
-cd build
+cd libcxxabi
+mkdir build && cd build
 
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
@@ -42,7 +38,7 @@ cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
   -DLIBCXX_CXX_ABI=libcxxabi \
-  -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$SRC_DIR/libcxxabi-${PKG_VERSION}.src/include \
+  -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$SRC_DIR/libcxxabi/include \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_DOCS=OFF \
   ..

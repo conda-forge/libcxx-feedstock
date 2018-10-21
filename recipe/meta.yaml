@@ -1,53 +1,45 @@
 {% set name = "libcxx" %}
-{% set version = "6.0.1" %}
+{% set version = "7.0.0" %}
 {% set build_number = 0 %}
-{% set sha256 = "7654fbc810a03860e6f01a54c2297a0b9efb04c0b9aa0409251d9bdb3726fc67" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.src.tar.xz
-  url: http://llvm.org/releases/{{ version }}/{{ name }}-{{ version }}.src.tar.xz
-  sha256: {{ sha256 }}
+  - url: http://llvm.org/releases/{{ version }}/libcxx-{{ version }}.src.tar.xz
+    sha256: 9b342625ba2f4e65b52764ab2061e116c0337db2179c6bce7f9a0d70c52134f0
+    patches:
+      - install_dll.diff
+
+  - url: http://llvm.org/releases/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
+    sha256: 9b45c759ff397512eae4d938ff82827b1bd7ccba49920777e5b5e460baeb245f          # [unix]
+    folder: libcxxabi                                                                 # [unix]
 
 build:
   number: {{ build_number }}
-  skip: true  # [(unix and py3k) or (win and py<36)]
-  features:   # [win and py36]
-    - vc14    # [win and py36]
+  skip: true  # [win and vc<14]
 
 requirements:
   build:
-    - toolchain
-
-    # Temporarily preventing CMake 3.10:
-    # https://github.com/conda-forge/libcxx-feedstock/pull/18#issuecomment-372082075
-    - cmake >=3.4.3,<3.10
-
-    # "compiling .pyc files" fails without this
-    - python
+    - cmake >=3.10.2
+    - {{ compiler('cxx') }}
+    - ninja   # [win]
+  host:
     - clangdev =={{ version }}
-    # For downloading libcxxabi
-    - curl
-
   run:
-    - clangdev =={{ version }}
+    - llvm-meta =={{ version }}
 
 test:
   requires:
-    - python {{ environ['PY_VER'] + '*' }}  # [win]
+    - clangdev =={{ version }}
   files:
     - test_sources
     - compile_test.sh   # [unix]
     - compile_test.bat  # [win]
-
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-
     - bash compile_test.sh   # [unix]
     - compile_test.bat       # [win]
 
