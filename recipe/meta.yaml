@@ -19,14 +19,15 @@ source:
 build:
   number: {{ build_number }}
   skip: true  # [win and vc<14]
+  skip: true  # [osx and cxx_compiler=='clangxx']
 
 requirements:
   build:
     - cmake >=3.10.2
     - {{ compiler('cxx') }}
     - ninja   # [win]
-  host:
     - clangdev =={{ version }}
+  host:
   run:
     - llvm-meta =={{ version }}
 
