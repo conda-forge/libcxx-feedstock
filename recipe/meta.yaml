@@ -22,6 +22,7 @@ requirements:
   build:
     - cmake >=3.10.2
     - {{ compiler('cxx') }}
+    - ninja   # [win]
   host:
     - clangdev =={{ version }}
   run:
