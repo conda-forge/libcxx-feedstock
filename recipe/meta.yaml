@@ -29,8 +29,8 @@ requirements:
     - {{ compiler('cxx') }}   # [not osx]
     - toolchain               # [osx]
     - ninja   # [win]
-    - clangdev =={{ version }}   # [not osx]
   host:
+    - clangdev =={{ version }}   # [not osx]
   run:
     - llvm-meta =={{ version }}
 
