@@ -1,6 +1,11 @@
 mkdir build
 cd build
 
+if [[ "$cxx_compiler" == "toolchain_cxx" ]]; then
+   export CC=clang;
+   export CXX=clang++;
+fi
+
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
