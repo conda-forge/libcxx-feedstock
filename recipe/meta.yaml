@@ -45,7 +45,7 @@ test:
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix]
+    - bash compile_test.sh   # [unix and cxx_compiler=='gxx']
     - compile_test.bat       # [win]
 
 about:
