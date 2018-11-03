@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
 {% set version = "7.0.0" %}
-{% set build_number = 1 %}
+{% set build_number = 1002 %}
 
 package:
   name: {{ name }}
@@ -20,20 +20,24 @@ source:
 build:
   number: {{ build_number }}
   skip: true  # [win and vc<14]
+  ignore_run_exports:
+    - libstdcxx-ng
 
 requirements:
   build:
-    - cmake >=3.10.2
-    - {{ compiler('cxx') }}
+    - cmake-binary
+    - {{ compiler('cxx') }}   # [not osx]
+    - toolchain               # [osx]
     - ninja   # [win]
   host:
-    - clangdev =={{ version }}
+    - clangdev =={{ version }}   # [not osx]
   run:
     - llvm-meta =={{ version }}
 
 test:
   requires:
     - clangdev =={{ version }}
+    - {{ compiler('cxx') }}   # [not osx]
   files:
     - test_sources
     - compile_test.sh   # [unix]
@@ -41,7 +45,7 @@ test:
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix]
+    - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
     - compile_test.bat       # [win]
 
 about:
