@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
-{% set version = "7.0.0" %}
-{% set build_number = 1002 %}
+{% set version = "7.0.1" %}
+{% set build_number = 1000 %}
 
 package:
   name: {{ name }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: http://llvm.org/releases/{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: 9b342625ba2f4e65b52764ab2061e116c0337db2179c6bce7f9a0d70c52134f0
+    sha256: 020002618b319dc2a8ba1f2cba88b8cc6a209005ed8ad29f9de0c562c6ebb9f1
     patches:
       - install_dll.diff
       - 0001-If-libc-abi-library-is-given-use-it-to-reexport.patch
