@@ -11,8 +11,10 @@ if errorlevel 1 exit 1
 set BUILD_CONFIG=Release
 if errorlevel 1 exit 1
 
+set "CXXFLAGS=%CXXFLAGS% -Wno-c++98-compat"
+
 cmake ^
-    -G "NMake Makefiles" ^
+    -G "Ninja" ^
     -DCMAKE_BUILD_TYPE="%BUILD_CONFIG%" ^
     -DCMAKE_PREFIX_PATH:PATH="%LIBRARY_PREFIX%" ^
     -DCMAKE_INSTALL_PREFIX:PATH="%LIBRARY_PREFIX%" ^
@@ -27,17 +29,17 @@ cmake ^
     -DLLVM_INCLUDE_TESTS:BOOL=OFF ^
     -DLLVM_INCLUDE_DOCS:BOOL=OFF ^
     -DLIBCXX_ENABLE_SHARED:BOOL=ON ^
-    -DLIBCXX_ENABLE_STATIC:BOOL=OFF ^
+    -DLIBCXX_ENABLE_STATIC:BOOL=ON ^
     -DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY:BOOL=OFF ^
     ..
 if errorlevel 1 exit 1
 
 :: Build step
-nmake
+ninja -j%CPU_COUNT%
 if errorlevel 1 exit 1
 
 :: Install step
-nmake install
+ninja install
 if errorlevel 1 exit 1
 
 :: Clean up after build
