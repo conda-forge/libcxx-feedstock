@@ -28,9 +28,9 @@ requirements:
     - cmake-binary
     - {{ compiler('cxx') }}   # [not osx]
     - ninja   # [win]
+    - libcxxabi               # [osx]
   host:
     - clangdev                # [win]
-    - libcxxabi               # [osx]
 
 test:
   requires:
