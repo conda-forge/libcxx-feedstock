@@ -31,8 +31,6 @@ requirements:
     - ninja   # [win]
   host:
     - clangdev =={{ version }}   # [not osx]
-  run:
-    - llvm-meta =={{ version }}
 
 test:
   requires:
