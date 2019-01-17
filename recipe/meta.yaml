@@ -27,7 +27,6 @@ requirements:
   build:
     - cmake-binary
     - {{ compiler('cxx') }}   # [not osx]
-    - toolchain               # [osx]
     - ninja   # [win]
   host:
     - clangdev =={{ version }}   # [not osx]
