@@ -29,7 +29,7 @@ requirements:
     - {{ compiler('cxx') }}   # [not osx]
     - ninja   # [win]
   host:
-    - clangdev =={{ version }}   # [not osx]
+    - clangdev                # [win]
 
 test:
   requires:
