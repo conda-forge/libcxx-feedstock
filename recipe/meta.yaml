@@ -30,6 +30,7 @@ requirements:
     - ninja   # [win]
   host:
     - clangdev                # [win]
+    - libcxxabi               # [osx]
 
 test:
   requires:
