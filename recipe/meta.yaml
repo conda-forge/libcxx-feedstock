@@ -11,7 +11,7 @@ source:
     sha256: 020002618b319dc2a8ba1f2cba88b8cc6a209005ed8ad29f9de0c562c6ebb9f1
     patches:
       - install_dll.diff
-      - 0001-If-libc-abi-library-is-given-use-it-to-reexport.patch
+      - F7824320.diff
 
   - url: http://llvm.org/releases/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
     sha256: 9b45c759ff397512eae4d938ff82827b1bd7ccba49920777e5b5e460baeb245f          # [unix]
