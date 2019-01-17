@@ -1,8 +1,8 @@
 mkdir build
 cd build
 
-export CFLAGS="$CFLAGS -I$PREFIX/include"
-export LDFLAGS="$LDFLAGS -L$PREFIX/lib -Wl,-rpath,$PREFIX/lib"
+export CFLAGS="$CFLAGS -I$PREFIX/include -I$BUILD_PREFIX/include"
+export LDFLAGS="$LDFLAGS -L$PREFIX/lib -Wl,-rpath,$PREFIX/lib -L$BUILD_PREFIX/lib -Wl,-rpath,$BUILD_PREFIX/lib"
 
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
