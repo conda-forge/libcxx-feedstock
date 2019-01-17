@@ -1,8 +1,8 @@
-Index: libcxx/trunk/lib/CMakeLists.txt
-===================================================================
---- libcxx/trunk/lib/CMakeLists.txt
-+++ libcxx/trunk/lib/CMakeLists.txt
-@@ -41,14 +41,14 @@
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index e068edc8a..8975109f7 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -41,14 +41,14 @@ add_library_flags_if(LIBCXX_COVERAGE_LIBRARY "${LIBCXX_COVERAGE_LIBRARY}")
  
  if (APPLE AND (LIBCXX_CXX_ABI_LIBNAME STREQUAL "libcxxabi" OR
                 LIBCXX_CXX_ABI_LIBNAME STREQUAL "default"))
@@ -19,7 +19,7 @@ Index: libcxx/trunk/lib/CMakeLists.txt
    add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
  else ()
   add_interface_library("${LIBCXX_CXX_ABI_LIBRARY}")
-@@ -129,7 +129,7 @@
+@@ -129,7 +129,7 @@ if (LIBCXX_TARGETING_MSVC)
    add_library_flags(iso_stdio_wide_specifiers)
  endif()
  
@@ -28,9 +28,9 @@ Index: libcxx/trunk/lib/CMakeLists.txt
    if (NOT DEFINED LIBCXX_LIBCPPABI_VERSION)
      set(LIBCXX_LIBCPPABI_VERSION "2") # Default value
      execute_process(
-@@ -153,29 +153,22 @@
-                         "target. If you need support for this, please contact "
-                         "the libc++ maintainers.")
+@@ -158,29 +158,22 @@ if (LIBCXX_OSX_REEXPORT_SYSTEM_ABI_LIBRARY)
+       "-Wl,-unexported_symbols_list,${CMAKE_CURRENT_SOURCE_DIR}/libc++unexp.exp"
+       "/usr/lib/libSystem.B.dylib")
    else()
 -	  if (DEFINED CMAKE_OSX_SYSROOT AND NOT CMAKE_OSX_SYSROOT STREQUAL "")
 -      list(FIND CMAKE_OSX_ARCHITECTURES "armv7" OSX_HAS_ARMV7)
@@ -65,4 +65,4 @@ Index: libcxx/trunk/lib/CMakeLists.txt
 +    endif()
    endif()
  endif()
-
+ 
