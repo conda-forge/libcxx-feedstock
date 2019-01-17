@@ -33,7 +33,7 @@ requirements:
 
 test:
   requires:
-    - clangdev =={{ version }}
+    - clangdev
     - {{ compiler('cxx') }}   # [not osx]
   files:
     - test_sources
