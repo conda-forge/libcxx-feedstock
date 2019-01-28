@@ -1,10 +1,8 @@
 mkdir build
 cd build
 
-if [[ "$cxx_compiler" == "toolchain_cxx" ]]; then
-   export CC=clang;
-   export CXX=clang++;
-fi
+export CFLAGS="$CFLAGS -I$PREFIX/include -I$BUILD_PREFIX/include"
+export LDFLAGS="$LDFLAGS -L$PREFIX/lib -Wl,-rpath,$PREFIX/lib -L$BUILD_PREFIX/lib -Wl,-rpath,$BUILD_PREFIX/lib"
 
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
