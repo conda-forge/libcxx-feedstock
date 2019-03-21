@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
-{% set version = "7.0.1" %}
-{% set build_number = 1000 %}
+{% set version = "8.0.0" %}
+{% set build_number = 0 %}
 
 package:
   name: {{ name }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: http://llvm.org/releases/{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: 020002618b319dc2a8ba1f2cba88b8cc6a209005ed8ad29f9de0c562c6ebb9f1
+    sha256: c2902675e7c84324fb2c1e45489220f250ede016cc3117186785d9dc291f9de2
     patches:
       - install_dll.diff
       - F7824320.diff
