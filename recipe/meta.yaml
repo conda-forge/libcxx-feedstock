@@ -29,6 +29,7 @@ requirements:
     - ninja   # [win]
   host:
     - clangdev                # [not osx]
+    - llvmdev                 # [not osx]
 
 test:
   requires:
