@@ -28,6 +28,7 @@ requirements:
     - cmake-binary
     - {{ compiler('cxx') }}   # [not osx]
     - ninja   # [win]
+    - python >3
   host:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
