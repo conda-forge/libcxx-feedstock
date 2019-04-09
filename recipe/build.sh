@@ -1,8 +1,19 @@
 mkdir build
 cd build
 
-export CFLAGS="$CFLAGS -I$PREFIX/include -I$BUILD_PREFIX/include"
-export LDFLAGS="$LDFLAGS -L$PREFIX/lib -Wl,-rpath,$PREFIX/lib -L$BUILD_PREFIX/lib -Wl,-rpath,$BUILD_PREFIX/lib"
+if [[ "$target_platform" == "osx-64" ]]; then
+    LLVM_PREFIX=`pwd`/prefix
+    conda create -p $LLVM_PREFIX --quiet --yes llvmdev=$PKG_VERSION clangdev=$PKG_VERSION
+    export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
+    export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
+    export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
+else
+    LLVM_PREFIX=$PREFIX
+fi
+
+export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"
+export LDFLAGS="$LDFLAGS -L$LLVM_PREFIX/lib -Wl,-rpath,$LLVM_PREFIX/lib -L$BUILD_PREFIX/lib -Wl,-rpath,$BUILD_PREFIX/lib"
+export PATH="$PATH:$LLVM_PREFIX/bin"
 
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
@@ -47,5 +58,4 @@ cmake \
   ..
 
 make -j${CPU_COUNT}
-rm ${PREFIX}/lib/libc++.*
 make install

@@ -11,7 +11,6 @@ source:
     sha256: c2902675e7c84324fb2c1e45489220f250ede016cc3117186785d9dc291f9de2
     patches:
       - install_dll.diff
-      - F7824320.diff
 
   - url: http://llvm.org/releases/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
     sha256: 8168903a157ca7ab8423d3b974eaa497230b1564ceb57260be2bd14412e8ded8          # [unix]
@@ -28,14 +27,13 @@ requirements:
     - cmake-binary
     - {{ compiler('cxx') }}   # [not osx]
     - ninja   # [win]
-    - libcxxabi               # [osx]
   host:
-    - clangdev                # [win]
+    - clangdev                # [not osx]
 
 test:
   requires:
     - clangdev
-    - {{ compiler('cxx') }}   # [not osx]
+    - {{ compiler('cxx') }}
   files:
     - test_sources
     - compile_test.sh   # [unix]
