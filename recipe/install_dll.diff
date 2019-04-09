@@ -1,6 +1,8 @@
---- lib/CMakeLists.txt
-+++ lib/CMakeLists.txt
-@@ -401,6 +401,7 @@
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 24489e8fb..ef86fd70a 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -416,6 +416,7 @@ if (LIBCXX_INSTALL_LIBRARY)
    install(TARGETS ${LIBCXX_INSTALL_TARGETS} ${filesystem_lib} ${experimental_lib}
      LIBRARY DESTINATION ${LIBCXX_INSTALL_PREFIX}lib${LIBCXX_LIBDIR_SUFFIX} COMPONENT cxx
      ARCHIVE DESTINATION ${LIBCXX_INSTALL_PREFIX}lib${LIBCXX_LIBDIR_SUFFIX} COMPONENT cxx

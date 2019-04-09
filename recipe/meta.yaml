@@ -1,6 +1,6 @@
 {% set name = "libcxx" %}
-{% set version = "7.0.1" %}
-{% set build_number = 1000 %}
+{% set version = "8.0.0" %}
+{% set build_number = 0 %}
 
 package:
   name: {{ name }}
@@ -8,18 +8,18 @@ package:
 
 source:
   - url: http://llvm.org/releases/{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: 020002618b319dc2a8ba1f2cba88b8cc6a209005ed8ad29f9de0c562c6ebb9f1
+    sha256: c2902675e7c84324fb2c1e45489220f250ede016cc3117186785d9dc291f9de2
     patches:
       - install_dll.diff
-      - F7824320.diff
 
   - url: http://llvm.org/releases/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
-    sha256: 8168903a157ca7ab8423d3b974eaa497230b1564ceb57260be2bd14412e8ded8          # [unix]
+    sha256: c2d6de9629f7c072ac20ada776374e9e3168142f20a46cdb9d6df973922b07cd          # [unix]
     folder: libcxxabi                                                                 # [unix]
 
 build:
   number: {{ build_number }}
   skip: true  # [win and vc<14]
+  skip: true  # [win]
   ignore_run_exports:
     - libstdcxx-ng
 
@@ -27,15 +27,16 @@ requirements:
   build:
     - cmake-binary
     - {{ compiler('cxx') }}   # [not osx]
-    - ninja   # [win]
-    - libcxxabi               # [osx]
+    - ninja                   # [win]
+    - python >3               # [not osx]
   host:
-    - clangdev                # [win]
+    - clangdev {{ version }}  # [not osx]
+    - llvmdev {{ version }}   # [not osx]
 
 test:
   requires:
     - clangdev
-    - {{ compiler('cxx') }}   # [not osx]
+    - {{ compiler('cxx') }}  # [not osx]
   files:
     - test_sources
     - compile_test.sh   # [unix]
@@ -45,6 +46,12 @@ test:
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
     - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
     - compile_test.bat       # [win]
+
+  # Following 2 projects had issues with libc++, so check them
+  # before releasing just to be sure.
+  downstreams:          # [osx]
+    - python-symengine  # [osx]
+    - openturns         # [osx]
 
 about:
   home: http://llvm.org/
