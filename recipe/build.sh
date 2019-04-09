@@ -13,7 +13,7 @@ fi
 
 export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"
 export LDFLAGS="$LDFLAGS -L$LLVM_PREFIX/lib -Wl,-rpath,$LLVM_PREFIX/lib -L$BUILD_PREFIX/lib -Wl,-rpath,$BUILD_PREFIX/lib"
-export PATH="$PATH:$LLVM_PREFIX/bin"
+export PATH="$LLVM_PREFIX/bin:$PATH"
 
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
