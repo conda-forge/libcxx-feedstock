@@ -3,7 +3,7 @@ cd build
 
 if [[ "$target_platform" == "osx-64" ]]; then
     LLVM_PREFIX=`pwd`/prefix
-    conda create -p $LLVM_PREFIX --quiet --yes llvmdev==${PKG_VERSION} clangdev==${PKG_VERSION}
+    conda create -p $LLVM_PREFIX --quiet --yes llvmdev==${PKG_VERSION} clangdev==${PKG_VERSION} python
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
