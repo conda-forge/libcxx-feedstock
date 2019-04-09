@@ -1,9 +1,8 @@
-{% set name = "libcxx" %}
 {% set version = "8.0.0" %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 package:
-  name: {{ name }}
+  name: libcxx_and_libcxxabi
   version: {{ version }}
 
 source:
@@ -32,6 +31,30 @@ requirements:
   host:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
+
+outputs:
+  - name: libcxx
+    files:
+      - include/c++/*
+      - Library/include/c++/*
+      - lib/libc++.*
+      - lib/libc++fs.*
+      - lib/libc++experimental.*
+      - Library/bin/c++*.dll
+      - Library/lib/c++*.lib
+      - Library/lib/libc++*.lib
+    requirements:
+      run:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [unix]
+
+  - name: libcxxabi
+    build:
+      skip: True       # [not unix]
+    files:
+      - lib/libc++abi.*
+    requirements:
+      run_constrained:
+        - {{ pin_subpackage("libcxx", exact=True) }}
 
 test:
   requires:
