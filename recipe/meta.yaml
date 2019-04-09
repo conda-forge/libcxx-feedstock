@@ -44,6 +44,12 @@ test:
     - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
     - compile_test.bat       # [win]
 
+  # Following 2 projects had issues with libc++, so check them
+  # before releasing just to be sure.
+  downstreams:          # [osx]
+    - python-symengine  # [osx]
+    - openturns         # [osx]
+
 about:
   home: http://llvm.org/
   license: NCSA
