@@ -28,8 +28,8 @@ requirements:
     - {{ compiler('cxx') }}   # [not osx]
     - ninja   # [win]
   host:
-    - clangdev                # [not osx]
-    - llvmdev                 # [not osx]
+    - clangdev {{ version }}  # [not osx]
+    - llvmdev {{ version }}   # [not osx]
 
 test:
   requires:
