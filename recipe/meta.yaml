@@ -32,6 +32,26 @@ requirements:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
+test:
+  requires:
+    - clangdev
+    - {{ compiler('cxx') }}  # [not osx]
+  files:
+    - test_sources
+    - compile_test.sh   # [unix]
+    - compile_test.bat  # [win]
+  commands:
+    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
+    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+    - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
+    - compile_test.bat       # [win]
+
+  # Following 2 projects had issues with libc++, so check them
+  # before releasing just to be sure.
+  downstreams:          # [osx]
+    - python-symengine  # [osx]
+    - openturns         # [osx]
+
 outputs:
   - name: libcxx
     files:
@@ -55,26 +75,6 @@ outputs:
     requirements:
       run_constrained:
         - {{ pin_subpackage("libcxx", exact=True) }}
-
-test:
-  requires:
-    - clangdev
-    - {{ compiler('cxx') }}  # [not osx]
-  files:
-    - test_sources
-    - compile_test.sh   # [unix]
-    - compile_test.bat  # [win]
-  commands:
-    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
-    - compile_test.bat       # [win]
-
-  # Following 2 projects had issues with libc++, so check them
-  # before releasing just to be sure.
-  downstreams:          # [osx]
-    - python-symengine  # [osx]
-    - openturns         # [osx]
 
 about:
   home: http://llvm.org/
