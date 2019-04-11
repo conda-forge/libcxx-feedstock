@@ -1,5 +1,5 @@
 {% set version = "8.0.0" %}
-{% set build_number = 1 %}
+{% set build_number = 2 %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -55,8 +55,8 @@ test:
 outputs:
   - name: libcxx
     files:
-      - include/c++/*
-      - Library/include/c++/*
+      - include/c++
+      - Library/include/c++
       - lib/libc++.*
       - lib/libc++fs.*
       - lib/libc++experimental.*
