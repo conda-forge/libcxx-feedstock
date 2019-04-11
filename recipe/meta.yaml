@@ -1,5 +1,5 @@
 {% set version = "8.0.0" %}
-{% set build_number = 1 %}
+{% set build_number = 2 %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -32,31 +32,11 @@ requirements:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
-test:
-  requires:
-    - clangdev
-    - {{ compiler('cxx') }}  # [not osx]
-  files:
-    - test_sources
-    - compile_test.sh   # [unix]
-    - compile_test.bat  # [win]
-  commands:
-    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
-    - compile_test.bat       # [win]
-
-  # Following 2 projects had issues with libc++, so check them
-  # before releasing just to be sure.
-  downstreams:          # [osx]
-    - python-symengine  # [osx]
-    - openturns         # [osx]
-
 outputs:
   - name: libcxx
     files:
-      - include/c++/*
-      - Library/include/c++/*
+      - include/c++
+      - Library/include/c++
       - lib/libc++.*
       - lib/libc++fs.*
       - lib/libc++experimental.*
@@ -66,6 +46,24 @@ outputs:
     requirements:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [unix]
+    test:
+      requires:
+        - clangdev
+        - {{ compiler('cxx') }}  # [not osx]
+      files:
+        - test_sources
+        - compile_test.sh   # [unix]
+        - compile_test.bat  # [win]
+      commands:
+        - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
+        - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+        - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
+        - compile_test.bat       # [win]
+      # Following 2 projects had issues with libc++, so check them
+      # before releasing just to be sure.
+      downstreams:          # [osx]
+        - python-symengine  # [osx]
+        - openturns         # [osx]
 
   - name: libcxxabi
     build:
@@ -75,6 +73,9 @@ outputs:
     requirements:
       run_constrained:
         - {{ pin_subpackage("libcxx", exact=True) }}
+    test:
+      commands:
+        - test -f $PREFIX/lib/libc++abi${SHLIB_EXT}      # [unix]
 
 about:
   home: http://llvm.org/
