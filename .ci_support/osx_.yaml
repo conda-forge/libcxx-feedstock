@@ -11,7 +11,7 @@ macos_machine:
 macos_min_version:
 - '10.9'
 openturns:
-- 1.12*
+- 1.13*
 pin_run_as_build:
   openturns:
     max_pin: x.x

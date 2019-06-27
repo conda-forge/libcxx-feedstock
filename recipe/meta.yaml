@@ -1,5 +1,4 @@
 {% set version = "8.0.0" %}
-{% set build_number = 2 %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -10,13 +9,15 @@ source:
     sha256: c2902675e7c84324fb2c1e45489220f250ede016cc3117186785d9dc291f9de2
     patches:
       - install_dll.diff
+      # See https://bugs.llvm.org/show_bug.cgi?id=39696
+      - ppc64le-constexpr.patch  # [ppc64le]
 
   - url: http://llvm.org/releases/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
     sha256: c2d6de9629f7c072ac20ada776374e9e3168142f20a46cdb9d6df973922b07cd          # [unix]
     folder: libcxxabi                                                                 # [unix]
 
 build:
-  number: {{ build_number }}
+  number: 3
   skip: true  # [win and vc<14]
   skip: true  # [win]
   ignore_run_exports:
@@ -24,9 +25,9 @@ build:
 
 requirements:
   build:
-    - cmake-binary
+    - cmake
     - {{ compiler('cxx') }}   # [not osx]
-    - ninja                   # [win]
+    - ninja
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
