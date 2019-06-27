@@ -1,0 +1,11 @@
+--- include/thread	2019-06-27 14:43:18.000000000 +0200
++++ include/thread	2019-06-27 14:47:31.000000000 +0200
+@@ -435,7 +435,7 @@
+     using namespace chrono;
+     if (__d > duration<_Rep, _Period>::zero())
+     {
+-        _LIBCPP_CONSTEXPR duration<long double> _Max = nanoseconds::max();
++        _LIBCPP_CONSTEXPR duration<long double> _Max = duration<long double>(ULLONG_MAX/1000000000ULL) ;
+         nanoseconds __ns;
+         if (__d < _Max)
+         {
