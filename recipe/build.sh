@@ -20,10 +20,10 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_DOCS=OFF \
-  -GNinja \
   ..
 
-ninja install
+make -j${CPU_COUNT}
+make install
 cd ..
 
 # Build libcxxabi
@@ -37,10 +37,10 @@ cmake \
   -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_DOCS=OFF \
-  -GNinja \
   ..
 
-ninja install
+make -j${CPU_COUNT}
+make install
 cd ../..
 
 # Build libcxx with libcxxabi
@@ -58,4 +58,5 @@ cmake \
   -GNinja \
   ..
 
-ninja install
+make -j${CPU_COUNT}
+make install
