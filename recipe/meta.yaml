@@ -27,7 +27,7 @@ requirements:
   build:
     - cmake                   # [not osx]
     - cmake-binary            # [osx]
-    - make
+    - make                    # [not osx]
     - {{ compiler('cxx') }}   # [not osx]
     - python >3               # [not osx]
   host:
