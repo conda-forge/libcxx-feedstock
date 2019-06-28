@@ -55,7 +55,6 @@ cmake \
   -DLIBCXX_CXX_ABI_LIBRARY_PATH=$PREFIX/lib \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_DOCS=OFF \
-  -GNinja \
   ..
 
 make -j${CPU_COUNT}
