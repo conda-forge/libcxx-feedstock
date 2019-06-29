@@ -17,7 +17,7 @@ source:
     folder: libcxxabi                                                                 # [unix]
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win and vc<14]
   skip: true  # [win]
   ignore_run_exports:
@@ -25,9 +25,10 @@ build:
 
 requirements:
   build:
-    - cmake
+    - cmake                   # [not osx]
+    - cmake-binary            # [osx]
+    - make                    # [not osx]
     - {{ compiler('cxx') }}   # [not osx]
-    - ninja
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
