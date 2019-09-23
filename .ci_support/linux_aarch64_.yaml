@@ -14,3 +14,8 @@ cxx_compiler_version:
 - '7'
 docker_image:
 - condaforge/linux-anvil-aarch64
+pin_run_as_build:
+  vc:
+    max_pin: x
+vc:
+- '14'

@@ -1,19 +1,18 @@
-{% set version = "8.0.1" %}
+{% set version = "9.0.0" %}
 
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: 7f0652c86a0307a250b5741ab6e82bb10766fb6f2b5a5602a63f30337e629b78
+  - url: http://releases.llvm.org/{{ version }}/libcxx-{{ version }}.src.tar.xz
+    sha256: 3c4162972b5d3204ba47ac384aa456855a17b5e97422723d4758251acf1ed28c
     patches:
-      - install_dll.diff
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
 
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
-    sha256: b75bf3c8dc506e7d950d877eefc8b6120a4651aaa110f5805308861f2cfaf6ef          # [unix]
+  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
+    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [unix]
     folder: libcxxabi                                                                 # [unix]
 
 build:
@@ -28,8 +27,7 @@ requirements:
     - cmake                   # [not osx]
     - cmake-binary            # [osx]
     - make                    # [not osx]
-    - {{ compiler('cxx') }}   # [not osx]
-    - clang_bootstrap_osx-64  # [osx]
+    - {{ compiler('cxx') }}
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
@@ -37,7 +35,7 @@ requirements:
 
 test:
   requires:
-    - clangdev
+    - clang
     - {{ compiler('cxx') }}  # [not osx]
   files:
     - test_sources
@@ -46,7 +44,7 @@ test:
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix and cxx_compiler!='gxx']
+    - bash compile_test.sh   # [unix]
     - compile_test.bat       # [win]
 
   # Following 2 projects had issues with libc++, so check them
