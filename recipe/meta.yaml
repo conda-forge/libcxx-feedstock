@@ -57,13 +57,14 @@ outputs:
     requirements:                                          # [linux]
       run:                                                 # [linux]
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
-    test:
-      # commented out due to bug in conda build
-      # script: compile_test.sh   # [unix]
-      # script: compile_test.bat  # [win]
-      # files:
-      #   - test_sources
+    # test:
+    #   commented out due to bug in conda build
+    #   script: compile_test.sh   # [unix]
+    #   script: compile_test.bat  # [win]
+    #   files:
+    #     - test_sources
 
+    test:  # [osx]
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
       downstreams:          # [osx]
