@@ -36,6 +36,7 @@ requirements:
 test:
   requires:
     - clang
+    - clangxx
     - {{ compiler('cxx') }}  # [not osx]
   commands:
     # these are not run, but exist to make the conda-forge linter happy
@@ -57,10 +58,11 @@ outputs:
       run:                                                 # [linux]
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
-      script: compile_test.sh   # [unix]
-      script: compile_test.bat  # [win]
-      files:
-        - test_sources
+      # commented out due to bug in conda build
+      # script: compile_test.sh   # [unix]
+      # script: compile_test.bat  # [win]
+      # files:
+      #   - test_sources
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
