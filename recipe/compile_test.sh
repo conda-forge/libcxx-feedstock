@@ -31,7 +31,3 @@ do
     clang++ -stdlib=libc++ -std=c++14 -O2 -g $f $LINK_FLAGS
     ./a.out
 done
-
-if [[ `uname -s` == "Darwin" ]]; then
-    nm -g ${PREFIX}/lib/libc++.dylib
-fi
