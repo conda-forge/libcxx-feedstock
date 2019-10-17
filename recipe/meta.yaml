@@ -16,7 +16,7 @@ source:
     folder: libcxxabi                                                                 # [unix]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   skip: true  # [win]
   ignore_run_exports:
@@ -66,7 +66,7 @@ outputs:
       - Library/lib/libc++*.lib
     requirements:
       run:
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [unix]
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
 
   - name: libcxxabi
     build:

@@ -57,3 +57,8 @@ cmake \
 
 make -j${CPU_COUNT}
 make install
+
+if [[ "$target_platform" == "osx-64" ]]; then
+    # on osx we point libc++ to the system libc++abi
+    install_name_tool -change "@rpath/libc++abi.dylib" "/usr/lib/libc++abi.dylib" $PREFIX/lib/libc++.dylib
+fi
