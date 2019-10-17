@@ -41,11 +41,11 @@ test:
     - test_sources
     - compile_test.sh   # [unix]
     - compile_test.bat  # [win]
-  commands:
-    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix]
-    - compile_test.bat       # [win]
+  # commands:
+  #   - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
+  #   - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+  #   - bash compile_test.sh   # [unix]
+  #   - compile_test.bat       # [win]
 
   # Following 2 projects had issues with libc++, so check them
   # before releasing just to be sure.
@@ -67,6 +67,10 @@ outputs:
     requirements:                                          # [linux]
       run:                                                 # [linux]
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+    test:
+      script:
+        - compile_test.sh   # [unix]
+        - compile_test.bat  # [win]
 
   - name: libcxxabi
     build:

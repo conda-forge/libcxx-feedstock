@@ -1,5 +1,7 @@
 set -e
 
+test -f $PREFIX/include/c++/v1/iterator
+
 LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
 
 FILES=test_sources/*.c

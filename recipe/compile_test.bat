@@ -1,6 +1,8 @@
 setlocal enableextensions
 setlocal enabledelayedexpansion
 
+if not exist %LIBRARY_INC%\c++\v1\iterator exit 1
+
 pushd test_sources
 if errorlevel 1 exit 1
 for /f "usebackq" %%i in (`dir /b ^| findstr /i "^.*\.c$"`) do (
