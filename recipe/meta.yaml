@@ -11,16 +11,9 @@ source:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
 
-  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
-    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [unix]
-    folder: libcxxabi                                                                 # [unix]
-
 build:
   number: 1
-  skip: true  # [win and vc<14]
   skip: true  # [win]
-  ignore_run_exports:
-    - libstdcxx-ng
 
 requirements:
   build:
@@ -49,18 +42,12 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-    # requirements:                                          # [linux]
-    #   run:                                                 # [linux]
-    #     - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
       requires:
         - clang {{ version }}
         - clangxx {{ version }}
         - {{ compiler('cxx') }}  # [not osx]
-        # # and not linux]
-        # - gcc_linux-64 7  # [linux]
       script: compile_test.sh   # [unix]
-      script: compile_test.bat  # [win]
       files:
         - test_sources
 
@@ -69,15 +56,6 @@ outputs:
       downstreams:          # [osx]
         - python-symengine  # [osx]
         - openturns         # [osx]
-
-  # - name: libcxxabi
-  #   build:
-  #     skip: True       # [not linux]
-  #   files:
-  #     - lib/libc++abi.*
-  #   requirements:
-  #     run_constrained:
-  #       - {{ pin_subpackage("libcxx", exact=True) }}
 
 about:
   home: http://llvm.org/
