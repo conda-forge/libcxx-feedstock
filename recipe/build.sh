@@ -45,7 +45,9 @@ if [[ "$target_platform" != "osx-64" ]]; then
     # cxxabi_inc=$SRC_DIR/libcxxabi/include
     # cxxabi_lib=$PREFIX/lib
 
-    cxxabi_inc=$BUILD_PREFIX/${HOST}/include
+    # use abi from the standard compiler
+    cxxabi_inc=`compgen -G $BUILD_PREFIX/${HOST}/include/c++/*/cxxabi.h`
+    cxxabi_inc=`dirname ${cxxabi_inc}`
     cxxabi_lib=$PREFIX/lib
     abi_ver="libstdc++"
 else
