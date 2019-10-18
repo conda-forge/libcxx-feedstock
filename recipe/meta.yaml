@@ -10,6 +10,9 @@ source:
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
+  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
+    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [unix]
+    folder: libcxxabi                                                                 # [unix]
 
 build:
   number: 1
@@ -44,6 +47,7 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
+      - lib/libc++abi.*  # [not osx]
     test:
       requires:
         - clang {{ version }}
