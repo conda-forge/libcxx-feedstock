@@ -12,7 +12,7 @@ python:
   - 3.7
 c_compiler_version:     # [unix]
   - "*"                 # [osx]
-  - "*"                 # [linux]
+  - 8
 cxx_compiler_version:   # [unix]
   - "*"                 # [osx]
-  - "*"                 # [linux]
+  - 8
