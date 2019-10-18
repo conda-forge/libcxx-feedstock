@@ -55,9 +55,10 @@ outputs:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
       requires:
-        - clang
-        - clangxx
-        - {{ compiler('cxx') }}  # [not osx]
+        - clang {{ version }}
+        - clangxx {{ version }}
+        # - {{ compiler('cxx') }}  # [not osx]
+        - gcc_impl_linux-64 7  # [linux]
       script: compile_test.sh   # [unix]
       script: compile_test.bat  # [win]
       files:
