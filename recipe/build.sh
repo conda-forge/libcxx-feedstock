@@ -26,23 +26,26 @@ cd ..
 
 if [[ "$target_platform" != "osx-64" ]]; then
     # Build libcxxabi
-    cd libcxxabi
-    mkdir build && cd build
+    # cd libcxxabi
+    # mkdir build && cd build
+    #
+    # cmake \
+    #   -DCMAKE_INSTALL_PREFIX=$PREFIX \
+    #   -DCMAKE_BUILD_TYPE=Release \
+    #   -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR \
+    #   -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
+    #   -DLLVM_INCLUDE_TESTS=OFF \
+    #   -DLLVM_INCLUDE_DOCS=OFF \
+    #   ..
+    #
+    # make -j${CPU_COUNT}
+    # make install
+    # cd ../..
 
-    cmake \
-      -DCMAKE_INSTALL_PREFIX=$PREFIX \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR \
-      -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
-      -DLLVM_INCLUDE_TESTS=OFF \
-      -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+    # cxxabi_inc=$SRC_DIR/libcxxabi/include
+    # cxxabi_lib=$PREFIX/lib
 
-    make -j${CPU_COUNT}
-    make install
-    cd ../..
-
-    cxxabi_inc=$SRC_DIR/libcxxabi/include
+    cxxabi_inc=$PREFIX/include
     cxxabi_lib=$PREFIX/lib
 else
     # on osx we point libc++ to the system libc++abi
