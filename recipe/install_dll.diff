@@ -1,0 +1,12 @@
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 24489e8fb..ef86fd70a 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -416,6 +416,7 @@ if (LIBCXX_INSTALL_LIBRARY)
+   install(TARGETS ${LIBCXX_INSTALL_TARGETS} ${filesystem_lib} ${experimental_lib}
+     LIBRARY DESTINATION ${LIBCXX_INSTALL_PREFIX}lib${LIBCXX_LIBDIR_SUFFIX} COMPONENT cxx
+     ARCHIVE DESTINATION ${LIBCXX_INSTALL_PREFIX}lib${LIBCXX_LIBDIR_SUFFIX} COMPONENT cxx
++    RUNTIME DESTINATION ${LIBCXX_INSTALL_PREFIX}bin COMPONENT cxx
+     )
+   # NOTE: This install command must go after the cxx install command otherwise
+   # it will not be executed after the library symlinks are installed.
