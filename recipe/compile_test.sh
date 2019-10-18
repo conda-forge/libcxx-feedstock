@@ -4,10 +4,6 @@ test -f $PREFIX/include/c++/v1/iterator
 
 LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
 
-if [[ `uname -s` != "Darwin" ]]; then
-    LINK_FLAGS="${LINK_FLAGS} -lstdc++"
-fi
-
 FILES=test_sources/*.c
 for f in $FILES
 do
