@@ -57,7 +57,7 @@ outputs:
       requires:
         - clang
         - clangxx
-        - {{ compiler('cxx') }}  # [not osx]
+        - cxx-compiler  # [not osx]
       script: compile_test.sh   # [unix]
       script: compile_test.bat  # [win]
       files:
