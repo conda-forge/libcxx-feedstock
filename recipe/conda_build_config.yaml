@@ -10,9 +10,7 @@ vc:
   - 14
 python:
   - 3.7
-c_compiler_version:     # [unix]
+c_compiler_version:     # [osx]
   - "*"                 # [osx]
-  - 8
-cxx_compiler_version:   # [unix]
+cxx_compiler_version:   # [osx]
   - "*"                 # [osx]
-  - 8
