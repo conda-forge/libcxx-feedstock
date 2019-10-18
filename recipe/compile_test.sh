@@ -2,7 +2,7 @@ set -e
 
 test -f $PREFIX/include/c++/v1/iterator
 
-LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
+LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -lc++abi"
 
 FILES=test_sources/*.c
 for f in $FILES
