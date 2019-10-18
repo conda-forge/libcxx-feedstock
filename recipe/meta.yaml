@@ -33,11 +33,11 @@ requirements:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
-test:
-  commands:
-    # these are not run, but exist to make the conda-forge linter happy
-    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+# test:
+#   commands:
+#     # these are not run, but exist to make the conda-forge linter happy
+#     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
+#     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
 
 outputs:
   - name: libcxx
@@ -57,8 +57,8 @@ outputs:
       requires:
         - clang {{ version }}
         - clangxx {{ version }}
-        # - {{ compiler('cxx') }}  # [not osx]
-        - gcc_impl_linux-64 7  # [linux]
+        - {{ compiler('cxx') }}  # [not osx and not linux]
+        - gcc_linux-64 7  # [linux]
       script: compile_test.sh   # [unix]
       script: compile_test.bat  # [win]
       files:
