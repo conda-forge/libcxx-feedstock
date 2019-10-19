@@ -62,6 +62,9 @@ if [[ "$target_platform" != "osx-64" ]]; then
 
     cd ..
 else
+    mkdir build
+    cd build
+
     # on osx we point libc++ to the system libc++abi
     cmake \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
