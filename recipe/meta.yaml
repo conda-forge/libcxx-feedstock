@@ -10,14 +10,12 @@ source:
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
-
-  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
-    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [unix]
-    folder: libcxxabi                                                                 # [unix]
+  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [linux]
+    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [linux]
+    folder: libcxxabi                                                                 # [linux]
 
 build:
-  number: 0
-  skip: true  # [win and vc<14]
+  number: 1
   skip: true  # [win]
   ignore_run_exports:
     - libstdcxx-ng
@@ -34,24 +32,9 @@ requirements:
     - llvmdev {{ version }}   # [not osx]
 
 test:
-  requires:
-    - clang
-    - {{ compiler('cxx') }}  # [not osx]
-  files:
-    - test_sources
-    - compile_test.sh   # [unix]
-    - compile_test.bat  # [win]
   commands:
-    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix]
-    - compile_test.bat       # [win]
-
-  # Following 2 projects had issues with libc++, so check them
-  # before releasing just to be sure.
-  downstreams:          # [osx]
-    - python-symengine  # [osx]
-    - openturns         # [osx]
+    # this is not run but instead exists to make the conda-forge linter happy
+    - foo
 
 outputs:
   - name: libcxx
@@ -64,18 +47,21 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-    requirements:
-      run:
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [unix]
+      - lib/libc++abi.*  # [not osx]
+    test:
+      requires:
+        - clang {{ version }}
+        - clangxx {{ version }}
+        - {{ compiler('cxx') }}  # [not osx]
+      script: compile_test.sh   # [unix]
+      files:
+        - test_sources
 
-  - name: libcxxabi
-    build:
-      skip: True       # [not unix]
-    files:
-      - lib/libc++abi.*
-    requirements:
-      run_constrained:
-        - {{ pin_subpackage("libcxx", exact=True) }}
+      # Following 2 projects had issues with libc++, so check them
+      # before releasing just to be sure.
+      downstreams:          # [osx]
+        - python-symengine  # [osx]
+        - openturns         # [osx]
 
 about:
   home: http://llvm.org/
