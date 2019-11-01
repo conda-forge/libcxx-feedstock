@@ -76,7 +76,6 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx-green.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-libcxxabi-green.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) |
 
 Installing libcxx_and_libcxxabi
 ===============================
@@ -87,10 +86,10 @@ Installing `libcxx_and_libcxxabi` from the `conda-forge` channel can be achieved
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `libcxx, libcxxabi` can be installed with:
+Once the `conda-forge` channel has been enabled, `libcxx` can be installed with:
 
 ```
-conda install libcxx libcxxabi
+conda install libcxx
 ```
 
 It is possible to list all of the versions of `libcxx` available on your platform with:

@@ -5,7 +5,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- clang_bootstrap
+- clangxx
 cxx_compiler_version:
 - '*'
 macos_machine:
@@ -13,11 +13,7 @@ macos_machine:
 macos_min_version:
 - '10.9'
 openturns:
-- 1.13*
+- 1.14*
 pin_run_as_build:
   openturns:
     max_pin: x.x
-  vc:
-    max_pin: x
-vc:
-- '14'
