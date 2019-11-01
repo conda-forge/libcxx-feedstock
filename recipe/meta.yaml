@@ -15,7 +15,7 @@ source:
     folder: libcxxabi                                                                 # [linux]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   ignore_run_exports:
     - libstdcxx-ng
