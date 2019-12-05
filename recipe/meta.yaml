@@ -1,4 +1,4 @@
-{% set version = "5.0.0" %}
+{% set version = "9.0.0" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: http://releases.llvm.org/{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: eae5981e9a21ef0decfcac80a1af584ddb064a32805f95a57c7c83a5eb28c9b1
+    sha256: 3c4162972b5d3204ba47ac384aa456855a17b5e97422723d4758251acf1ed28c
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
@@ -15,7 +15,7 @@ source:
     folder: libcxxabi                                                                 # [linux]
 
 build:
-  number: 1
+  number: 0
   skip: true  # [not osx]
   ignore_run_exports:
     - libstdcxx-ng
