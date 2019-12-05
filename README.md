@@ -29,27 +29,6 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=master&jobName=linux&configuration=linux_" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=master&jobName=linux&configuration=linux_aarch64_" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=master&jobName=linux&configuration=linux_ppc64le_" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=master">
@@ -63,9 +42,21 @@ Current build status
     </td>
   </tr>
   <tr>
+    <td>Linux</td>
+    <td>
+      <img src="https://img.shields.io/badge/linux-disabled-lightgrey.svg" alt="linux disabled">
+    </td>
+  </tr>
+  <tr>
     <td>Windows</td>
     <td>
       <img src="https://img.shields.io/badge/Windows-disabled-lightgrey.svg" alt="Windows disabled">
+    </td>
+  </tr>
+  <tr>
+    <td>Linux_ppc64le</td>
+    <td>
+      <img src="https://img.shields.io/badge/ppc64le-disabled-lightgrey.svg" alt="ppc64le disabled">
     </td>
   </tr>
 </table>
@@ -76,7 +67,6 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx-green.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-libcxxabi-green.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) |
 
 Installing libcxx_and_libcxxabi
 ===============================
@@ -87,10 +77,10 @@ Installing `libcxx_and_libcxxabi` from the `conda-forge` channel can be achieved
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `libcxx, libcxxabi` can be installed with:
+Once the `conda-forge` channel has been enabled, `libcxx` can be installed with:
 
 ```
-conda install libcxx libcxxabi
+conda install libcxx
 ```
 
 It is possible to list all of the versions of `libcxx` available on your platform with:
@@ -114,7 +104,7 @@ A feedstock is made up of a conda recipe (the instructions on what and how to bu
 the package) and the necessary configurations for automatic building using freely
 available continuous integration services. Thanks to the awesome service provided by
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/)
-and [TravisCI](https://travis-ci.org/) it is possible to build and upload installable
+and [TravisCI](https://travis-ci.com/) it is possible to build and upload installable
 packages to the [conda-forge](https://anaconda.org/conda-forge)
 [Anaconda-Cloud](https://anaconda.org/) channel for Linux, Windows and OSX respectively.
 
