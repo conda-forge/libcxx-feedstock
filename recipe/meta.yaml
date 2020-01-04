@@ -11,12 +11,12 @@ source:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
 
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/libcxxabi-{{ version }}.src.tar.xz  # [unix]
-    sha256: e8f978aa4cfae2d7a0b4d89275637078557cca74b35c31b7283d4786948a8aac  # [unix]
-    folder: libcxxabi  # [unix]
+  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/libcxxabi-{{ version }}.src.tar.xz  # [linux]
+    sha256: e8f978aa4cfae2d7a0b4d89275637078557cca74b35c31b7283d4786948a8aac  # [linux]
+    folder: libcxxabi  # [linux]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
@@ -46,6 +46,10 @@ test:
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
     - bash compile_test.sh   # [unix]
     - compile_test.bat       # [win]
+    # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
+    # we do not ship libcxxabi on OSX - this breaks exception passing
+    - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
+    - test -f $PREFIX/lib/libc++abi.so  # [linux]
 
   # Following 2 projects had issues with libc++, so check them
   # before releasing just to be sure.
@@ -64,13 +68,13 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-    requirements:
-      run:
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [unix]
+    requirements:                                          # [linux]
+      run:                                                 # [linux]
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
 
   - name: libcxxabi
     build:
-      skip: True       # [not unix]
+      skip: True       # [not linux]
     files:
       - lib/libc++abi.*
     requirements:
@@ -90,3 +94,4 @@ extra:
     - mattwala
     - jakirkham
     - isuruf
+    - beckermr
