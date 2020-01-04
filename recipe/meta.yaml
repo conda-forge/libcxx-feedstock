@@ -46,6 +46,10 @@ test:
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
     - bash compile_test.sh   # [unix]
     - compile_test.bat       # [win]
+    # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
+    # we do not ship libcxxabi on OSX - this breaks excption passing
+    - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
+    - test -f $PREFIX/lib/libc++abi.so  # [linux]
 
   # Following 2 projects had issues with libc++, so check them
   # before releasing just to be sure.
