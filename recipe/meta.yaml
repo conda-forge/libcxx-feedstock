@@ -1,4 +1,4 @@
-{% set version = "5.0.0" %}
+{% set version = "9.0.0" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,17 +6,19 @@ package:
 
 source:
   - url: http://releases.llvm.org/{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: eae5981e9a21ef0decfcac80a1af584ddb064a32805f95a57c7c83a5eb28c9b1
+    sha256: 3c4162972b5d3204ba47ac384aa456855a17b5e97422723d4758251acf1ed28c
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
-  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [linux]
-    sha256: 176918c7eb22245c3a5c56ef055e4d69f5345b4a98833e0e8cb1a19cab6b8911          # [linux]
-    folder: libcxxabi                                                                 # [linux]
+
+  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
+    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [unix]
+    folder: libcxxabi                                                                 # [unix]
 
 build:
-  number: 1
-  skip: true  # [not osx]
+  number: 0
+  skip: true  # [win and vc<14]
+  skip: true  # [win]
   ignore_run_exports:
     - libstdcxx-ng
 
@@ -32,9 +34,24 @@ requirements:
     - llvmdev {{ version }}   # [not osx]
 
 test:
+  requires:
+    - clang
+    - {{ compiler('cxx') }}  # [not osx]
+  files:
+    - test_sources
+    - compile_test.sh   # [unix]
+    - compile_test.bat  # [win]
   commands:
-    # this is not run but instead exists to make the conda-forge linter happy
-    - foo
+    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
+    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+    - bash compile_test.sh   # [unix]
+    - compile_test.bat       # [win]
+
+  # Following 2 projects had issues with libc++, so check them
+  # before releasing just to be sure.
+  downstreams:          # [osx]
+    - python-symengine  # [osx]
+    - openturns         # [osx]
 
 outputs:
   - name: libcxx
@@ -47,14 +64,18 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-      - lib/libc++abi.*  # [not osx]
-    test:
-      requires:
-        - clangdev {{ version }}
-        - {{ compiler('cxx') }}  # [not osx]
-      script: compile_test.sh   # [unix]
-      files:
-        - test_sources
+    requirements:
+      run:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [unix]
+
+  - name: libcxxabi
+    build:
+      skip: True       # [not unix]
+    files:
+      - lib/libc++abi.*
+    requirements:
+      run_constrained:
+        - {{ pin_subpackage("libcxx", exact=True) }}
 
 about:
   home: http://llvm.org/
