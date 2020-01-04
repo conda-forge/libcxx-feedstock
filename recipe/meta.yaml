@@ -70,7 +70,7 @@ outputs:
 
   - name: libcxxabi
     build:
-      skip: True       # [not osx]
+      skip: True       # [not linux]
     files:
       - lib/libc++abi.*
     requirements:
