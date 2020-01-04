@@ -1,6 +1,12 @@
 set -e
 
+test -f $PREFIX/include/c++/v1/iterator
+
 LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
+
+if [[ "$target_platform" != "osx-64" ]]; then
+    LINK_FLAGS="${LINK_FLAGS} -lc++abi"
+fi
 
 FILES=test_sources/*.c
 for f in $FILES
