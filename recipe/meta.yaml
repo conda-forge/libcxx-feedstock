@@ -1,19 +1,19 @@
-{% set version = "9.0.0" %}
+{% set version = "9.0.1" %}
 
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
 
 source:
-  - url: http://releases.llvm.org/{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: 3c4162972b5d3204ba47ac384aa456855a17b5e97422723d4758251acf1ed28c
+  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/libcxx-{{ version }}.src.tar.xz
+    sha256: 0981ff11b862f4f179a13576ab0a2f5530f46bd3b6b4a90f568ccc6a62914b34
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
 
-  - url: http://releases.llvm.org/{{ version }}/libcxxabi-{{ version }}.src.tar.xz    # [unix]
-    sha256: 675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9          # [unix]
-    folder: libcxxabi                                                                 # [unix]
+  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/libcxxabi-{{ version }}.src.tar.xz    # [linux]
+    sha256: e8f978aa4cfae2d7a0b4d89275637078557cca74b35c31b7283d4786948a8aac          # [linux]
+    folder: libcxxabi                                                                 # [linux]
 
 build:
   number: 0
