@@ -156,6 +156,7 @@ Feedstock Maintainers
 =====================
 
 * [@SylvainCorlay](https://github.com/SylvainCorlay/)
+* [@beckermr](https://github.com/beckermr/)
 * [@inducer](https://github.com/inducer/)
 * [@isuruf](https://github.com/isuruf/)
 * [@jakirkham](https://github.com/jakirkham/)
