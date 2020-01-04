@@ -16,7 +16,7 @@ source:
     folder: libcxxabi  # [linux]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
