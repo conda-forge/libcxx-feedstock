@@ -47,7 +47,7 @@ test:
     - bash compile_test.sh   # [unix]
     - compile_test.bat       # [win]
     # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
-    # we do not ship libcxxabi on OSX - this breaks excption passing
+    # we do not ship libcxxabi on OSX - this breaks exception passing
     - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
     - test -f $PREFIX/lib/libc++abi.so  # [linux]
 
