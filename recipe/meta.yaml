@@ -84,9 +84,10 @@ outputs:
 
 about:
   home: http://llvm.org/
-  license: NCSA
+  license: Apache-2.0 WITH LLVM-exception
   license_file: LICENSE.TXT
-  summary: C++ standard library
+  license_family: Apache
+  summary: LLVM C++ standard library
 
 extra:
   recipe-maintainers:
