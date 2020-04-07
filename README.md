@@ -3,11 +3,11 @@ About libcxx_and_libcxxabi
 
 Home: http://llvm.org/
 
-Package license: NCSA
+Package license: Apache-2.0 WITH LLVM-exception
 
 Feedstock license: BSD 3-Clause
 
-Summary: C++ standard library
+Summary: LLVM C++ standard library
 
 
 
@@ -160,6 +160,5 @@ Feedstock Maintainers
 * [@inducer](https://github.com/inducer/)
 * [@isuruf](https://github.com/isuruf/)
 * [@jakirkham](https://github.com/jakirkham/)
-* [@mattwala](https://github.com/mattwala/)
 * [@timsnyder](https://github.com/timsnyder/)
 
