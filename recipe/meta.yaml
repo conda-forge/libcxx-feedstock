@@ -1,4 +1,4 @@
-{% set version = "9.0.1" %}
+{% set version = "10.0.0" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,17 +6,17 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: 0981ff11b862f4f179a13576ab0a2f5530f46bd3b6b4a90f568ccc6a62914b34
+    sha256: 270f8a3f176f1981b0f6ab8aa556720988872ec2b48ed3b605d0ced8d09156c7
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
 
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/libcxxabi-{{ version }}.src.tar.xz
-    sha256: e8f978aa4cfae2d7a0b4d89275637078557cca74b35c31b7283d4786948a8aac
+    sha256: e71bac75a88c9dde455ad3f2a2b449bf745eafd41d2d8432253b2964e0ca14e1
     folder: libcxxabi
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
@@ -55,7 +55,7 @@ test:
 
   # Following 2 projects had issues with libc++, so check them
   # before releasing just to be sure.
-  downstreams:          # [osx]
+  downstreams:   # [osx]
     - python-symengine  # [osx]
     #- openturns         # [osx]
 
@@ -70,13 +70,13 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-    requirements:                                          # [linux]
-      run:                                                 # [linux]
+    requirements:   # [linux]
+      run:   # [linux]
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
 
   - name: libcxxabi
     build:
-      skip: True       # [not linux]
+      skip: true  # [not linux]
     files:
       - lib/libc++abi.*
     requirements:
