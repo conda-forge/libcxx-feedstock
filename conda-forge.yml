@@ -1,5 +1,6 @@
 appveyor:
   secure: {BINSTAR_TOKEN: tumuXLL8PU75WMnRDemRy02ruEq2RpNxeK3dz0MjFssnosPm2v4EFjfNB4PTotA1}
-provider: {linux_aarch64: azure, linux_ppc64le: azure, win: azure}
+provider: {linux_aarch64: azure, linux_ppc64le: azure, win: azure, osx: travis}
 travis:
+  osx_image: xcode6.4
   secure: {BINSTAR_TOKEN: PSI9KzfQPwqYshxD/MSX4I/hR//XTX0zuDz2BC+Ql47RurlaGJRNyNN7W1xBpbmtXrq3ANB0XiM/5v7cnLTtswVCMborJv53AhGc/CpQ1+Pdyvn8dB/BhuwY7Uc1xuXB1F2EG5EeZjRjXpwnoO9cJGst4ixkk9SmAgEtaXxCHKiBtF8CigFaveiNnx93dZjLBGcUL1svjMh1kpDqU8x/7i2Nmuz70urFGWuwU2pjiyOcQu5Q4KkwavD1WxAkO0NniH3K6vvz7AzuDlHKWQR32CVPqAxp4qZdnH85EumxkZyuC0/RzDsYdgCDbSgSrdt3b0sMrC9jEPn0FZimFV8mB9FIO/28SRS+D319f5LfDSEuZjJV14nSa8s1FFX+uxHOmZJNtLCdRKN9fpUMNAr9Kt25gJlw98iT7gHjQtB3ixZcfsH/ccyTQkJDYpYuqnjY5kIgOT9Fsn47JYHI5Ocp4pr/RYoJ18Mn6j2CU56i2VmBk7RjA5NGXXYsrzY/EtCZWBIWxVWxsuwYx64pV+Rim+siMcWhEGaav3sjtosxPHRHqdIQUyaS4Vsu1U3WOsqUTrhIbhBDCQJ6h9vQYbxaXY6ePAG3+UJzyJGPvSUkjJx5dZPmzlQba9eZDowuGnIJiEGQKJaTr7xKxTGcI2hHaExBm7SJM7LhBf7Ch3DwLeM=}
