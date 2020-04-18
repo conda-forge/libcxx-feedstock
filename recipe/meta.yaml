@@ -57,7 +57,7 @@ test:
   # before releasing just to be sure.
   downstreams:   # [osx]
     - python-symengine  # [osx]
-    #- openturns         # [osx]
+    - openturns         # [osx]
 
 outputs:
   - name: libcxx
