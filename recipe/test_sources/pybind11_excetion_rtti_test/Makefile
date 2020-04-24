@@ -11,7 +11,7 @@ SUFFIX=$(shell python3-config --extension-suffix)
 CXXFLAGS=-fPIC -O2 -stdlib=libc++ -std=c++14 -isystem ${PREFIX}/include
 SOEXT=.dylib
 linkv=$(shell echo "`ld -v 2>&1 > /dev/null`" | perl -wne '/.ld64-(.*?)[^0-9]/ and print "$1\n"')
-LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -mlinker-version=${linkv}"
+LDFLAGS=-Wl,-rpath,${PREFIX}/lib -L${PREFIX}/lib -mlinker-version=$(linkv)
 endif
 
 test: clean pymod
