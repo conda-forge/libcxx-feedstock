@@ -70,7 +70,7 @@ outputs:
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
-        - bash exception_rtti_test.sh  # [unix]
+        - bash exception_rtti_test.sh  # [osx]
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
       downstreams:   # [osx]

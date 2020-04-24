@@ -1,9 +1,11 @@
-set -e
+set -xe
 
 LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
 
 if [[ "$target_platform" != "osx-64" ]]; then
     LINK_FLAGS="${LINK_FLAGS} -lc++abi"
+else
+  LINK_FLAGS="${LINK_FLAGS} -mlinker-version=0"
 fi
 
 FILES=test_sources/*.c
