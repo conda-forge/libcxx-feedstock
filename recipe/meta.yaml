@@ -87,7 +87,7 @@ outputs:
       - lib/libc++abi.*
     requirements:
       run_constrained:
-        - {{ pin_subpackage("libcxx", exact=True) }}
+        - libcxx {{ version }}.*
     test:
       commands:
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
