@@ -6,7 +6,10 @@ LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
 if [[ `uname -s` != "Darwin" ]]; then
     LINK_FLAGS="${LINK_FLAGS} -lc++abi"
 else
-  LINK_FLAGS="${LINK_FLAGS} -mlinker-version=0"
+  # https://stackoverflow.com/questions/60934005/clang-10-fails-to-link-c-application-with-cmake-on-macos-10-12
+  info=$( ld -v 2>&1 > /dev/null )
+  linkv=`echo "${info}" | perl -wne '/.ld64-(.*?)[^0-9]/ and print "$1\n"'`
+  LINK_FLAGS="${LINK_FLAGS} -mlinker-version=${linkv}"
 fi
 
 FILES=test_sources/*.c
