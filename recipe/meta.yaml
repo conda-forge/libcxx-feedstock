@@ -53,9 +53,9 @@ outputs:
       requires:
         - clang
         - {{ compiler('cxx') }}  # [not osx]
-        - make      # [unix]
-        - pybind11  # [unix]
-        - pytest    # [unix]
+        - make      # [osx]
+        - pybind11  # [osx]
+        - python    # [osx]
       files:
         - test_sources
         - compile_test.sh   # [unix]
