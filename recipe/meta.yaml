@@ -39,10 +39,14 @@ test:
   requires:
     - clang
     - {{ compiler('cxx') }}  # [not osx]
+    - make      # [unix]
+    - pybind11  # [unix]
+    - pytest    # [unix]
   files:
     - test_sources
     - compile_test.sh   # [unix]
     - compile_test.bat  # [win]
+    - exception_rtti_test.sh  # [unix]
   commands:
     - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
     - test -f $PREFIX/include/c++/v1/iterator      # [unix]
@@ -52,6 +56,7 @@ test:
     # we do not ship libcxxabi on OSX - this breaks exception passing
     - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
     - test -f $PREFIX/lib/libc++abi.so  # [linux]
+    - bash exception_rtti_test.sh
 
   # Following 2 projects had issues with libc++, so check them
   # before releasing just to be sure.
