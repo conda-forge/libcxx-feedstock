@@ -1,26 +1,17 @@
-COMP=${CXX}
+COMP=clang
 ifeq ($(shell uname -s), Linux)
-	EXTRA_FLAGS=
-	PRINTLIBS=LD_LIBRARY_PATH=../src
-	SUFFIX=$(shell python3-config --extension-suffix)
-	SOEXT=.so
+EXTRA_FLAGS=
+PRINTLIBS=LD_LIBRARY_PATH=../src
+SUFFIX=$(shell python3-config --extension-suffix)
+SOEXT=.so
 else
-	EXTRA_FLAGS=-undefined dynamic_lookup
-	PRINTLIBS=DYLD_FALLBACK_LIBRARY_PATH=../src DYLD_PRINT_LIBRARIES=YES
-	SUFFIX=`python3-config --extension-suffix`
-	USE_SYSTEM?=NO
-	SOEXT=.dylib
-
-	ifeq ($(USE_SYSTEM), YES)
-		COMP=/usr/bin/clang++
-		CXXFLAGS=-fPIC -O2 -stdlib=libc++ -std=c++14 -isystem /Users/beckermr/miniconda3/envs/pybind11-test
-		LDFLAGS=
-		SUFFIX=.so
-	else
-	  SUFFIX=$(shell python3-config --extension-suffix)
-	endif
-
-
+EXTRA_FLAGS=-undefined dynamic_lookup
+PRINTLIBS=DYLD_FALLBACK_LIBRARY_PATH=../src DYLD_PRINT_LIBRARIES=YES
+SUFFIX=$(shell python3-config --extension-suffix)
+CXXFLAGS=-fPIC -O2 -stdlib=libc++ -std=c++14 -isystem ${PREFIX}/include
+SOEXT=.dylib
+linkv=$(shell echo "`ld -v 2>&1 > /dev/null`" | perl -wne '/.ld64-(.*?)[^0-9]/ and print "$1\n"')
+LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -mlinker-version=${linkv}"
 endif
 
 test: clean pymod
