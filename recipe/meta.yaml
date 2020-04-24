@@ -51,7 +51,7 @@ outputs:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
       requires:
-        - clang
+        - clang <10
         - {{ compiler('cxx') }}  # [not osx]
         - make      # [osx]
         - pybind11  # [osx]
