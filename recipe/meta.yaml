@@ -56,6 +56,7 @@ outputs:
         - make      # [osx]
         - pybind11  # [osx]
         - python    # [osx]
+        - pip       # [osx]
       files:
         - test_sources
         - compile_test.sh   # [unix]
