@@ -35,12 +35,6 @@ requirements:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
-  # Following 2 projects had issues with libc++, so check them
-  # before releasing just to be sure.
-  downstreams:   # [osx]
-    - python-symengine  # [osx]
-    - openturns         # [osx]
-
 outputs:
   - name: libcxx
     files:
@@ -77,6 +71,11 @@ outputs:
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
         - bash exception_rtti_test.sh  # [unix]
+      # Following 2 projects had issues with libc++, so check them
+      # before releasing just to be sure.
+      downstreams:   # [osx]
+        - python-symengine  # [osx]
+        - openturns         # [osx]
 
   - name: libcxxabi
     build:
