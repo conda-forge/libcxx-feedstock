@@ -2,12 +2,7 @@
 
 set -x
 
-echo "Removing homebrew from CI to avoid conflicts." && echo -en 'travis_fold:start:remove_homebrew\\r'
-curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
-chmod +x ~/uninstall_homebrew
-~/uninstall_homebrew -fq
-rm ~/uninstall_homebrew
-echo -en 'travis_fold:end:remove_homebrew\\r'
+
 
 echo "Installing a fresh version of Miniconda." && echo -en 'travis_fold:start:install_miniconda\\r'
 MINICONDA_URL="https://repo.continuum.io/miniconda"
@@ -20,6 +15,12 @@ echo "Configuring conda." && echo -en 'travis_fold:start:configure_conda\\r'
 source ~/miniconda3/bin/activate root
 
 conda install -n root -c conda-forge --quiet --yes conda-forge-ci-setup=2 conda-build
+
+echo "Mangling homebrew in the CI to avoid conflicts." && echo -en 'travis_fold:start:mangle_homebrew\\r'
+/usr/bin/sudo mangle_homebrew
+/usr/bin/sudo -k
+echo -en 'travis_fold:end:mangle_homebrew\\r'
+
 mangle_compiler ./ ./recipe .ci_support/${CONFIG}.yaml
 setup_conda_rc ./ ./recipe ./.ci_support/${CONFIG}.yaml
 
