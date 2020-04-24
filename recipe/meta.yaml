@@ -52,9 +52,9 @@ outputs:
     test:
       requires:
         # osx tests for exception passing fail on vlang v10 due to exception in clang
-        - clang >=10              # [osx]
+        - clang <10              # [osx]
         - clang                  # [not osx]
-        - {{ compiler('cxx') }}  # [not osx]
+        - {{ compiler('cxx') }}
         - make      # [osx]
         - pybind11  # [osx]
         - python    # [osx]
