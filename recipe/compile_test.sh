@@ -2,7 +2,8 @@ set -xe
 
 LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
 
-if [[ "$target_platform" != "osx-64" ]]; then
+# target platform is empty here now
+if [[ `uname -s` != "Darwin" ]]; then
     LINK_FLAGS="${LINK_FLAGS} -lc++abi"
 else
   LINK_FLAGS="${LINK_FLAGS} -mlinker-version=0"
