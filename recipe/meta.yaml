@@ -54,6 +54,7 @@ outputs:
         # osx tests for exception passing fail on vlang v10 due to exception in clang
         - clang <10              # [osx]
         - clang                  # [not osx]
+        - clangxx
         - {{ compiler('cxx') }}  # [not osx]
       files:
         - test_sources
