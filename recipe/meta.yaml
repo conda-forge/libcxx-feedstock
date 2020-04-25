@@ -75,7 +75,7 @@ outputs:
       downstreams:   # [osx]
         - python-symengine  # [osx]
         - openturns         # [osx]
-        - pybind11 >=2.5.0  # [osx]
+        - libcxx-testing    # [osx]
 
   - name: libcxxabi
     build:
