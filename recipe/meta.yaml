@@ -16,7 +16,7 @@ source:
     folder: libcxxabi  # [linux]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
@@ -35,30 +35,6 @@ requirements:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
-test:
-  requires:
-    - clang
-    - {{ compiler('cxx') }}  # [not osx]
-  files:
-    - test_sources
-    - compile_test.sh   # [unix]
-    - compile_test.bat  # [win]
-  commands:
-    - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-    - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-    - bash compile_test.sh   # [unix]
-    - compile_test.bat       # [win]
-    # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
-    # we do not ship libcxxabi on OSX - this breaks exception passing
-    - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
-    - test -f $PREFIX/lib/libc++abi.so  # [linux]
-
-  # Following 2 projects had issues with libc++, so check them
-  # before releasing just to be sure.
-  downstreams:   # [osx]
-    - python-symengine  # [osx]
-    - openturns         # [osx]
-
 outputs:
   - name: libcxx
     files:
@@ -73,6 +49,33 @@ outputs:
     requirements:   # [linux]
       run:   # [linux]
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+    test:
+      requires:
+        # osx tests for exception passing fail on vlang v10 due to exception in clang
+        - clang <10              # [osx]
+        - clang                  # [not osx]
+        - clangxx
+        - {{ compiler('cxx') }}  # [not osx]
+      files:
+        - test_sources
+        - compile_test.sh   # [unix]
+        - compile_test.bat  # [win]
+      commands:
+        - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
+        - test -f $PREFIX/include/c++/v1/iterator      # [unix]
+        - bash compile_test.sh   # [unix]
+        - compile_test.bat       # [win]
+        # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
+        # we do not ship libcxxabi on OSX - this breaks exception passing
+        - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
+        - test -f $PREFIX/lib/libc++abi.so  # [linux]
+
+      # Following 2 projects had issues with libc++, so check them
+      # before releasing just to be sure.
+      downstreams:   # [osx]
+        - python-symengine  # [osx]
+        - openturns         # [osx]
+        - libcxx-testing    # [osx]
 
   - name: libcxxabi
     build:
@@ -81,7 +84,10 @@ outputs:
       - lib/libc++abi.*
     requirements:
       run_constrained:
-        - {{ pin_subpackage("libcxx", exact=True) }}
+        - libcxx {{ version }}.*
+    test:
+      commands:
+        - test -f $PREFIX/lib/libc++abi.so  # [linux]
 
 about:
   home: http://llvm.org/
