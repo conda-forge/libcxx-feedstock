@@ -17,5 +17,7 @@ openturns:
 pin_run_as_build:
   openturns:
     max_pin: x.x
+target_platform:
+- osx-64
 vc:
 - '14'

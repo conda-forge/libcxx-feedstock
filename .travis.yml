@@ -10,9 +10,10 @@ env:
 
 matrix:
   include:
-    - env: CONFIG=osx_ UPLOAD_PACKAGES=True PLATFORM=osx-64
+    - env: CONFIG=osx_64_ UPLOAD_PACKAGES=True PLATFORM=osx-64
       os: osx
       osx_image: xcode6.4
+      arch: amd64
 
 script:
   - export CI=travis
