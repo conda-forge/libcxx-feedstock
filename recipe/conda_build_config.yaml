@@ -14,3 +14,6 @@ c_compiler_version:     # [osx]
   - "9.0.0"             # [osx]
 cxx_compiler_version:   # [osx]
   - "9.0.0"             # [osx]
+
+channel_targets:
+  - conda-forge llvm_rc
