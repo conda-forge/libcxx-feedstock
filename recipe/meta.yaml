@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/libcxx-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 7718cb9e60d5c7b7cf6e6fff1392397d92520f6c836d7185554b275b44b5726d
+    sha256: c4d68d78d3e751f0c0c64fd143e25094880be192a367f750628ef357488fb867
     patches:
       # See https://bugs.llvm.org/show_bug.cgi?id=39696
       - ppc64le-constexpr.patch  # [ppc64le]
