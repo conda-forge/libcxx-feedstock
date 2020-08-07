@@ -20,7 +20,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+      ../libcxx
 
     make -j${CPU_COUNT}
     make install
@@ -33,8 +33,8 @@ if [[ "$target_platform" != "osx-64" ]]; then
     cmake \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_BUILD_TYPE=Release \
-      -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR \
-      -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
+      -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR/libcxx \
+      -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/libcxx/include \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
       ..
@@ -74,7 +74,7 @@ else
       -DLIBCXX_CXX_ABI_LIBRARY_PATH=${CONDA_BUILD_SYSROOT}/usr/lib \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+      ../libcxx
 
     make -j${CPU_COUNT}
     make install
