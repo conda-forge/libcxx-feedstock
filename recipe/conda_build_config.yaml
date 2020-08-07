@@ -17,3 +17,6 @@ cxx_compiler_version:   # [osx]
 
 channel_targets:
   - conda-forge llvm_rc
+
+channel_sources:
+  - conda-forge/label/llvm_rc,conda-forge,defaults
