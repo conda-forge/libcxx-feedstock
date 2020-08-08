@@ -76,7 +76,7 @@ else
       -DLLVM_INCLUDE_DOCS=OFF \
       ../libcxx
 
-    make -j${CPU_COUNT}
+    make -j${CPU_COUNT} VERBOSE=1
     make install
 
     # on osx we point libc++ to the system libc++abi
