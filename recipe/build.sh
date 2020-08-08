@@ -57,7 +57,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DLIBCXX_CXX_ABI_LIBRARY_PATH=$PREFIX/lib \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+      ../libcxx
 
     make -j${CPU_COUNT}
     make install
