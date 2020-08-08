@@ -48,6 +48,7 @@ outputs:
         - clang <10              # [osx]
         - clang                  # [not osx]
         - clangxx
+        - ld64                   # [osx]
         - {{ compiler('cxx') }}  # [not osx]
       files:
         - test_sources
