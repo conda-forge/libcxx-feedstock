@@ -7,6 +7,8 @@ package:
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.tar.xz
     sha256: 25da496d46be7cced8192e21fe4c6ca72eed5366f6ee09b9d436e5d2229f83a4
+    patches:
+      - libcxxabi_10.9_compatibility.diff
 
 build:
   number: 0
