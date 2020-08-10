@@ -1,5 +1,7 @@
 LLVM_PREFIX=$PREFIX
 
+export MACOSX_DEPLOYMENT_TARGET=10.9
+
 if [[ "$target_platform" == "osx-64" ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
@@ -20,7 +22,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+      ../libcxx
 
     make -j${CPU_COUNT}
     make install
@@ -33,8 +35,8 @@ if [[ "$target_platform" != "osx-64" ]]; then
     cmake \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_BUILD_TYPE=Release \
-      -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR \
-      -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/include \
+      -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR/libcxx \
+      -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/libcxx/include \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
       ..
@@ -55,7 +57,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DLIBCXX_CXX_ABI_LIBRARY_PATH=$PREFIX/lib \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+      ../libcxx
 
     make -j${CPU_COUNT}
     make install
@@ -72,11 +74,12 @@ else
       -DLIBCXX_CXX_ABI=libcxxabi \
       -DLIBCXX_CXX_ABI_INCLUDE_PATHS=${CONDA_BUILD_SYSROOT}/usr/include \
       -DLIBCXX_CXX_ABI_LIBRARY_PATH=${CONDA_BUILD_SYSROOT}/usr/lib \
+      -DCMAKE_OSX_SYSROOT=$CONDA_BUILD_SYSROOT \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
-      ..
+      ../libcxx
 
-    make -j${CPU_COUNT}
+    make -j${CPU_COUNT} VERBOSE=1
     make install
 
     # on osx we point libc++ to the system libc++abi
