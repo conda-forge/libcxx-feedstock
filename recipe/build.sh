@@ -1,8 +1,6 @@
 LLVM_PREFIX=$PREFIX
 
-export MACOSX_DEPLOYMENT_TARGET=10.9
-
-if [[ "$target_platform" == "osx-64" ]]; then
+if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
