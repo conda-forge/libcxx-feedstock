@@ -1,8 +1,6 @@
 LLVM_PREFIX=$PREFIX
 
-export MACOSX_DEPLOYMENT_TARGET=10.9
-
-if [[ "$target_platform" == "osx-64" ]]; then
+if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
@@ -12,7 +10,7 @@ export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"
 export LDFLAGS="$LDFLAGS -L$LLVM_PREFIX/lib -Wl,-rpath,$LLVM_PREFIX/lib -L$BUILD_PREFIX/lib -Wl,-rpath,$BUILD_PREFIX/lib"
 export PATH="$LLVM_PREFIX/bin:$PATH"
 
-if [[ "$target_platform" != "osx-64" ]]; then
+if [[ "$target_platform" != osx-* ]]; then
     # build libcxx first
     mkdir build
     cd build
@@ -24,7 +22,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DLLVM_INCLUDE_DOCS=OFF \
       ../libcxx
 
-    make -j${CPU_COUNT}
+    make -j${CPU_COUNT} VERBOSE=1
     make install
     cd ..
 
@@ -41,7 +39,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DLLVM_INCLUDE_DOCS=OFF \
       ..
 
-    make -j${CPU_COUNT}
+    make -j${CPU_COUNT} VERBOSE=1
     make install
     cd ../..
 
@@ -59,7 +57,7 @@ if [[ "$target_platform" != "osx-64" ]]; then
       -DLLVM_INCLUDE_DOCS=OFF \
       ../libcxx
 
-    make -j${CPU_COUNT}
+    make -j${CPU_COUNT} VERBOSE=1
     make install
 
     cd ..
