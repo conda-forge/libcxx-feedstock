@@ -47,7 +47,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=master">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=master&jobName=osx&configuration=osx_64_" alt="variant">
-<<<<<<< HEAD
                 </a>
               </td>
             </tr><tr>
@@ -55,8 +54,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=master">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_" alt="variant">
-=======
->>>>>>> 62a599fe2a6293937cc25346286af6c80c5690bd
                 </a>
               </td>
             </tr>

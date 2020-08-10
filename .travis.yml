@@ -11,14 +11,11 @@ matrix:
       os: osx
       osx_image: xcode6.4
       arch: amd64
-<<<<<<< HEAD
 
     - env: CONFIG=osx_arm64_ UPLOAD_PACKAGES=True PLATFORM=osx-64
       os: osx
-      osx_image: xcode12u
+      osx_image: xcode6.4
       arch: amd64
-=======
->>>>>>> 62a599fe2a6293937cc25346286af6c80c5690bd
 
 script:
   - export CI=travis
