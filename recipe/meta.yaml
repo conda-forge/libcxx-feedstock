@@ -11,7 +11,7 @@ source:
       - libcxxabi_10.9_compatibility.diff   # [osx and x86_64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]

@@ -7,9 +7,9 @@ channel_targets:
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
-- 11.0.0
+- '11.0'
 macos_machine:
-- arm64-apple-macos11
+- arm64-apple-darwin20.0.0
 macos_min_version:
 - '11.0'
 openturns:
