@@ -11,11 +11,9 @@ vc:
 python:
   - 3.7
 c_compiler_version:     # [osx]
-  - "11.0.0"            # [osx and x86_64]
-  - "11.0"              # [osx and arm64]
+  - "11.0.0"            # [osx]
 cxx_compiler_version:   # [osx]
-  - "11.0.0"            # [osx and x86_64]
-  - "11.0"              # [osx and arm64]
+  - "11.0.0"            # [osx]
 
 channel_targets:
   - conda-forge llvm_rc
@@ -25,3 +23,7 @@ channel_sources:
 
 MACOSX_SDK_VERSION:  # [osx and x86_64]
   - 10.12           # [osx and x86_64]
+
+dummy_var:              # [osx]
+  - 0                   # [osx and x86_64]
+  - 1                   # [osx and arm64]
