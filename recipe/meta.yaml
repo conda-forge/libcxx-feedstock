@@ -1,4 +1,4 @@
-{% set version = "11.0.0.rc1" %}
+{% set version = "11.0.0" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,12 +6,12 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.tar.xz
-    sha256: 25da496d46be7cced8192e21fe4c6ca72eed5366f6ee09b9d436e5d2229f83a4
+    sha256: b7b639fc675fa1c86dd6d0bc32267be9eb34451748d2efd03f674b773000e92b
     patches:
       - libcxxabi_10.9_compatibility.diff   # [osx and x86_64]
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
@@ -57,6 +57,7 @@ outputs:
         - compile_test.sh   # [unix]
         - compile_test.bat  # [win]
       commands:
+        # Dummy var for different hashes
         - echo {{ dummy_var }}   # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
         - test -f $PREFIX/include/c++/v1/iterator      # [unix]
