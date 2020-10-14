@@ -1,19 +1,14 @@
-{% set version = "10.0.1" %}
+{% set version = "11.0.0" %}
 
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/libcxx-{{ version }}.src.tar.xz
-    sha256: def674535f22f83131353b3c382ccebfef4ba6a35c488bdb76f10b68b25be86c
+  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.tar.xz
+    sha256: b7b639fc675fa1c86dd6d0bc32267be9eb34451748d2efd03f674b773000e92b
     patches:
-      # See https://bugs.llvm.org/show_bug.cgi?id=39696
-      - ppc64le-constexpr.patch  # [ppc64le]
-
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/libcxxabi-{{ version }}.src.tar.xz  # [linux]
-    sha256: a97ef810b2e9fb70e8f7e317b74e646ed4944f488b02ac5ddd9c99e385381a7b  # [linux]
-    folder: libcxxabi  # [linux]
+      - libcxxabi_10.9_compatibility.diff   # [osx and x86_64]
 
 build:
   number: 0
@@ -51,16 +46,19 @@ outputs:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
       requires:
-        # osx tests for exception passing fail on vlang v10 due to exception in clang
-        - clang <10              # [osx]
-        - clang                  # [not osx]
+        - clang                  # [osx]
         - clangxx
+        - ld64                   # [osx]
+        - cctools                # [osx]
+        - llvm-tools             # [osx]
         - {{ compiler('cxx') }}  # [not osx]
       files:
         - test_sources
         - compile_test.sh   # [unix]
         - compile_test.bat  # [win]
       commands:
+        # Dummy var for different hashes
+        - echo {{ dummy_var }}   # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
         - test -f $PREFIX/include/c++/v1/iterator      # [unix]
         - bash compile_test.sh   # [unix]
@@ -92,7 +90,7 @@ outputs:
 about:
   home: http://llvm.org/
   license: Apache-2.0 WITH LLVM-exception
-  license_file: LICENSE.TXT
+  license_file: libcxx/LICENSE.TXT
   license_family: Apache
   summary: LLVM C++ standard library
 

@@ -2,3 +2,7 @@ provider: {linux_aarch64: azure, linux_ppc64le: azure, win: azure, osx: travis}
 travis:
   osx_image: xcode6.4
 conda_forge_output_validation: true
+build_platform:
+  osx_arm64: osx_64
+channel_priority: flexible
+test_on_native_only: true

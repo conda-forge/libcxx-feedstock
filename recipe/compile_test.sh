@@ -1,15 +1,12 @@
 set -xe
 
-LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib"
+LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -Wl,-v -v"
 
 # target platform is empty here now
-if [[ `uname -s` != "Darwin" ]]; then
-    LINK_FLAGS="${LINK_FLAGS} -lc++abi"
+if [[ "$target_platform" == osx* ]]; then
+    llvm-nm $PREFIX/lib/libc++.1.dylib
 else
-  # https://stackoverflow.com/questions/60934005/clang-10-fails-to-link-c-application-with-cmake-on-macos-10-12
-  info=$( ld -v 2>&1 > /dev/null )
-  linkv=`echo "${info}" | perl -wne '/.ld64-(.*?)[^0-9]/ and print "$1\n"'`
-  LINK_FLAGS="${LINK_FLAGS} -mlinker-version=${linkv}"
+    LINK_FLAGS="${LINK_FLAGS} -lc++abi"
 fi
 
 FILES=test_sources/*.c
