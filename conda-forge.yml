@@ -1,4 +1,4 @@
-provider: {linux_aarch64: azure, linux_ppc64le: azure, win: azure, osx: travis}
+provider: {linux_aarch64: default, linux_ppc64le: default}
 travis:
   osx_image: xcode6.4
 conda_forge_output_validation: true
