@@ -9,9 +9,10 @@ source:
     sha256: b7b639fc675fa1c86dd6d0bc32267be9eb34451748d2efd03f674b773000e92b
     patches:
       - libcxxabi_10.9_compatibility.diff   # [osx and x86_64]
+      - libcxx_10.9_compatibility.patch   # [osx and x86_64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
