@@ -2,7 +2,7 @@ LLVM_PREFIX=$PREFIX
 
 if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
-    export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT -std=c++17"
+    export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT -faligned-allocation"
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
 fi
 
