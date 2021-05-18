@@ -8,8 +8,7 @@ source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
     sha256: 9ed1688943a4402d7c904cc4515798cdb20080066efa010fe7e1f2551b423628
     patches:
-      - patches/0001-libcxxabi-10.9-compatibility.patch                          # [osx and x86_64]
-      - patches/0002-Revert-libc-Remove-workarounds-for-the-lack-of-clock.patch  # [osx and x86_64]
+      - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
 
 build:
   number: 0
