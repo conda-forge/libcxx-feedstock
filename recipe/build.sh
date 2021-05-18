@@ -4,6 +4,7 @@ if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
+    export CXXFLAGS="$(echo $CXXFLAGS | sed s/-std=c++[0-9]*//g)"
 fi
 
 export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"
