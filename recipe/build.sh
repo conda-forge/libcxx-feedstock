@@ -2,7 +2,7 @@ LLVM_PREFIX=$PREFIX
 
 if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
-    export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT -faligned-allocation"
+    export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
 fi
 
@@ -75,6 +75,7 @@ else
       -DCMAKE_OSX_SYSROOT=$CONDA_BUILD_SYSROOT \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
+      -DLIBCXX_ENABLE_NEW_DELETE_DEFINITIONS=ON \
       ../libcxx
 
     make -j${CPU_COUNT} VERBOSE=1
