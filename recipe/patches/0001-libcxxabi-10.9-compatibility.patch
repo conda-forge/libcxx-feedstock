@@ -1,0 +1,28 @@
+From b99a853b9b1076362108f7e6d17575d9a78f20d6 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Sat, 8 Aug 2020 15:52:31 +0000
+Subject: [PATCH] libcxxabi 10.9 compatibility
+
+---
+ libcxx/src/support/runtime/exception_libcxxabi.ipp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/libcxx/src/support/runtime/exception_libcxxabi.ipp b/libcxx/src/support/runtime/exception_libcxxabi.ipp
+index 6bc049bf38..a18cf5c3ec 100644
+--- a/libcxx/src/support/runtime/exception_libcxxabi.ipp
++++ b/libcxx/src/support/runtime/exception_libcxxabi.ipp
+@@ -17,11 +17,7 @@ bool uncaught_exception() _NOEXCEPT { return uncaught_exceptions() > 0; }
+ 
+ int uncaught_exceptions() _NOEXCEPT
+ {
+-# if _LIBCPPABI_VERSION > 1001
+-    return __cxa_uncaught_exceptions();
+-# else
+     return __cxa_uncaught_exception() ? 1 : 0;
+-# endif
+ }
+ 
+ } // namespace std
+-- 
+2.31.1.windows.1
+
