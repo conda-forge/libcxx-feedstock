@@ -16,7 +16,7 @@ index 87b71f7ba334..c3a788f3de6a 100644
 +      target_link_libraries(cxx_shared PRIVATE "-Wl,-reexported_symbols_list,${file}")
 +    endfunction()
 +
-+    if (LIBCXX_ENABLE_NEW_DELETE_DEFINITIONS)
++    if (LIBCXXABI_ENABLE_NEW_DELETE_DEFINITIONS)
 +      reexport_symbols("${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/lib/new-delete.exp")
 +    endif()
 +
