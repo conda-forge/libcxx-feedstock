@@ -16,11 +16,11 @@ index 87b71f7ba334..c3a788f3de6a 100644
 +      target_link_libraries(cxx_shared PRIVATE "-Wl,-reexported_symbols_list,${file}")
 +    endfunction()
 +
-+    if (LIBCXXABI_ENABLE_NEW_DELETE_DEFINITIONS)
++    if (LIBCXX_ENABLE_NEW_DELETE_DEFINITIONS)
 +      reexport_symbols("${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/lib/new-delete.exp")
 +    endif()
 +
-+    if (LIBCXXABI_ENABLE_EXCEPTIONS)
++    if (LIBCXX_ENABLE_EXCEPTIONS)
 +      reexport_symbols("${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/lib/exceptions.exp")
 +
 +      if ("${CMAKE_OSX_ARCHITECTURES}" MATCHES "^(armv6|armv7|armv7s)$")
