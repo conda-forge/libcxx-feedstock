@@ -14,7 +14,7 @@ cxx_compiler_version:   # [osx]
   - "11.1.0"            # [osx]
 
 MACOSX_SDK_VERSION:  # [osx and x86_64]
-  - 10.12            # [osx and x86_64]
+  - 10.14            # [osx and x86_64]
 
 dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
