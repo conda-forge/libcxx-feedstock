@@ -9,10 +9,10 @@ source:
     sha256: 6075ad30f1ac0e15f07c1bf062c1e1268c241d674f11bd32cdf0e040c71f2bf3
     patches:
       - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
-      - patches/0002-libcxx-legacy-standalone-build.patch
+      - patches/0002-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0003-libcxx-system-compatibility.diff
-      - patches/0004-old-macos-error-message.diff
+      - patches/0003-Fix-ABI-compatibility-with-system.patch
+      - patches/0004-custom-error-message-for-old-sdk.patch
 
 build:
   number: 1
