@@ -11,7 +11,7 @@ source:
       - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
       - patches/0002-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0003-Fix-ABI-compatibility-with-system.diff
+      - patches/0003-Fix-ABI-compatibility-with-system.patch
 
 build:
   number: 0

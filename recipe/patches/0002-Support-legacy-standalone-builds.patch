@@ -1,4 +1,4 @@
-From 0ce4688b54b5094d083bdff092eb264024385d8d Mon Sep 17 00:00:00 2001
+From 7206c8e612fa62a253036dfc546e0c14a5d1f08b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 18 May 2021 19:51:28 -0500
 Subject: [PATCH 2/3] Support legacy standalone builds
@@ -8,10 +8,10 @@ Subject: [PATCH 2/3] Support legacy standalone builds
  1 file changed, 17 insertions(+)
 
 diff --git a/libcxx/src/CMakeLists.txt b/libcxx/src/CMakeLists.txt
-index 9965104cb5b2..c35e139e03ff 100644
+index 496429f3841e..af8364d7ccd8 100644
 --- a/libcxx/src/CMakeLists.txt
 +++ b/libcxx/src/CMakeLists.txt
-@@ -230,6 +230,23 @@ if (LIBCXX_ENABLE_SHARED)
+@@ -248,6 +248,23 @@ if (LIBCXX_ENABLE_SHARED)
        "-Wl,-force_symbols_weak_list,${CMAKE_CURRENT_SOURCE_DIR}/../lib/weak.exp")
  
      target_link_libraries(cxx_shared PRIVATE $<TARGET_NAME_IF_EXISTS:cxxabi-reexports>)
