@@ -12,9 +12,10 @@ source:
       - patches/0002-libcxx-legacy-standalone-build.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
       - patches/0003-libcxx-system-compatibility.diff
+      - patches/0004-old-macos-error-message.diff
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
