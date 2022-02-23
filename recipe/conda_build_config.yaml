@@ -8,12 +8,10 @@ c_compiler:
   - vs2017           # [win]
 vc:
   - 14
-c_compiler_version:     # [unix]
+c_compiler_version:     # [linux]
   - 11                  # [linux]
-  - "11.1.0"            # [osx]
-cxx_compiler_version:   # [unix]
+cxx_compiler_version:   # [linux]
   - 11                  # [linux]
-  - "11.1.0"            # [osx]
 
 MACOSX_SDK_VERSION:  # [osx and x86_64]
   - 10.14            # [osx and x86_64]
