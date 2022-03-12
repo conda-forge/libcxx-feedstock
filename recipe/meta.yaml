@@ -1,17 +1,21 @@
-{% set version = "11.0.0.rc1" %}
+{% set version = "13.0.1" %}
 
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.tar.xz
-    sha256: 25da496d46be7cced8192e21fe4c6ca72eed5366f6ee09b9d436e5d2229f83a4
+  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
+    sha256: 326335a830f2e32d06d0a36393b5455d17dc73e0bd1211065227ee014f92cbf8
     patches:
-      - libcxxabi_10.9_compatibility.diff   # [osx and x86_64]
+      - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
+      - patches/0002-Support-legacy-standalone-builds.patch
+      # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
+      - patches/0003-Fix-ABI-compatibility-with-system.patch
+      - patches/0004-custom-error-message-for-old-sdk.patch
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
@@ -57,6 +61,7 @@ outputs:
         - compile_test.sh   # [unix]
         - compile_test.bat  # [win]
       commands:
+        # Dummy var for different hashes
         - echo {{ dummy_var }}   # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
         - test -f $PREFIX/include/c++/v1/iterator      # [unix]
@@ -101,3 +106,4 @@ extra:
     - isuruf
     - beckermr
     - timsnyder
+    - h-vetinari

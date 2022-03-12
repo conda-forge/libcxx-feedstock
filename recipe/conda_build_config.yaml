@@ -8,21 +8,16 @@ c_compiler:
   - vs2017           # [win]
 vc:
   - 14
-python:
-  - 3.7
-c_compiler_version:     # [osx]
-  - "11.0.0"            # [osx]
-cxx_compiler_version:   # [osx]
-  - "11.0.0"            # [osx]
 
-channel_targets:
-  - conda-forge llvm_rc
-
-channel_sources:
-  - conda-forge/label/llvm_rc,conda-forge,defaults
+# libcxx only supports the last released GCC version, see
+# https://releases.llvm.org/13.0.0/projects/libcxx/docs/index.html#platform-and-compiler-support
+c_compiler_version:     # [linux]
+  - 11                  # [linux]
+cxx_compiler_version:   # [linux]
+  - 11                  # [linux]
 
 MACOSX_SDK_VERSION:  # [osx and x86_64]
-  - 10.12           # [osx and x86_64]
+  - 10.14            # [osx and x86_64]
 
 dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
