@@ -1,3 +1,5 @@
+set -ex
+
 LLVM_PREFIX=$PREFIX
 
 if [[ "$target_platform" == osx-* ]]; then
@@ -20,6 +22,7 @@ if [[ "$target_platform" != osx-* ]]; then
       -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
+      -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
       ../libcxx
 
     make -j${CPU_COUNT} VERBOSE=1
@@ -34,9 +37,8 @@ if [[ "$target_platform" != osx-* ]]; then
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_BUILD_TYPE=Release \
       -DLIBCXXABI_LIBCXX_PATH=$SRC_DIR/libcxx \
-      -DLIBCXXABI_LIBCXX_INCLUDES=$SRC_DIR/libcxx/include \
+      -DLIBCXXABI_LIBCXX_INCLUDES=$PREFIX/include/c++/v1 \
       -DLLVM_INCLUDE_TESTS=OFF \
-      -DLLVM_INCLUDE_DOCS=OFF \
       ..
 
     make -j${CPU_COUNT} VERBOSE=1
@@ -55,6 +57,7 @@ if [[ "$target_platform" != osx-* ]]; then
       -DLIBCXX_CXX_ABI_LIBRARY_PATH=$PREFIX/lib \
       -DLLVM_INCLUDE_TESTS=OFF \
       -DLLVM_INCLUDE_DOCS=OFF \
+      -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
       ../libcxx
 
     make -j${CPU_COUNT} VERBOSE=1

@@ -1,4 +1,4 @@
-{% set version = "12.0.1" %}
+{% set version = "13.0.1" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,16 +6,16 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 129cb25cd13677aad951ce5c2deb0fe4afc1e9d98950f53b51bdcfb5a73afa0e
+    sha256: 326335a830f2e32d06d0a36393b5455d17dc73e0bd1211065227ee014f92cbf8
     patches:
       - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
-      - patches/0002-libcxx-legacy-standalone-build.patch
+      - patches/0002-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0003-libcxx-system-compatibility.diff
-      - patches/0004-old-macos-error-message.diff
+      - patches/0003-Fix-ABI-compatibility-with-system.patch
+      - patches/0004-custom-error-message-for-old-sdk.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win and vc<14]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
@@ -106,3 +106,4 @@ extra:
     - isuruf
     - beckermr
     - timsnyder
+    - h-vetinari
