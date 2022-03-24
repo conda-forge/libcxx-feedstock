@@ -1,4 +1,4 @@
-{% set version = "14.0.0.rc2" %}
+{% set version = "14.0.0.rc4" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: e728c13e56034894994eefe596d1edd97a66c798a504fabd65f63ceb6befade1
+    sha256: ca833d5ca97b2d46053f6d2759fcd9ec3201201275e0c2119a4680356f5b0a15
     patches:
       - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
       - patches/0002-Support-legacy-standalone-builds.patch
