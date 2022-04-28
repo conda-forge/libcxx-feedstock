@@ -1,13 +1,19 @@
-cxx_compiler:
-  - clang_bootstrap  # [osx]
-  - gxx              # [linux]
-  - vs2017           # [win]
 c_compiler:
   - clang_bootstrap  # [osx]
   - gcc              # [linux]
-  - vs2017           # [win]
+  - vs2019           # [win]
+cxx_compiler:
+  - clang_bootstrap  # [osx]
+  - gxx              # [linux]
+  - vs2019           # [win]
 vc:
   - 14
+
+channel_targets:
+  - conda-forge llvm_rc
+
+channel_sources:
+  - conda-forge/label/llvm_rc,conda-forge
 
 # libcxx only supports the last released GCC version, see
 # https://releases.llvm.org/13.0.0/projects/libcxx/docs/index.html#platform-and-compiler-support
