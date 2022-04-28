@@ -1,5 +1,5 @@
-About libcxx_and_libcxxabi
-==========================
+About libcxx
+============
 
 Home: http://llvm.org/
 
@@ -8,6 +8,8 @@ Package license: Apache-2.0 WITH LLVM-exception
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libcxx-feedstock/blob/main/LICENSE.txt)
 
 Summary: LLVM C++ standard library
+
+Development: https://github.com/llvm/llvm-project
 
 Current build status
 ====================
@@ -63,26 +65,51 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx-green.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxxabi-green.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) |
 
-Installing libcxx_and_libcxxabi
-===============================
+Installing libcxx
+=================
 
-Installing `libcxx_and_libcxxabi` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `libcxx` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libcxx, libcxxabi` can be installed with:
+Once the `conda-forge` channel has been enabled, `libcxx, libcxxabi` can be installed with `conda`:
 
 ```
 conda install libcxx libcxxabi
 ```
 
-It is possible to list all of the versions of `libcxx` available on your platform with:
+or with `mamba`:
+
+```
+mamba install libcxx libcxxabi
+```
+
+It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
 
 ```
 conda search libcxx --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search libcxx --channel conda-forge
+```
+
+Alternatively, `mamba repoquery` may provide more information:
+
+```
+# Search all versions available on your platform:
+mamba repoquery search libcxx --channel conda-forge
+
+# List packages depending on `libcxx`:
+mamba repoquery whoneeds libcxx --channel conda-forge
+
+# List dependencies of `libcxx`:
+mamba repoquery depends libcxx --channel conda-forge
 ```
 
 
@@ -100,10 +127,12 @@ for each of the installable packages. Such a repository is known as a *feedstock
 A feedstock is made up of a conda recipe (the instructions on what and how to build
 the package) and the necessary configurations for automatic building using freely
 available continuous integration services. Thanks to the awesome service provided by
-[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/)
-and [TravisCI](https://travis-ci.com/) it is possible to build and upload installable
-packages to the [conda-forge](https://anaconda.org/conda-forge)
-[Anaconda-Cloud](https://anaconda.org/) channel for Linux, Windows and OSX respectively.
+[Azure](https://azure.microsoft.com/en-us/services/devops/), [GitHub](https://github.com/),
+[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
+[Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
+it is possible to build and upload installable packages to the
+[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
 [conda-smithy](https://github.com/conda-forge/conda-smithy) has been developed.
@@ -125,17 +154,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating libcxx_and_libcxxabi-feedstock
-=======================================
+Updating libcxx-feedstock
+=========================
 
-If you would like to improve the libcxx_and_libcxxabi recipe or build a new
+If you would like to improve the libcxx recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/libcxx_and_libcxxabi-feedstock are
+Note that all branches in the conda-forge/libcxx-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
