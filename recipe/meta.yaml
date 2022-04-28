@@ -97,6 +97,7 @@ about:
   license_file: libcxx/LICENSE.TXT
   license_family: Apache
   summary: LLVM C++ standard library
+  dev_url: https://github.com/llvm/llvm-project
 
 extra:
   recipe-maintainers:
