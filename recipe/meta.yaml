@@ -45,8 +45,8 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-    requirements:   # [linux]
-      run:   # [linux]
+    requirements:                                          # [linux]
+      run:                                                 # [linux]
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
       requires:
@@ -62,19 +62,19 @@ outputs:
         - compile_test.bat  # [win]
       commands:
         # Dummy var for different hashes
-        - echo {{ dummy_var }}   # [osx]
-        - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1     # [win]
-        - test -f $PREFIX/include/c++/v1/iterator      # [unix]
-        - bash compile_test.sh   # [unix]
-        - compile_test.bat       # [win]
+        - echo {{ dummy_var }}                                    # [osx]
+        - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
+        - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
+        - bash compile_test.sh                                    # [unix]
+        - compile_test.bat                                        # [win]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
-        - test -f $PREFIX/lib/libc++abi.so  # [linux]
+        - test -f $PREFIX/lib/libc++abi.so                        # [linux]
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
-      downstreams:   # [osx]
+      downstreams:          # [osx]
         - python-symengine  # [osx]
         - openturns         # [osx]
         - libcxx-testing    # [osx]
