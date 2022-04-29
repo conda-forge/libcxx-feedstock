@@ -7,7 +7,7 @@ channel_targets:
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
-- '12'
+- '13'
 dummy_var:
 - '1'
 macos_machine:
