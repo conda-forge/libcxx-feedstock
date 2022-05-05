@@ -1,7 +1,7 @@
 About libcxx
 ============
 
-Home: http://llvm.org/
+Home: http://libcxx.llvm.org/
 
 Package license: Apache-2.0 WITH LLVM-exception
 
