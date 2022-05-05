@@ -91,7 +91,7 @@ outputs:
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
 
 about:
-  home: http://llvm.org/
+  home: http://libcxx.llvm.org/
   license: Apache-2.0 WITH LLVM-exception
   license_file: libcxx/LICENSE.TXT
   license_family: Apache
