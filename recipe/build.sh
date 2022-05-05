@@ -52,6 +52,7 @@ if [[ "$target_platform" != osx-* ]]; then
     cmake \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_BUILD_TYPE=Release \
+      -DLIBCXX_INSTALL_HEADERS=ON \
       -DLIBCXX_CXX_ABI=libcxxabi \
       -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$SRC_DIR/libcxxabi/include \
       -DLIBCXX_CXX_ABI_LIBRARY_PATH=$PREFIX/lib \

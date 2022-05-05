@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
-- '12'
+- '13'
 dummy_var:
 - '0'
 macos_machine:
@@ -21,5 +21,3 @@ pin_run_as_build:
     max_pin: x.x
 target_platform:
 - osx-64
-vc:
-- '14'

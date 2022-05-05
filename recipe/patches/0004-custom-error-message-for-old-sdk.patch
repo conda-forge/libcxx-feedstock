@@ -1,4 +1,4 @@
-From be4efada67abfcb3e49572b6ec34fe837c98e2c6 Mon Sep 17 00:00:00 2001
+From 494752e4a46bdeb17cc044b7adbccab0ec39f126 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
 Subject: [PATCH 4/4] custom error message for old sdk
@@ -8,10 +8,10 @@ Subject: [PATCH 4/4] custom error message for old sdk
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/libcxx/include/__availability b/libcxx/include/__availability
-index 13d11950fd67..7e876fbf7c0d 100644
+index 4652a6fd91b4..88cefa115bb0 100644
 --- a/libcxx/include/__availability
 +++ b/libcxx/include/__availability
-@@ -148,7 +148,7 @@
+@@ -152,7 +152,7 @@
  #elif defined(__APPLE__)
  
  #   define _LIBCPP_AVAILABILITY_SHARED_MUTEX                                    \
@@ -20,7 +20,7 @@ index 13d11950fd67..7e876fbf7c0d 100644
          __attribute__((availability(ios,strict,introduced=10.0)))               \
          __attribute__((availability(tvos,strict,introduced=10.0)))              \
          __attribute__((availability(watchos,strict,introduced=3.0)))
-@@ -161,7 +161,7 @@
+@@ -165,7 +165,7 @@
  #   endif
  
  #   define _LIBCPP_AVAILABILITY_BAD_OPTIONAL_ACCESS                             \
@@ -29,7 +29,7 @@ index 13d11950fd67..7e876fbf7c0d 100644
          __attribute__((availability(ios,strict,introduced=11.0)))               \
          __attribute__((availability(tvos,strict,introduced=11.0)))              \
          __attribute__((availability(watchos,strict,introduced=4.0)))
-@@ -171,12 +171,13 @@
+@@ -175,12 +175,13 @@
          _LIBCPP_AVAILABILITY_BAD_OPTIONAL_ACCESS
  
  #   define _LIBCPP_AVAILABILITY_UNCAUGHT_EXCEPTIONS                             \
@@ -44,7 +44,7 @@ index 13d11950fd67..7e876fbf7c0d 100644
          __attribute__((availability(macosx,strict,introduced=10.12)))           \
          __attribute__((availability(ios,strict,introduced=10.0)))               \
          __attribute__((availability(tvos,strict,introduced=10.0)))              \
-@@ -198,6 +199,7 @@
+@@ -202,6 +203,7 @@
          __attribute__((availability(ios,strict,introduced=7.0)))
  
  #   define _LIBCPP_AVAILABILITY_FILESYSTEM                                      \
@@ -53,5 +53,5 @@ index 13d11950fd67..7e876fbf7c0d 100644
          __attribute__((availability(ios,strict,introduced=13.0)))               \
          __attribute__((availability(tvos,strict,introduced=13.0)))              \
 -- 
-2.32.0.windows.2
+2.35.1.windows.2
 
