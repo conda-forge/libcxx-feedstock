@@ -15,7 +15,7 @@ source:
       - patches/0004-custom-error-message-for-old-sdk.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -44,8 +44,11 @@ outputs:
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
-    requirements:   # [linux]
-      run:   # [linux]
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+      run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
     test:
       requires:
