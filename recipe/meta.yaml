@@ -1,4 +1,4 @@
-{% set version = "14.0.5" %}
+{% set version = "14.0.6" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: c9d27903ba3883c476a83cd515e36e1e07b0585db55692835de11385d9e3c8fa
+    sha256: 8b3cfd7bc695bd6cea0f37f53f0981f34f87496e79e2529874fd03a2f9dd3a8a
     patches:
       - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
       - patches/0002-Support-legacy-standalone-builds.patch
@@ -15,7 +15,7 @@ source:
       - patches/0004-custom-error-message-for-old-sdk.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
