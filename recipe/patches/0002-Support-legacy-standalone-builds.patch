@@ -1,7 +1,7 @@
 From 130d354336d74b40606c5ae45ef27bf44e97a449 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 18 May 2021 19:51:28 -0500
-Subject: [PATCH 2/4] Support legacy standalone builds
+Subject: [PATCH 2/5] Support legacy standalone builds
 
 ---
  libcxx/src/CMakeLists.txt | 17 +++++++++++++++++
