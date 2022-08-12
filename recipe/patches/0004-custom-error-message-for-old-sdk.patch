@@ -1,7 +1,7 @@
 From 9de9a236743b024d49e3311a582bae90435aa5dc Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
-Subject: [PATCH 4/4] custom error message for old sdk
+Subject: [PATCH 4/5] custom error message for old sdk
 
 ---
  libcxx/include/__availability | 18 +++++++++---------
