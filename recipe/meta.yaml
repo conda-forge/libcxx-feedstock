@@ -13,6 +13,7 @@ source:
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
       - patches/0003-Fix-ABI-compatibility-with-system.patch
       - patches/0004-custom-error-message-for-old-sdk.patch
+      - patches/0005-disable-timespec-due-to-old-glibc.patch
 
 build:
   number: 0
