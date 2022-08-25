@@ -1,3 +1,12 @@
+From 25c19333d6ba0a83341fdcadf30b4d9e84227766 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Wed, 29 Dec 2021 19:28:35 -0800
+Subject: [PATCH 4/4] custom error message for old sdk
+
+---
+ libcxx/include/__availability | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
 diff --git a/libcxx/include/__availability b/libcxx/include/__availability
 index 4652a6fd91b4..d468f3c129ea 100644
 --- a/libcxx/include/__availability
@@ -50,3 +59,6 @@ index 4652a6fd91b4..d468f3c129ea 100644
          _Pragma("clang attribute push(__attribute__((availability(ios,strict,introduced=13.0))), apply_to=any(function,record))")     \
          _Pragma("clang attribute push(__attribute__((availability(tvos,strict,introduced=13.0))), apply_to=any(function,record))")    \
          _Pragma("clang attribute push(__attribute__((availability(watchos,strict,introduced=6.0))), apply_to=any(function,record))")
+-- 
+2.37.0.windows.1
+
