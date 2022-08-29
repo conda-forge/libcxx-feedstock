@@ -1,13 +1,7 @@
-c_compiler:
+c_compiler:          # [osx]
   - clang_bootstrap  # [osx]
-  - gcc              # [linux]
-  - vs2019           # [win]
-cxx_compiler:
+cxx_compiler:        # [osx]
   - clang_bootstrap  # [osx]
-  - gxx              # [linux]
-  - vs2019           # [win]
-vc:
-  - 14
 
 # libcxx only supports the last released GCC version, see
 # https://releases.llvm.org/13.0.0/projects/libcxx/docs/index.html#platform-and-compiler-support
