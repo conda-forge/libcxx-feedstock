@@ -70,6 +70,11 @@ outputs:
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
+        # make sure we inserted link to our docs wherever it is necessary;
+        # i.e. everywhere there's a string "availability(macosx,...,introduced=<ver>)" for osx version >10.9
+        # 'grep -v' inverts the match but returns non-zero exit code no lines are returned; so we use 'wc -l';
+        # we want to have zero lines that don't either: contain the link or are for 10.9
+        - if [ 0 -eq $(cat ${PREFIX}/include/c++/v1/__availability | grep "availability(macosx" | grep -vE "(conda-forge|10.9)" | wc -l) ]; then exit 0; else exit 1; fi  # [osx]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]

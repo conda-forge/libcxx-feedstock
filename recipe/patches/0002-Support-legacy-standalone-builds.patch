@@ -1,4 +1,4 @@
-From 130d354336d74b40606c5ae45ef27bf44e97a449 Mon Sep 17 00:00:00 2001
+From e112b86d3300480e26f1f15b366f250c41ed34f8 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 18 May 2021 19:51:28 -0500
 Subject: [PATCH 2/5] Support legacy standalone builds

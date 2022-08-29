@@ -1,14 +1,14 @@
-From e12f83758f55620a5bb340c3f9acdf352c6347f9 Mon Sep 17 00:00:00 2001
+From d448faf5d6b96a253e032bf3c5264543f2f5c4c9 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
 Subject: [PATCH 4/5] custom error message for old sdk
 
 ---
- libcxx/include/__availability | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ libcxx/include/__availability | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/libcxx/include/__availability b/libcxx/include/__availability
-index 72ff663334d3..00c53b94097f 100644
+index 72ff663334d3..ae336f94eb01 100644
 --- a/libcxx/include/__availability
 +++ b/libcxx/include/__availability
 @@ -175,7 +175,7 @@
@@ -45,7 +45,7 @@ index 72ff663334d3..00c53b94097f 100644
          __attribute__((availability(ios,strict,introduced=10.0)))               \
          __attribute__((availability(tvos,strict,introduced=10.0)))              \
          __attribute__((availability(watchos,strict,introduced=3.0)))
-@@ -228,7 +228,7 @@
+@@ -228,12 +228,12 @@
          __attribute__((availability(ios,strict,introduced=7.0)))
  
  #   define _LIBCPP_AVAILABILITY_FILESYSTEM                                      \
@@ -54,6 +54,21 @@ index 72ff663334d3..00c53b94097f 100644
          __attribute__((availability(ios,strict,introduced=13.0)))               \
          __attribute__((availability(tvos,strict,introduced=13.0)))              \
          __attribute__((availability(watchos,strict,introduced=6.0)))
+ #   define _LIBCPP_AVAILABILITY_FILESYSTEM_PUSH                                 \
+-        _Pragma("clang attribute push(__attribute__((availability(macos,strict,introduced=10.15))), apply_to=any(function,record))") \
++        _Pragma("clang attribute push(__attribute__((availability(macos,strict,introduced=10.15,message=\"see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk\"))), apply_to=any(function,record))") \
+         _Pragma("clang attribute push(__attribute__((availability(ios,strict,introduced=13.0))), apply_to=any(function,record))")    \
+         _Pragma("clang attribute push(__attribute__((availability(tvos,strict,introduced=13.0))), apply_to=any(function,record))")   \
+         _Pragma("clang attribute push(__attribute__((availability(watchos,strict,introduced=6.0))), apply_to=any(function,record))")
+@@ -253,7 +253,7 @@
+         __attribute__((unavailable))
+ 
+ #   define _LIBCPP_AVAILABILITY_SYNC                                            \
+-        __attribute__((availability(macos,strict,introduced=11.0)))             \
++        __attribute__((availability(macos,strict,introduced=11.0,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))  \
+         __attribute__((availability(ios,strict,introduced=14.0)))               \
+         __attribute__((availability(tvos,strict,introduced=14.0)))              \
+         __attribute__((availability(watchos,strict,introduced=7.0)))
 -- 
 2.37.0.windows.1
 

@@ -1,4 +1,4 @@
-From dec2f8f013d288d80a161877155dfdeb17bbb0b3 Mon Sep 17 00:00:00 2001
+From 3999e0a2e0514a143f266dd0e881ba26f933f69c Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 12 Aug 2022 16:09:52 +0200
 Subject: [PATCH 5/5] disable timespec due to old glibc
