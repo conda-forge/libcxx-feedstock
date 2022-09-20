@@ -13,7 +13,7 @@ dummy_var:
 macos_machine:
 - arm64-apple-darwin20.0.0
 openturns:
-- '1.18'
+- '1.19'
 pin_run_as_build:
   openturns:
     max_pin: x.x
