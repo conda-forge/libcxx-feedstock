@@ -32,9 +32,6 @@ cmake -G Ninja \
 # Build
 ninja -C build cxx cxxabi unwind
 
-# Test
-ninja -C build check-cxx check-cxxabi check-unwind
-
 # Install
 ninja -C build install-cxx install-cxxabi install-unwind
 
