@@ -27,7 +27,7 @@ build:
 requirements:
   build:
     - cmake
-    - make                    # [unix]
+    - ninja
     - {{ compiler('cxx') }}
     - python >3               # [not osx]
   host:
