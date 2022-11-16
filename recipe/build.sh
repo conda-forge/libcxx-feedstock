@@ -24,15 +24,13 @@ cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DLIBCXX_INCLUDE_BENCHMARKS=OFF \
     -DLIBCXX_INCLUDE_DOCS=OFF \
+    -DLIBCXX_INCLUDE_TESTS=OFF \
     -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
     $CMAKE_ARGS \
     $CMAKE_EXTRA_ARGS
 
 # Build
 ninja -C build cxx cxxabi unwind
-
-# Test
-ninja -C build check-cxx check-cxxabi check-unwind
 
 # Install
 ninja -C build install-cxx install-cxxabi install-unwind
