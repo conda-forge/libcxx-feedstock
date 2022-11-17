@@ -30,7 +30,6 @@ requirements:
     - ninja
     - {{ compiler('cxx') }}
     - python >3               # [not osx]
-    - sysroot_linux-64 =2.17  # [linux64]
   host:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
