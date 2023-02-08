@@ -13,7 +13,10 @@ source:
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
       - patches/0003-Fix-ABI-compatibility-with-system.patch
       - patches/0004-custom-error-message-for-old-sdk.patch
-      - patches/0005-disable-timespec-due-to-old-glibc.patch
+      # upstream removed fallbacks in case the underlying libc didn't support C11 in
+      # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
+      # however, it seems that the then-required using_if_exists does not work as desired yet
+      - patches/0005-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
   number: 0
