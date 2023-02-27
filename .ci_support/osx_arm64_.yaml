@@ -1,23 +1,18 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 channel_sources:
-- conda-forge/label/llvm_rc,conda-forge
+- conda-forge
 channel_targets:
-- conda-forge llvm_rc
+- conda-forge main
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
-- '12'
+- '14'
 dummy_var:
 - '1'
 macos_machine:
 - arm64-apple-darwin20.0.0
 openturns:
-- '1.18'
-pin_run_as_build:
-  openturns:
-    max_pin: x.x
+- '1.20'
 target_platform:
 - osx-arm64
-vc:
-- '14'
