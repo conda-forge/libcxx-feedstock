@@ -3,12 +3,6 @@ c_compiler:          # [osx]
 cxx_compiler:        # [osx]
   - clang_bootstrap  # [osx]
 
-channel_targets:
-  - conda-forge llvm_rc
-
-channel_sources:
-  - conda-forge/label/llvm_rc,conda-forge
-
 # libcxx only supports the last released GCC version, see
 # https://releases.llvm.org/13.0.0/projects/libcxx/docs/index.html#platform-and-compiler-support
 c_compiler_version:     # [linux]
