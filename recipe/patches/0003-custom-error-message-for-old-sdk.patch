@@ -1,0 +1,91 @@
+From f5bd62b8f9a07832d50789e6eb53ebab8803a389 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Wed, 29 Dec 2021 19:28:35 -0800
+Subject: [PATCH 3/3] custom error message for old sdk
+
+---
+ libcxx/include/__availability | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/libcxx/include/__availability b/libcxx/include/__availability
+index 7807f22b716..cb22e458743 100644
+--- a/libcxx/include/__availability
++++ b/libcxx/include/__availability
+@@ -184,7 +184,7 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_SHARED_MUTEX
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_SHARED_MUTEX                                    \
+-        __attribute__((availability(macos,strict,introduced=10.12)))            \
++        __attribute__((availability(macos,strict,introduced=10.12,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))  \
+         __attribute__((availability(ios,strict,introduced=10.0)))               \
+         __attribute__((availability(tvos,strict,introduced=10.0)))              \
+         __attribute__((availability(watchos,strict,introduced=3.0)))
+@@ -202,7 +202,7 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_BAD_ANY_CAST
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_BAD_OPTIONAL_ACCESS                             \
+-        __attribute__((availability(macos,strict,introduced=10.13)))            \
++        __attribute__((availability(macos,strict,introduced=10.13,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))            \
+         __attribute__((availability(ios,strict,introduced=12.0)))               \
+         __attribute__((availability(tvos,strict,introduced=12.0)))              \
+         __attribute__((availability(watchos,strict,introduced=5.0)))
+@@ -219,7 +219,7 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_UNCAUGHT_EXCEPTIONS
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_UNCAUGHT_EXCEPTIONS                             \
+-        __attribute__((availability(macos,strict,introduced=10.12)))            \
++        __attribute__((availability(macos,strict,introduced=10.12,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))            \
+         __attribute__((availability(ios,strict,introduced=10.0)))               \
+         __attribute__((availability(tvos,strict,introduced=10.0)))              \
+         __attribute__((availability(watchos,strict,introduced=3.0)))
+@@ -232,7 +232,7 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_SIZED_NEW_DELETE
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_SIZED_NEW_DELETE                                \
+-        __attribute__((availability(macos,strict,introduced=10.12)))            \
++        __attribute__((availability(macos,strict,introduced=10.12,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))            \
+         __attribute__((availability(ios,strict,introduced=10.0)))               \
+         __attribute__((availability(tvos,strict,introduced=10.0)))              \
+         __attribute__((availability(watchos,strict,introduced=3.0)))
+@@ -279,12 +279,12 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_FILESYSTEM_LIBRARY
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_FILESYSTEM_LIBRARY                              \
+-        __attribute__((availability(macos,strict,introduced=10.15)))            \
++        __attribute__((availability(macos,strict,introduced=10.15,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))            \
+         __attribute__((availability(ios,strict,introduced=13.0)))               \
+         __attribute__((availability(tvos,strict,introduced=13.0)))              \
+         __attribute__((availability(watchos,strict,introduced=6.0)))
+ #   define _LIBCPP_AVAILABILITY_FILESYSTEM_LIBRARY_PUSH                                 \
+-        _Pragma("clang attribute push(__attribute__((availability(macos,strict,introduced=10.15))), apply_to=any(function,record))") \
++        _Pragma("clang attribute push(__attribute__((availability(macos,strict,introduced=10.15,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))), apply_to=any(function,record))") \
+         _Pragma("clang attribute push(__attribute__((availability(ios,strict,introduced=13.0))), apply_to=any(function,record))")    \
+         _Pragma("clang attribute push(__attribute__((availability(tvos,strict,introduced=13.0))), apply_to=any(function,record))")   \
+         _Pragma("clang attribute push(__attribute__((availability(watchos,strict,introduced=6.0))), apply_to=any(function,record))")
+@@ -302,7 +302,7 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_TO_CHARS_FLOATING_POINT
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_TO_CHARS_FLOATING_POINT                         \
+-        __attribute__((availability(macos,strict,introduced=13.3)))             \
++        __attribute__((availability(macos,strict,introduced=13.3,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))             \
+         __attribute__((availability(ios,strict,introduced=16.3)))               \
+         __attribute__((availability(tvos,strict,introduced=16.3)))              \
+         __attribute__((availability(watchos,strict,introduced=9.3)))
+@@ -315,7 +315,7 @@
+ #       define _LIBCPP_AVAILABILITY_HAS_NO_SYNC
+ #   endif
+ #   define _LIBCPP_AVAILABILITY_SYNC                                            \
+-        __attribute__((availability(macos,strict,introduced=11.0)))             \
++        __attribute__((availability(macos,strict,introduced=11.0,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))  \
+         __attribute__((availability(ios,strict,introduced=14.0)))               \
+         __attribute__((availability(tvos,strict,introduced=14.0)))              \
+         __attribute__((availability(watchos,strict,introduced=7.0)))
+@@ -340,7 +340,7 @@
+ //       use availability annotations until that bug has been fixed.
+ #  if 0
+ #    define _LIBCPP_AVAILABILITY_PMR                                                                                   \
+-      __attribute__((availability(macos, strict, introduced = 14.0)))                                                  \
++      __attribute__((availability(macos, strict, introduced = 14.0,message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk")))                                                  \
+       __attribute__((availability(ios, strict, introduced = 17.0)))                                                    \
+       __attribute__((availability(tvos, strict, introduced = 17.0)))                                                   \
+       __attribute__((availability(watchos, strict, introduced = 10.0)))
