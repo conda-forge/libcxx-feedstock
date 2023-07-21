@@ -56,6 +56,7 @@ outputs:
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}           # [osx and x86_64]
     test:
       requires:
         - clang                  # [osx]

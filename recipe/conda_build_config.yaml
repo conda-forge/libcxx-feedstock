@@ -16,8 +16,10 @@ c_compiler_version:     # [linux]
 cxx_compiler_version:   # [linux]
   - 12                  # [linux]
 
-MACOSX_SDK_VERSION:  # [osx and x86_64]
-  - 10.14            # [osx and x86_64]
+MACOSX_SDK_VERSION:         # [osx and x86_64]
+  - "10.14"                 # [osx and x86_64]
+MACOSX_DEPLOYMENT_TARGET:   # [osx and x86_64]
+  - "10.13"                 # [osx and x86_64]
 
 dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
