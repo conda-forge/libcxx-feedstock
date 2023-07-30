@@ -53,6 +53,8 @@ outputs:
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+      run_constrained:
+        - sysroot_linux-64 >=2.17                          # [linux64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}           # [osx and x86_64]
     test:
       requires:
