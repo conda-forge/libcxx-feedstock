@@ -14,7 +14,7 @@ source:
       - patches/0003-custom-error-message-for-old-sdk.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -53,9 +53,9 @@ outputs:
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}           # [osx and x86_64]
       run_constrained:
         - sysroot_linux-64 >=2.17                          # [linux64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}           # [osx and x86_64]
     test:
       requires:
         - clang                  # [osx]
