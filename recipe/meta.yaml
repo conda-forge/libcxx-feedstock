@@ -85,10 +85,17 @@ outputs:
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
-      downstreams:   # [osx]
-        - python-symengine  # [osx]
-        - openturns         # [osx]
-        - libcxx-testing    # [osx]
+      downstreams:              # [osx]
+        - python-symengine      # [osx]
+        - openturns             # [osx]
+        # test current libcxx against old clang builds;
+        # version correspondence is 0.{{ CLANG_MAJOR }}
+        - libcxx-testing 0.16   # [osx]
+        - libcxx-testing 0.15   # [osx]
+        - libcxx-testing 0.14   # [osx]
+        - libcxx-testing 0.13   # [osx]
+        - libcxx-testing 0.12   # [osx]
+        - libcxx-testing 0.11   # [osx]
 
   - name: libcxxabi
     build:
