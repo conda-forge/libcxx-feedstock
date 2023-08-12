@@ -1,14 +1,14 @@
 From 54fcf64308c718b275629a28678dcfcc90014205 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
-Subject: [PATCH 3/3] custom error message for old sdk
+Subject: [PATCH 3/4] custom error message for old sdk
 
 ---
  libcxx/include/__availability | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/libcxx/include/__availability b/libcxx/include/__availability
-index 7807f22b716..94f6e070b93 100644
+index 7807f22b716f..94f6e070b936 100644
 --- a/libcxx/include/__availability
 +++ b/libcxx/include/__availability
 @@ -279,12 +279,12 @@

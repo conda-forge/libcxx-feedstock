@@ -1,14 +1,14 @@
 From 123217eff2d5ceec3a0d7578d2c1256be6dc1943 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 13 Jul 2021 01:57:06 -0500
-Subject: [PATCH 2/3] Fix ABI compatibility with system
+Subject: [PATCH 2/4] Fix ABI compatibility with system
 
 ---
  libcxx/src/locale.cpp | 16 ++++++++--------
  1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/libcxx/src/locale.cpp b/libcxx/src/locale.cpp
-index bd70a27be4e..a2062e5d3f5 100644
+index bd70a27be4ef..a2062e5d3f53 100644
 --- a/libcxx/src/locale.cpp
 +++ b/libcxx/src/locale.cpp
 @@ -193,10 +193,6 @@ _LIBCPP_SUPPRESS_DEPRECATED_PUSH
