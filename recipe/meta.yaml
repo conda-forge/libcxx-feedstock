@@ -1,4 +1,4 @@
-{% set version = "17.0.0.rc2" %}
+{% set version = "17.0.0.rc3" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,12 +6,17 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 71c018a6c0d3f7ccfe66a8ea7a68281a256fcd3bc35099e61616a92dcbbf0859
+    sha256: 60493f4e974fcca7b739aea4901af2d957b0eaea34b42815359be59cf6c88fa2
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
       - patches/0002-Fix-ABI-compatibility-with-system.patch
       - patches/0003-custom-error-message-for-old-sdk.patch
+      # upstream removed fallbacks in case the underlying libc didn't support C11 in
+      # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
+      # using new libcxx with old clang versions (beyond what upstream supports) relies on
+      # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
+      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
   number: 0
@@ -87,10 +92,17 @@ outputs:
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
-      downstreams:   # [osx]
-        - python-symengine  # [osx]
-        - openturns         # [osx]
-        - libcxx-testing    # [osx]
+      downstreams:              # [osx]
+        - python-symengine      # [osx]
+        - openturns             # [osx]
+        # test current libcxx against old clang builds;
+        # version correspondence is 0.{{ CLANG_MAJOR }}
+        - libcxx-testing 0.16   # [osx]
+        - libcxx-testing 0.15   # [osx]
+        - libcxx-testing 0.14   # [osx]
+        - libcxx-testing 0.13   # [osx]
+        - libcxx-testing 0.12   # [osx]
+        - libcxx-testing 0.11   # [osx]
 
   - name: libcxxabi
     build:
