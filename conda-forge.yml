@@ -3,8 +3,6 @@ bot:
   - 15.x
   - 14.x
 provider: {linux_aarch64: default, linux_ppc64le: default}
-travis:
-  osx_image: xcode6.4
 conda_forge_output_validation: true
 build_platform:
   osx_arm64: osx_64
