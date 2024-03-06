@@ -1,4 +1,4 @@
-{% set version = "17.0.2" %}
+{% set version = "17.0.6" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 351562b14d42fcefcbf00cc1f327680a1062bbbf67a1e1ca6acb64c473b06394
+    sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
