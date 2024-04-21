@@ -94,6 +94,8 @@ outputs:
         - openturns             # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
+        - libcxx-testing 0.18   # [osx]
+        - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
         - libcxx-testing 0.14   # [osx]
