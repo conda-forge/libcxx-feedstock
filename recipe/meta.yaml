@@ -32,6 +32,7 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
@@ -51,9 +52,12 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+      run_constrained:
+        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       requires:
         - clang                  # [osx]
