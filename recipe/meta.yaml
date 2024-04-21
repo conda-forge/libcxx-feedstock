@@ -32,9 +32,8 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - python >3               # [not osx]
-    # actually would need >=2.24, but we don't have that in conda-forge yet
-    - sysroot_linux-64 2.17   # [linux64]
   host:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
@@ -53,14 +52,12 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
-        # actually would need >=2.24, but we don't have that in conda-forge yet
-        - sysroot_linux-64 2.17  # [linux64]
+        - {{ stdlib('c') }}
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}           # [osx and x86_64]
       run_constrained:
-        - sysroot_linux-64 >=2.17                          # [linux64]
+        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       requires:
         - clang                  # [osx]
