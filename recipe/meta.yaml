@@ -1,4 +1,4 @@
-{% set version = "16.0.6" %}
+{% set version = "17.0.6" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,17 +6,17 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
+    sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
     patches:
-      - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
-      - patches/0002-Support-legacy-standalone-builds.patch
+      - patches/0001-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0003-Fix-ABI-compatibility-with-system.patch
-      - patches/0004-custom-error-message-for-old-sdk.patch
+      - patches/0002-Fix-ABI-compatibility-with-system.patch
+      - patches/0003-custom-error-message-for-old-sdk.patch
       # upstream removed fallbacks in case the underlying libc didn't support C11 in
       # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
-      # however, it seems that the then-required using_if_exists does not work as desired yet
-      - patches/0005-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      # using new libcxx with old clang versions (beyond what upstream supports) relies on
+      # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
+      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
   number: 0
@@ -32,6 +32,7 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
@@ -51,9 +52,12 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+      run_constrained:
+        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       requires:
         - clang                  # [osx]
@@ -74,10 +78,10 @@ outputs:
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
         # make sure we inserted link to our docs wherever it is necessary;
-        # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.9;
+        # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
         # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
-        # we want to have zero lines that don't either: contain the link or are for 10.9
-        - if [ 0 -eq $(cat ${PREFIX}/include/c++/v1/__availability | grep "availability(macos" | grep -vE "(conda-forge|10.9)" | wc -l) ]; then exit 0; else exit 1; fi  # [osx]
+        # we want to have zero lines that don't either: contain our link or are for <=10.13 (lowest occurring in that file is 10.9)
+        - if [ 0 -eq $(cat ${PREFIX}/include/c++/v1/__availability | grep "availability(macos" | grep -vE "(conda-forge|10.9|10.1[0-3])" | wc -l) ]; then exit 0; else exit 1; fi  # [osx]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
@@ -90,6 +94,8 @@ outputs:
         - openturns             # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
+        - libcxx-testing 0.18   # [osx]
+        - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
         - libcxx-testing 0.14   # [osx]
