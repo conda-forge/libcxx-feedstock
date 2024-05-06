@@ -49,6 +49,7 @@ outputs:
       - lib/libc++.*
       - lib/libc++fs.*
       - lib/libc++experimental.*
+      - lib/libunwind.*             # [osx]
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
