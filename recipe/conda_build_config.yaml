@@ -6,9 +6,9 @@ cxx_compiler:        # [osx]
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
 c_compiler_version:     # [linux]
-  - 12                  # [linux]
+  - 13                  # [linux]
 cxx_compiler_version:   # [linux]
-  - 12                  # [linux]
+  - 13                  # [linux]
 
 c_stdlib_version:           # [linux or (osx and x86_64)]
   # actually would need >=2.24, but we don't have that in conda-forge yet
