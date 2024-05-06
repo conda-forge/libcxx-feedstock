@@ -1,4 +1,4 @@
-From 428205712f3ebd4efb7b0ea71d9fa45e0b28fece Mon Sep 17 00:00:00 2001
+From 1e69aea47bc666836672f1da1c4f8d6a515e8689 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Wed, 8 Feb 2023 16:44:15 +1100
 Subject: [PATCH 4/4] Revert "[libc++] Remove workaround for C11 features on
@@ -12,11 +12,11 @@ This reverts commit 21f73d5826fb5024a27eaacafadfa316f58949c5.
  3 files changed, 84 insertions(+), 4 deletions(-)
 
 diff --git a/libcxx/include/__config b/libcxx/include/__config
-index 9759d3b9e8e0..9a27abe3367b 100644
+index 8b2eaf69d170..46159abad1ec 100644
 --- a/libcxx/include/__config
 +++ b/libcxx/include/__config
-@@ -556,6 +556,72 @@
- #    define _LIBCPP_NO_CFI
+@@ -611,6 +611,72 @@ _LIBCPP_HARDENING_MODE_DEBUG
+ #    define _LIBCPP_USING_DEV_RANDOM
  #  endif
  
 +// If the compiler supports using_if_exists, pretend we have those functions and they'll
@@ -89,13 +89,13 @@ index 9759d3b9e8e0..9a27abe3367b 100644
  
  #    define _LIBCPP_ALIGNOF(_Tp) alignof(_Tp)
 diff --git a/libcxx/include/cstdlib b/libcxx/include/cstdlib
-index ab2c159c7259..44a6f6a5dc36 100644
+index 9bf0ea3f73b1..d7a64fbd55a8 100644
 --- a/libcxx/include/cstdlib
 +++ b/libcxx/include/cstdlib
-@@ -140,11 +140,11 @@ using ::mbtowc _LIBCPP_USING_IF_EXISTS;
- using ::wctomb _LIBCPP_USING_IF_EXISTS;
+@@ -142,11 +142,11 @@ using ::wctomb _LIBCPP_USING_IF_EXISTS;
  using ::mbstowcs _LIBCPP_USING_IF_EXISTS;
  using ::wcstombs _LIBCPP_USING_IF_EXISTS;
+ #endif
 -#if !defined(_LIBCPP_CXX03_LANG)
 +#if !defined(_LIBCPP_CXX03_LANG) && defined(_LIBCPP_HAS_QUICK_EXIT)
  using ::at_quick_exit _LIBCPP_USING_IF_EXISTS;
