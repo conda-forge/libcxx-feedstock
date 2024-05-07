@@ -1,4 +1,4 @@
-{% set version = "17.0.6" %}
+{% set version = "18.1.5" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
+    sha256: 3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d019b67a57edd7de56
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
@@ -89,7 +89,7 @@ outputs:
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
-      downstreams:              # [osx]
+      downstreams:   # [osx]
         - python-symengine      # [osx]
         - openturns             # [osx]
         # test current libcxx against old clang builds;
