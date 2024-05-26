@@ -9,7 +9,7 @@ source:
     sha256: 2c01b2fbb06819a12a92056a7fd4edcdc385837942b5e5260b9c2c0baff5116b
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
-      # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
+      # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0002-Fix-ABI-compatibility-with-system.patch
       - patches/0003-custom-error-message-for-old-sdk.patch
       # upstream removed fallbacks in case the underlying libc didn't support C11 in
@@ -17,6 +17,7 @@ source:
       # using new libcxx with old clang versions (beyond what upstream supports) relies on
       # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      - patches/0005-set-CXX-as-language-for-libunwind-to-avoid-running-i.patch
 
 build:
   number: 0
