@@ -1,7 +1,7 @@
 From 32f4a92794c974403fab23fd5ce0468c8db0e4ce Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
-Subject: [PATCH 3/7] custom error message for old sdk
+Subject: [PATCH 3/8] custom error message for old sdk
 
 Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---

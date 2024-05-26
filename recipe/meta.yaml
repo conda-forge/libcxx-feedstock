@@ -20,6 +20,8 @@ source:
       - patches/0005-set-CXX-as-language-for-libunwind-to-avoid-running-i.patch     # [linux]
       - patches/0006-runtimes-remove-workaround-for-old-CMake-when-settin.patch     # [linux]
       - patches/0007-avoid-misdetection-of-dl-pthread-on-linux.patch                # [linux]
+      # backport pending fix for https://github.com/llvm/llvm-project/issues/77653
+      - patches/0008-backport-D148266.patch
 
 build:
   number: 0

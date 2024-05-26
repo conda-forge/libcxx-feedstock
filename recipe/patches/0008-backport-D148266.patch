@@ -1,0 +1,90 @@
+From b27e9f5223ae9a6e45801dd0a6b015e0e7720e6b Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sun, 26 May 2024 18:20:40 +1100
+Subject: [PATCH 8/8] backport D148266
+
+---
+ clang/lib/Driver/ToolChains/Darwin.cpp        | 11 ++++++++
+ .../Driver/darwin-header-search-libcxx.cpp    |  4 +--
+ .../darwin-link-libcxx-from-toolchain.cpp     | 28 +++++++++++++++++++
+ 3 files changed, 41 insertions(+), 2 deletions(-)
+ create mode 100644 clang/test/Driver/darwin-link-libcxx-from-toolchain.cpp
+
+diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChains/Darwin.cpp
+index fae8ad1a958a..e1841fd689bd 100644
+--- a/clang/lib/Driver/ToolChains/Darwin.cpp
++++ b/clang/lib/Driver/ToolChains/Darwin.cpp
+@@ -428,6 +428,17 @@ void darwin::Linker::AddLinkArgs(Compilation &C, const ArgList &Args,
+   Args.AddAllArgs(CmdArgs, options::OPT_sub__library);
+   Args.AddAllArgs(CmdArgs, options::OPT_sub__umbrella);
+ 
++  // Pass -L <toolchain-install>/bin/../lib/ to linker to prioritize toolchain's
++  // libc++.dylib over the sysroot-provided one. This matches what we do for
++  // determining which libc++ headers to use.
++  llvm::SmallString<128> InstallBinPath =
++      llvm::StringRef(D.getInstalledDir()); // <install>/bin
++  llvm::SmallString<128> LibCxxDylibDirPath = InstallBinPath;
++  llvm::sys::path::append(LibCxxDylibDirPath, "..",
++                          "lib"); // <install>/bin/../lib
++  CmdArgs.push_back("-L");
++  CmdArgs.push_back(C.getArgs().MakeArgString(LibCxxDylibDirPath));
++
+   // Give --sysroot= preference, over the Apple specific behavior to also use
+   // --isysroot as the syslibroot.
+   StringRef sysroot = C.getSysRoot();
+diff --git a/clang/test/Driver/darwin-header-search-libcxx.cpp b/clang/test/Driver/darwin-header-search-libcxx.cpp
+index 70cc06090a99..b8f9c6d99d0c 100644
+--- a/clang/test/Driver/darwin-header-search-libcxx.cpp
++++ b/clang/test/Driver/darwin-header-search-libcxx.cpp
+@@ -92,7 +92,7 @@
+ // CHECK-LIBCXX-SYSROOT_AND_TOOLCHAIN-1: "-internal-isystem" "[[TOOLCHAIN]]/usr/bin/../include/c++/v1"
+ // CHECK-LIBCXX-SYSROOT_AND_TOOLCHAIN-1-NOT: "-internal-isystem" "[[SYSROOT]]/usr/include/c++/v1"
+ 
+-// Make sure that using -nostdinc, -nostdinc++ or -nostdlib will drop both the toolchain
++// Make sure that using -nostdinc, -nostdinc++ or -nostdlibinc will drop both the toolchain
+ // C++ include path and the sysroot one.
+ //
+ // RUN: %clang -### %s -fsyntax-only 2>&1 \
+@@ -116,7 +116,7 @@
+ // RUN:     -isysroot %S/Inputs/basic_darwin_sdk_usr_cxx_v1 \
+ // RUN:     -stdlib=platform \
+ // RUN:     -nostdinc++ \
+-// RUN:   | FileCheck -DSYSROOT=%S/Inputs/basic_darwin_sdk_usr \
++// RUN:   | FileCheck -DSYSROOT=%S/Inputs/basic_darwin_sdk_usr_cxx_v1 \
+ // RUN:               -DTOOLCHAIN=%S/Inputs/basic_darwin_toolchain \
+ // RUN:               --check-prefix=CHECK-LIBCXX-NOSTDINCXX %s
+ // CHECK-LIBCXX-NOSTDINCXX: "-cc1"
+diff --git a/clang/test/Driver/darwin-link-libcxx-from-toolchain.cpp b/clang/test/Driver/darwin-link-libcxx-from-toolchain.cpp
+new file mode 100644
+index 000000000000..18fffd254597
+--- /dev/null
++++ b/clang/test/Driver/darwin-link-libcxx-from-toolchain.cpp
+@@ -0,0 +1,28 @@
++// UNSUPPORTED: system-windows
++
++// Tests to check that we pass -L <install>/bin/../lib/ to the linker to prioritize the toolchain's libc++.dylib over system's libc++.tbd in all cases.
++
++// Check that even if stdlib is not passed, on apple platforms we pass the toolchain's dylib path to the linker.
++
++// RUN: %clang -### %s 2>&1 \
++// RUN:     --target=x86_64-apple-darwin \
++// RUN:     -ccc-install-dir %S/Inputs/basic_darwin_toolchain_no_libcxx/usr/bin \
++// RUN:   | FileCheck -DTOOLCHAIN=%S/Inputs/basic_darwin_toolchain_no_libcxx \
++// RUN:               --check-prefix=CHECK-TOOLCHAIN-LIBCXX-LINKING-1 %s
++
++// Check with -stdlib on both cases of toolchain installations (with and without libcxx).
++
++// RUN: %clang -### %s 2>&1 \
++// RUN:     --target=x86_64-apple-darwin \
++// RUN:     -stdlib=libc++ \
++// RUN:     -ccc-install-dir %S/Inputs/basic_darwin_toolchain_no_libcxx/usr/bin \
++// RUN:   | FileCheck -DTOOLCHAIN=%S/Inputs/basic_darwin_toolchain_no_libcxx --check-prefix=CHECK-TOOLCHAIN-LIBCXX-LINKING-1 %s
++
++// RUN: %clang -### %s 2>&1 \
++// RUN:     --target=x86_64-apple-darwin \
++// RUN:     -stdlib=libc++ \
++// RUN:     -ccc-install-dir %S/Inputs/basic_darwin_toolchain/usr/bin \
++// RUN:   | FileCheck -DTOOLCHAIN=%S/Inputs/basic_darwin_toolchain --check-prefix=CHECK-TOOLCHAIN-LIBCXX-LINKING-1 %s
++
++// CHECK-TOOLCHAIN-LIBCXX-LINKING-1: "/usr/bin/ld"
++// CHECK-TOOLCHAIN-LIBCXX-LINKING-1: "-L" "[[TOOLCHAIN]]/usr/bin/../lib"
