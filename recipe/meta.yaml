@@ -16,7 +16,7 @@ source:
       # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
       # using new libcxx with old clang versions (beyond what upstream supports) relies on
       # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
-      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      # - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
       - patches/0005-set-CXX-as-language-for-libunwind-to-avoid-running-i.patch     # [linux]
       - patches/0006-runtimes-remove-workaround-for-old-CMake-when-settin.patch     # [linux]
       - patches/0007-avoid-misdetection-of-dl-pthread-on-linux.patch                # [linux]
