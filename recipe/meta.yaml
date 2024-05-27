@@ -55,7 +55,7 @@ outputs:
         - {{ stdlib('c') }}
       host:
       run:
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+        - {{ pin_subpackage("libcxxabi", exact=True) }}
       run_constrained:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
@@ -104,8 +104,6 @@ outputs:
         - libcxx-testing 0.11   # [osx]
 
   - name: libcxxabi
-    build:
-      skip: true  # [not linux]
     files:
       - lib/libc++abi.*
     requirements:
