@@ -20,6 +20,8 @@ source:
 
 build:
   number: 1
+  # debug: only interested in osx for now
+  skip: true  # [not osx]
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
