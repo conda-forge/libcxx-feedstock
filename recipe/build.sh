@@ -1,5 +1,22 @@
 set -ex
 
+get_cpu_arch() {
+    local CPU_ARCH
+    if [[ "$1" == *"-64" ]]; then
+        CPU_ARCH="x86_64"
+    elif [[ "$1" == *"-ppc64le" ]]; then
+        CPU_ARCH="powerpc64le"
+    elif [[ "$1" == *"-aarch64" ]]; then
+        CPU_ARCH="aarch64"
+    elif [[ "$1" == *"-s390x" ]]; then
+        CPU_ARCH="s390x"
+    else
+        echo "Unknown architecture"
+        exit 1
+    fi
+    echo $CPU_ARCH
+}
+
 LLVM_PREFIX=$PREFIX
 
 if [[ "$target_platform" == osx-* ]]; then
@@ -8,6 +25,11 @@ if [[ "$target_platform" == osx-* ]]; then
     export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT"
 
     export CMAKE_EXTRA_ARGS="-DCMAKE_OSX_SYSROOT=$CONDA_BUILD_SYSROOT -DLIBCXX_ENABLE_VENDOR_AVAILABILITY_ANNOTATIONS=ON"
+else
+    # should be cross_target_platform, but we're not cross-compiling here
+    SYSROOT_PREFIX="$BUILD_PREFIX/$(get_cpu_arch $target_platform)-conda-linux-gnu/sysroot/lib64"
+    # need sysroot for linking libdl and libpthread
+    export LDFLAGS="$LDFLAGS -L$SYSROOT_PREFIX -Wl,-rpath,$SYSROOT_PREFIX"
 fi
 
 export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"

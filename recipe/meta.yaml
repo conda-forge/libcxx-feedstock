@@ -1,4 +1,4 @@
-{% set version = "17.0.6" %}
+{% set version = "18.1.4" %}
 
 package:
   name: libcxx_and_libcxxabi
@@ -6,17 +6,21 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
+    sha256: 2c01b2fbb06819a12a92056a7fd4edcdc385837942b5e5260b9c2c0baff5116b
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
-      # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0002-Fix-ABI-compatibility-with-system.patch
+      # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
+      # - patches/0002-Fix-ABI-compatibility-with-system.patch
       - patches/0003-custom-error-message-for-old-sdk.patch
       # upstream removed fallbacks in case the underlying libc didn't support C11 in
       # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
       # using new libcxx with old clang versions (beyond what upstream supports) relies on
       # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
-      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      # - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      - patches/0005-set-CXX-as-language-for-libunwind-to-avoid-running-i.patch     # [linux]
+      - patches/0006-runtimes-remove-workaround-for-old-CMake-when-settin.patch     # [linux]
+      - patches/0007-avoid-misdetection-of-dl-pthread-on-linux.patch                # [linux]
+      - patches/0008-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
 
 build:
   number: 0
@@ -46,6 +50,7 @@ outputs:
       - lib/libc++.*
       - lib/libc++fs.*
       - lib/libc++experimental.*
+      - lib/libunwind.*
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
@@ -98,10 +103,6 @@ outputs:
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
-        - libcxx-testing 0.14   # [osx]
-        - libcxx-testing 0.13   # [osx]
-        - libcxx-testing 0.12   # [osx]
-        - libcxx-testing 0.11   # [osx]
 
   - name: libcxxabi
     build:
