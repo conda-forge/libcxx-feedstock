@@ -1,5 +1,9 @@
 {% set version = "16.0.6" %}
 
+{% if sys_abi is undefined %}
+{% set sys_abi = "dummy" %}
+{% endif %}
+
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
@@ -10,8 +14,8 @@ source:
     patches:
       - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
       - patches/0002-Support-legacy-standalone-builds.patch
-      # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0003-Fix-ABI-compatibility-with-system.patch
+      # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
+      - patches/0003-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0004-custom-error-message-for-old-sdk.patch
       # upstream removed fallbacks in case the underlying libc didn't support C11 in
       # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
@@ -26,6 +30,9 @@ build:
     - libstdcxx-ng
   missing_dso_whitelist:
     - /usr/lib/libc++abi.dylib
+
+# use selectors here so smithy breaks up CI jobs
+# [sys_abi]
 
 requirements:
   build:
@@ -57,7 +64,11 @@ outputs:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
+        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+
+    # package for old sys_abi is not installable on macOS-12 image anymore
+    {% if sys_abi != "pre-12" %}
     test:
       requires:
         - clang                  # [osx]
@@ -73,6 +84,7 @@ outputs:
       commands:
         # Dummy var for different hashes
         - echo {{ dummy_var }}                                    # [osx]
+        - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
         - bash compile_test.sh                                    # [unix]
@@ -94,12 +106,14 @@ outputs:
         - openturns             # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
+        # these tests are unusual in that they use -Wl,-rpath, but not -L.
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
         - libcxx-testing 0.14   # [osx]
         - libcxx-testing 0.13   # [osx]
         - libcxx-testing 0.12   # [osx]
         - libcxx-testing 0.11   # [osx]
+    {% endif %}
 
   - name: libcxxabi
     build:
