@@ -9,7 +9,7 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
+  - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
     sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
