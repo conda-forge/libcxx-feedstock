@@ -10,7 +10,7 @@ source:
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
       # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0002-Fix-ABI-compatibility-with-system.patch
+      - patches/0002-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0003-custom-error-message-for-old-sdk.patch
       # upstream removed fallbacks in case the underlying libc didn't support C11 in
       # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
@@ -32,7 +32,10 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
-    - {{ stdlib('c') }}
+    - {{ stdlib('c') }}       # [not osx]
+    # use sys_abi as selector, so smithy breaks up CI jobs
+    - {{ stdlib('c') }}       # [osx and (sys_abi == "pre-12")]
+    - {{ stdlib('c') }}       # [osx and (sys_abi == "post-12")]
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
@@ -57,6 +60,7 @@ outputs:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
+        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       requires:
@@ -73,6 +77,7 @@ outputs:
       commands:
         # Dummy var for different hashes
         - echo {{ dummy_var }}                                    # [osx]
+        - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
         - bash compile_test.sh                                    # [unix]
