@@ -36,17 +36,31 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64</td>
+              <td>osx_64_c_stdlib_version10.13sys_abipre-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_c_stdlib_version10.13sys_abipre-12" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64</td>
+              <td>osx_64_c_stdlib_version12.0sys_abipost-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_c_stdlib_version12.0sys_abipost-12" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_c_stdlib_version11.0sys_abipre-12</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_c_stdlib_version11.0sys_abipre-12" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_c_stdlib_version12.0sys_abipost-12</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_c_stdlib_version12.0sys_abipost-12" alt="variant">
                 </a>
               </td>
             </tr>

@@ -5,14 +5,20 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macOS-11
+    vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_:
-        CONFIG: osx_64_
+      osx_64_c_stdlib_version10.13sys_abipre-12:
+        CONFIG: osx_64_c_stdlib_version10.13sys_abipre-12
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_:
-        CONFIG: osx_arm64_
+      osx_64_c_stdlib_version12.0sys_abipost-12:
+        CONFIG: osx_64_c_stdlib_version12.0sys_abipost-12
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_c_stdlib_version11.0sys_abipre-12:
+        CONFIG: osx_arm64_c_stdlib_version11.0sys_abipre-12
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_c_stdlib_version12.0sys_abipost-12:
+        CONFIG: osx_arm64_c_stdlib_version12.0sys_abipost-12
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables: {}
