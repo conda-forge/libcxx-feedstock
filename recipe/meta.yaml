@@ -1,4 +1,4 @@
-{% set version = "17.0.6" %}
+{% set version = "18.1.8" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -10,7 +10,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
+    sha256: 09c08693a9afd6236f27a2ebae62cda656eba19021ef3f94d59e931d662d4856
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
@@ -23,7 +23,7 @@ source:
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
