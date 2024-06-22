@@ -21,6 +21,8 @@ source:
       # using new libcxx with old clang versions (beyond what upstream supports) relies on
       # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      # fix for https://github.com/llvm/llvm-project/issues/77653
+      - patches/0005-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
 
 build:
   number: 0
