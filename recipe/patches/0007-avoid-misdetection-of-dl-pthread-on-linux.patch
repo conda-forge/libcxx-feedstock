@@ -1,0 +1,24 @@
+From 8ca66527c9f7930a153ee8be487aa77734277967 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sun, 26 May 2024 15:35:03 +1100
+Subject: [PATCH 7/7] avoid misdetection of dl/pthread on linux
+
+---
+ libunwind/cmake/config-ix.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libunwind/cmake/config-ix.cmake b/libunwind/cmake/config-ix.cmake
+index 126c872f0d48..7b5ff47ac011 100644
+--- a/libunwind/cmake/config-ix.cmake
++++ b/libunwind/cmake/config-ix.cmake
+@@ -120,8 +120,8 @@ if(FUCHSIA)
+   set(LIBUNWIND_HAS_DL_LIB NO)
+   set(LIBUNWIND_HAS_PTHREAD_LIB NO)
+ else()
+-  check_library_exists(dl dladdr "" LIBUNWIND_HAS_DL_LIB)
+-  check_library_exists(pthread pthread_once "" LIBUNWIND_HAS_PTHREAD_LIB)
++  set(LIBUNWIND_HAS_DL_LIB YES)
++  set(LIBUNWIND_HAS_PTHREAD_LIB YES)
+ endif()
+ 
+ if(HAIKU)

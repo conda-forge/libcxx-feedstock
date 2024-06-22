@@ -25,6 +25,8 @@ source:
       - patches/0005-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
       # GCC's C linker does not understand -nostdlib++; needs CXX
       - patches/0006-set-CXX-as-language-for-libunwind-to-avoid-running-i.patch
+      # something broke detection of dladdr on linux
+      - patches/0007-avoid-misdetection-of-dl-pthread-on-linux.patch
 
 build:
   number: 0
