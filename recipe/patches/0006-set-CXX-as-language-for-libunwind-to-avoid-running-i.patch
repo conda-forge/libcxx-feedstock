@@ -1,0 +1,32 @@
+From 7d1809e27c49dadf14b791cdc93a1ea58a2d8def Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sun, 26 May 2024 13:01:28 +1100
+Subject: [PATCH 6/6] set CXX as language for libunwind to avoid running into
+ unknown flags for CC
+
+---
+ libunwind/src/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libunwind/src/CMakeLists.txt b/libunwind/src/CMakeLists.txt
+index 780430ba70ba..2cf2c8c0f1f7 100644
+--- a/libunwind/src/CMakeLists.txt
++++ b/libunwind/src/CMakeLists.txt
+@@ -168,7 +168,7 @@ if (LIBUNWIND_ENABLE_SHARED)
+   set_target_properties(unwind_shared
+     PROPERTIES
+       LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
+-      LINKER_LANGUAGE C
++      LINKER_LANGUAGE CXX
+       OUTPUT_NAME "${LIBUNWIND_SHARED_OUTPUT_NAME}"
+       VERSION "1.0"
+       SOVERSION "1"
+@@ -214,7 +214,7 @@ if (LIBUNWIND_ENABLE_STATIC)
+   set_target_properties(unwind_static
+     PROPERTIES
+       LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
+-      LINKER_LANGUAGE C
++      LINKER_LANGUAGE CXX
+       OUTPUT_NAME "${LIBUNWIND_STATIC_OUTPUT_NAME}"
+   )
+ 

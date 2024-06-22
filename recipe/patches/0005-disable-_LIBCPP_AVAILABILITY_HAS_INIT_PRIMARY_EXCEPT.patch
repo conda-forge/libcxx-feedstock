@@ -1,7 +1,7 @@
 From 5499430ec91578805ae0ca5fd5c994f29e41b01d Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 22:04:04 +1100
-Subject: [PATCH 5/5] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
+Subject: [PATCH 5/6] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
  unconditionally
 
 https://github.com/llvm/llvm-project/issues/77653
