@@ -1,11 +1,11 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '11.0'
+- '12.0'
 MACOSX_SDK_VERSION:
-- '11.0'
+- '12.3'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '11.0'
+- '12.0'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -19,7 +19,7 @@ dummy_var:
 macos_machine:
 - arm64-apple-darwin20.0.0
 sys_abi:
-- pre-12
+- post-12
 target_platform:
 - osx-arm64
 zip_keys:
@@ -27,3 +27,4 @@ zip_keys:
   - MACOSX_SDK_VERSION
   - MACOSX_DEPLOYMENT_TARGET
   - sys_abi
+  - channel_targets

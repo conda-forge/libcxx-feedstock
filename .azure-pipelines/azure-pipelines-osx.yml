@@ -6,20 +6,20 @@ jobs:
 - job: osx
   strategy:
     matrix:
-      osx_64_c_stdlib_version10.13sys_abipre-12:
-        CONFIG: osx_64_c_stdlib_version10.13sys_abipre-12
+      osx_64_c_stdlib_version10.13channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12:
+        CONFIG: osx_64_c_stdlib_version10.13channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12
         UPLOAD_PACKAGES: 'True'
         imageName: 'macOS-11'
-      osx_64_c_stdlib_version12.0sys_abipost-12:
-        CONFIG: osx_64_c_stdlib_version12.0sys_abipost-12
+      osx_64_c_stdlib_version12.0channel_targetsconda-forge_mainsys_abipost-12:
+        CONFIG: osx_64_c_stdlib_version12.0channel_targetsconda-forge_mainsys_abipost-12
         UPLOAD_PACKAGES: 'True'
         imageName: 'macOS-12'
-      osx_arm64_c_stdlib_version11.0sys_abipre-12:
-        CONFIG: osx_arm64_c_stdlib_version11.0sys_abipre-12
+      osx_arm64_c_stdlib_version11.0channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12:
+        CONFIG: osx_arm64_c_stdlib_version11.0channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12
         UPLOAD_PACKAGES: 'True'
         imageName: 'macOS-11'
-      osx_arm64_c_stdlib_version12.0sys_abipost-12:
-        CONFIG: osx_arm64_c_stdlib_version12.0sys_abipost-12
+      osx_arm64_c_stdlib_version12.0channel_targetsconda-forge_mainsys_abipost-12:
+        CONFIG: osx_arm64_c_stdlib_version12.0channel_targetsconda-forge_mainsys_abipost-12
         UPLOAD_PACKAGES: 'True'
         imageName: 'macOS-12'
   pool:
