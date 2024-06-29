@@ -16,11 +16,6 @@ source:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0002-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0003-custom-error-message-for-old-sdk.patch
-      # upstream removed fallbacks in case the underlying libc didn't support C11 in
-      # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
-      # using new libcxx with old clang versions (beyond what upstream supports) relies on
-      # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
-      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
       # fix for https://github.com/llvm/llvm-project/issues/77653
       - patches/0005-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
       # GCC's C linker does not understand -nostdlib++; needs CXX
