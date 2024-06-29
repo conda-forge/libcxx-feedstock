@@ -119,10 +119,6 @@ outputs:
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
-        - libcxx-testing 0.14   # [osx]
-        - libcxx-testing 0.13   # [osx]
-        - libcxx-testing 0.12   # [osx]
-        - libcxx-testing 0.11   # [osx]
     {% endif %}
 
   - name: libcxxabi
