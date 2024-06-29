@@ -19,7 +19,7 @@ source:
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
