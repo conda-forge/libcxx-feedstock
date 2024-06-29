@@ -1,5 +1,9 @@
 {% set version = "17.0.6" %}
 
+{% if sys_abi is undefined %}
+{% set sys_abi = "dummy" %}
+{% endif %}
+
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
@@ -62,6 +66,9 @@ outputs:
       run_constrained:
         - __osx <12                                        # [osx and (sys_abi == "pre-12")]
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+
+    # package for old sys_abi is not installable on macOS-12 image anymore
+    {% if sys_abi != "pre-12" %}
     test:
       requires:
         - clang                  # [osx]
@@ -99,7 +106,6 @@ outputs:
         - openturns             # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
-        {% if osx and sys_abi == "post-12" %}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
         # we'd need the pre-12 system libcxx, but azure deleted the macOS-11 image
         - libcxx-testing 0.18   # [osx]
@@ -110,7 +116,7 @@ outputs:
         - libcxx-testing 0.13   # [osx]
         - libcxx-testing 0.12   # [osx]
         - libcxx-testing 0.11   # [osx]
-        {% endif %}
+    {% endif %}
 
   - name: libcxxabi
     build:
