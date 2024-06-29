@@ -99,6 +99,9 @@ outputs:
         - openturns             # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
+        {% if osx and sys_abi == "post-12" %}
+        # these tests are unusual in that they use -Wl,-rpath, but not -L.
+        # we'd need the pre-12 system libcxx, but azure deleted the macOS-11 image
         - libcxx-testing 0.18   # [osx]
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
@@ -107,6 +110,7 @@ outputs:
         - libcxx-testing 0.13   # [osx]
         - libcxx-testing 0.12   # [osx]
         - libcxx-testing 0.11   # [osx]
+        {% endif %}
 
   - name: libcxxabi
     build:
