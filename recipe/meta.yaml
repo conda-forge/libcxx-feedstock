@@ -121,6 +121,9 @@ outputs:
     files:
       - lib/libc++abi.*
     requirements:
+      build:
+        # for run-exports
+        - {{ stdlib('c') }}
       run_constrained:
         - libcxx {{ version }}.*
     test:
