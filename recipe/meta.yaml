@@ -54,7 +54,6 @@ outputs:
       - lib/libc++.*
       - lib/libc++fs.*
       - lib/libc++experimental.*
-      - lib/libunwind.*
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
@@ -125,11 +124,26 @@ outputs:
       build:
         # for run-exports
         - {{ stdlib('c') }}
+      run:
+        - {{ pin_subpackage("libunwind", exact=True) }}  # [linux]
+    test:
+      commands:
+        - test -f $PREFIX/lib/libc++abi.so  # [linux]
+
+  - name: libunwind
+    build:
+      skip: true  # [not linux]
+    files:
+      - lib/libunwind.*
+    requirements:
+      build:
+        # for run-exports
+        - {{ stdlib('c') }}
       run_constrained:
         - libcxx {{ version }}.*
     test:
       commands:
-        - test -f $PREFIX/lib/libc++abi.so  # [linux]
+        - test -f $PREFIX/lib/libunwind.so  # [linux]
 
 about:
   home: http://libcxx.llvm.org/
