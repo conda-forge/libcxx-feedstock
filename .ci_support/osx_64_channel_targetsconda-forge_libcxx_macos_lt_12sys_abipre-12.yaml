@@ -23,8 +23,5 @@ sys_abi:
 target_platform:
 - osx-64
 zip_keys:
-- - c_stdlib_version
-  - MACOSX_SDK_VERSION
-  - MACOSX_DEPLOYMENT_TARGET
-  - sys_abi
+- - sys_abi
   - channel_targets
