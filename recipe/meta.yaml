@@ -16,12 +16,10 @@ source:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0002-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0003-custom-error-message-for-old-sdk.patch
-      # fix for https://github.com/llvm/llvm-project/issues/77653
+      # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0005-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
-      # GCC's C linker does not understand -nostdlib++; needs CXX
-      - patches/0006-set-CXX-as-language-for-libunwind-to-avoid-running-i.patch
-      # something broke detection of dladdr on linux
-      - patches/0007-avoid-misdetection-of-dl-pthread-on-linux.patch
+      # work around https://github.com/llvm/llvm-project/issues/90332
+      - patches/0006-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
   number: 0
