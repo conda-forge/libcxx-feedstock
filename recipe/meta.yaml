@@ -22,7 +22,7 @@ source:
       - patches/0006-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -40,9 +40,11 @@ requirements:
     - {{ stdlib('c') }}       # [osx and (sys_abi == "pre-12")]
     - {{ stdlib('c') }}       # [osx and (sys_abi == "post-12")]
     - python >3               # [not osx]
+    - patchelf                # [linux]
   host:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
+    - libunwind               # [linux]
 
 outputs:
   - name: libcxx
@@ -60,6 +62,7 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
       host:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
@@ -122,26 +125,13 @@ outputs:
       build:
         # for run-exports
         - {{ stdlib('c') }}
+      host:
+        - libunwind     # [linux]
       run:
-        - {{ pin_subpackage("libunwind", exact=True) }}  # [linux]
+        - libunwind     # [linux]
     test:
       commands:
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
-
-  - name: libunwind
-    build:
-      skip: true  # [not linux]
-    files:
-      - lib/libunwind.*
-    requirements:
-      build:
-        # for run-exports
-        - {{ stdlib('c') }}
-      run_constrained:
-        - libcxx {{ version }}.*
-    test:
-      commands:
-        - test -f $PREFIX/lib/libunwind.so  # [linux]
 
 about:
   home: http://libcxx.llvm.org/

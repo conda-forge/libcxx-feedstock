@@ -41,4 +41,13 @@ if [[ "$target_platform" == osx-* ]]; then
     $INSTALL_NAME_TOOL -change "@rpath/libc++abi.1.dylib" "/usr/lib/libc++abi.dylib" $PREFIX/lib/libc++.1.0.dylib
     # same for libunwind
     $INSTALL_NAME_TOOL -change "@rpath/libunwind.1.dylib" "/usr/lib/system/libunwind.dylib" $PREFIX/lib/libc++.1.0.dylib
+else
+    # point libcxxabi & libcxx (the actual libs, not the symlinks) to the
+    # libunwind from https://github.com/conda-forge/libunwind-feedstock
+    for f in $PREFIX/lib/libc++abi.so.1.0 $PREFIX/lib/libc++.so.1.0; do
+        # first SOVER is the one from LLVM, the second is what we're replacing it with
+        patchelf --replace-needed libunwind.so.1 libunwind.so.8 --output patched $f
+        chmod +x patched
+        mv patched $f
+    done
 fi
