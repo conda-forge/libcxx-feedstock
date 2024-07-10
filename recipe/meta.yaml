@@ -1,4 +1,4 @@
-{% set version = "17.0.6" %}
+{% set version = "18.1.8" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -9,21 +9,20 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
+  - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
+    sha256: 09c08693a9afd6236f27a2ebae62cda656eba19021ef3f94d59e931d662d4856
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0002-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0003-custom-error-message-for-old-sdk.patch
-      # upstream removed fallbacks in case the underlying libc didn't support C11 in
-      # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
-      # using new libcxx with old clang versions (beyond what upstream supports) relies on
-      # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
-      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      # disable feature that requires up-to-date libcxxabi, which we don't ship
+      - patches/0005-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
+      # work around https://github.com/llvm/llvm-project/issues/90332
+      - patches/0006-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 3
+  number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -112,10 +111,6 @@ outputs:
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
-        - libcxx-testing 0.14   # [osx]
-        - libcxx-testing 0.13   # [osx]
-        - libcxx-testing 0.12   # [osx]
-        - libcxx-testing 0.11   # [osx]
     {% endif %}
 
   - name: libcxxabi
@@ -124,11 +119,29 @@ outputs:
     files:
       - lib/libc++abi.*
     requirements:
+      build:
+        # for run-exports
+        - {{ stdlib('c') }}
+      run:
+        - {{ pin_subpackage("libunwind", exact=True) }}  # [linux]
+    test:
+      commands:
+        - test -f $PREFIX/lib/libc++abi.so  # [linux]
+
+  - name: libunwind
+    build:
+      skip: true  # [not linux]
+    files:
+      - lib/libunwind.*
+    requirements:
+      build:
+        # for run-exports
+        - {{ stdlib('c') }}
       run_constrained:
         - libcxx {{ version }}.*
     test:
       commands:
-        - test -f $PREFIX/lib/libc++abi.so  # [linux]
+        - test -f $PREFIX/lib/libunwind.so  # [linux]
 
 about:
   home: http://libcxx.llvm.org/

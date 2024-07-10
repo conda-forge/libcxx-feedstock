@@ -25,6 +25,7 @@ cmake -G Ninja \
     -DLIBCXX_INCLUDE_BENCHMARKS=OFF \
     -DLIBCXX_INCLUDE_DOCS=OFF \
     -DLIBCXX_INCLUDE_TESTS=OFF \
+    -DLIBCXX_HARDENING_MODE="fast" \
     -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
     $CMAKE_ARGS \
     $CMAKE_EXTRA_ARGS
@@ -38,4 +39,6 @@ ninja -C build install-cxx install-cxxabi install-unwind
 if [[ "$target_platform" == osx-* ]]; then
     # on osx we point libc++ to the system libc++abi
     $INSTALL_NAME_TOOL -change "@rpath/libc++abi.1.dylib" "/usr/lib/libc++abi.dylib" $PREFIX/lib/libc++.1.0.dylib
+    # same for libunwind
+    $INSTALL_NAME_TOOL -change "@rpath/libunwind.1.dylib" "/usr/lib/system/libunwind.dylib" $PREFIX/lib/libc++.1.0.dylib
 fi
