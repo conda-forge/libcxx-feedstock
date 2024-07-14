@@ -8,17 +8,17 @@ jobs:
     vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12:
-        CONFIG: osx_64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12
+      osx_64_sys_abipost-12:
+        CONFIG: osx_64_sys_abipost-12
         UPLOAD_PACKAGES: 'True'
-      osx_64_channel_targetsconda-forge_mainsys_abipost-12:
-        CONFIG: osx_64_channel_targetsconda-forge_mainsys_abipost-12
+      osx_64_sys_abipre-12:
+        CONFIG: osx_64_sys_abipre-12
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12:
-        CONFIG: osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12
+      osx_arm64_sys_abipost-12:
+        CONFIG: osx_arm64_sys_abipost-12
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_channel_targetsconda-forge_mainsys_abipost-12:
-        CONFIG: osx_arm64_channel_targetsconda-forge_mainsys_abipost-12
+      osx_arm64_sys_abipre-12:
+        CONFIG: osx_arm64_sys_abipre-12
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables: {}
