@@ -3,9 +3,6 @@ c_compiler:          # [osx]
 cxx_compiler:        # [osx]
   - clang_bootstrap  # [osx]
 
-channel_targets:
-  - conda-forge libcxx_dev
-
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
 c_compiler_version:     # [unix]
@@ -37,11 +34,5 @@ sys_abi:                    # [osx]
   - pre-12                  # [osx]
   - post-12                 # [osx]
 
-# publish the pre-12 ABI builds to a separate label
-channel_targets:                    # [osx]
-  - conda-forge libcxx_macos_lt_12  # [osx]
-  - conda-forge main                # [osx]
-
-zip_keys:                       # [osx]
-  - - sys_abi                   # [osx]
-    - channel_targets           # [osx]
+channel_targets:
+  - conda-forge libcxx_dev
