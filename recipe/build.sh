@@ -39,8 +39,6 @@ ninja -C build install-cxx install-cxxabi install-unwind
 if [[ "$target_platform" == osx-* ]]; then
     # on osx we point libc++ to the system libc++abi
     $INSTALL_NAME_TOOL -change "@rpath/libc++abi.1.dylib" "/usr/lib/libc++abi.dylib" $PREFIX/lib/libc++.1.0.dylib
-    # same for libunwind
-    $INSTALL_NAME_TOOL -change "@rpath/libunwind.1.dylib" "/usr/lib/system/libunwind.dylib" $PREFIX/lib/libc++.1.0.dylib
 else
     # point libcxxabi & libcxx (the actual libs, not the symlinks) to the
     # libunwind from https://github.com/conda-forge/libunwind-feedstock
