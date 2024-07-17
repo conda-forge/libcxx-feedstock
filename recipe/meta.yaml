@@ -1,9 +1,5 @@
 {% set version = "18.1.8" %}
 
-{% if sys_abi is undefined %}
-{% set sys_abi = "dummy" %}
-{% endif %}
-
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
@@ -13,8 +9,6 @@ source:
     sha256: 09c08693a9afd6236f27a2ebae62cda656eba19021ef3f94d59e931d662d4856
     patches:
       - patches/0001-Support-legacy-standalone-builds.patch
-      # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
-      - patches/0002-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0003-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0005-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
@@ -35,10 +29,7 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
-    - {{ stdlib('c') }}       # [not osx]
-    # use sys_abi as selector, so smithy breaks up CI jobs
-    - {{ stdlib('c') }}       # [osx and (sys_abi == "pre-12")]
-    - {{ stdlib('c') }}       # [osx and (sys_abi == "post-12")]
+    - {{ stdlib('c') }}
     - python >3               # [not osx]
     - patchelf                # [linux]
   host:
@@ -66,11 +57,8 @@ outputs:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
-        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
 
-    # package for old sys_abi is not installable on macOS-12 image anymore
-    {% if sys_abi != "pre-12" %}
     test:
       requires:
         - clang                  # [osx]
@@ -86,7 +74,6 @@ outputs:
       commands:
         # Dummy var for different hashes
         - echo {{ dummy_var }}                                    # [osx]
-        - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
         - bash compile_test.sh                                    # [unix]
@@ -114,7 +101,6 @@ outputs:
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
-    {% endif %}
 
   - name: libcxxabi
     build:
