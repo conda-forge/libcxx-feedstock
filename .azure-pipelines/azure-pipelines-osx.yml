@@ -8,17 +8,11 @@ jobs:
     vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_sys_abipost-12:
-        CONFIG: osx_64_sys_abipost-12
+      osx_64_:
+        CONFIG: osx_64_
         UPLOAD_PACKAGES: 'True'
-      osx_64_sys_abipre-12:
-        CONFIG: osx_64_sys_abipre-12
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_sys_abipost-12:
-        CONFIG: osx_arm64_sys_abipost-12
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_sys_abipre-12:
-        CONFIG: osx_arm64_sys_abipre-12
+      osx_arm64_:
+        CONFIG: osx_arm64_
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables: {}
