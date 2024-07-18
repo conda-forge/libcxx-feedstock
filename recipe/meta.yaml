@@ -16,7 +16,7 @@ source:
       - patches/0006-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -45,6 +45,8 @@ outputs:
       - lib/libc++.*
       - lib/libc++fs.*
       - lib/libc++experimental.*
+      - lib/libc++abi.*             # [osx]
+      - lib/libunwind.*             # [osx]
       - Library/bin/c++*.dll
       - Library/lib/c++*.lib
       - Library/lib/libc++*.lib
@@ -85,7 +87,7 @@ outputs:
         - if [ 0 -eq $(cat ${PREFIX}/include/c++/v1/__availability | grep "availability(macos" | grep -vE "(conda-forge|10.9|10.1[0-3])" | wc -l) ]; then exit 0; else exit 1; fi  # [osx]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
-        - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
+        # - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
         - test -f $PREFIX/lib/libc++abi.so                        # [linux]
 
       # Following 2 projects had issues with libc++, so check them
