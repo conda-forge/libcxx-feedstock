@@ -18,13 +18,14 @@ dummy_var:              # [osx]
   - 1                   # [osx and arm64]
 
 MACOSX_SDK_VERSION:         # [osx]
-  # 12.0 is not available
-  - "12.3"                  # [osx]
+  - "10.14"                 # [osx and x86_64]
+  - "11.0"                  # [osx and arm64]
 
-c_stdlib_version:           # [unix]
+c_stdlib_version:           # [linux]
   # actually would need >=2.24, but we don't have that in conda-forge yet
   - "2.17"                  # [linux]
-  - "12.0"                  # [osx]
+  # w.r.t. to the ABI of the system libcxx, this would need to be 12.0 on macos
+  # but as we only publish one build to main, maintain global lower bounds
 
 channel_targets:
   - conda-forge libcxx_dev
