@@ -1,0 +1,72 @@
+From 46bea2a31254d1d997c220685742f68f02f1f351 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sun, 26 May 2024 13:01:28 +1100
+Subject: [PATCH 4/4] Work around stray `-nostdlib++` flags causing errors with
+ C compiler
+
+---
+ libcxxabi/cmake/config-ix.cmake | 7 +++++--
+ libunwind/cmake/config-ix.cmake | 7 +++++--
+ libunwind/src/CMakeLists.txt    | 6 ++++--
+ 3 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/libcxxabi/cmake/config-ix.cmake b/libcxxabi/cmake/config-ix.cmake
+index 10f2087c68c5..c0e58f8b255c 100644
+--- a/libcxxabi/cmake/config-ix.cmake
++++ b/libcxxabi/cmake/config-ix.cmake
+@@ -106,8 +106,11 @@ elseif(ANDROID)
+   check_library_exists(c __cxa_thread_atexit_impl ""
+     LIBCXXABI_HAS_CXA_THREAD_ATEXIT_IMPL)
+ else()
+-  check_library_exists(dl dladdr "" LIBCXXABI_HAS_DL_LIB)
+-  check_library_exists(pthread pthread_once "" LIBCXXABI_HAS_PTHREAD_LIB)
++  # misdetected due to https://github.com/llvm/llvm-project/issues/90332
++  # check_library_exists(dl dladdr "" LIBCXXABI_HAS_DL_LIB)
++  # check_library_exists(pthread pthread_once "" LIBCXXABI_HAS_PTHREAD_LIB)
++  set(LIBCXXABI_HAS_DL_LIB YES)
++  set(LIBCXXABI_HAS_PTHREAD_LIB YES)
+   check_library_exists(c __cxa_thread_atexit_impl ""
+     LIBCXXABI_HAS_CXA_THREAD_ATEXIT_IMPL)
+ endif()
+diff --git a/libunwind/cmake/config-ix.cmake b/libunwind/cmake/config-ix.cmake
+index 126c872f0d48..ab9ea1d5ce01 100644
+--- a/libunwind/cmake/config-ix.cmake
++++ b/libunwind/cmake/config-ix.cmake
+@@ -120,8 +120,11 @@ if(FUCHSIA)
+   set(LIBUNWIND_HAS_DL_LIB NO)
+   set(LIBUNWIND_HAS_PTHREAD_LIB NO)
+ else()
+-  check_library_exists(dl dladdr "" LIBUNWIND_HAS_DL_LIB)
+-  check_library_exists(pthread pthread_once "" LIBUNWIND_HAS_PTHREAD_LIB)
++  # misdetected due to https://github.com/llvm/llvm-project/issues/90332
++  # check_library_exists(dl dladdr "" LIBUNWIND_HAS_DL_LIB)
++  # check_library_exists(pthread pthread_once "" LIBUNWIND_HAS_PTHREAD_LIB)
++  set(LIBUNWIND_HAS_DL_LIB YES)
++  set(LIBUNWIND_HAS_PTHREAD_LIB YES)
+ endif()
+ 
+ if(HAIKU)
+diff --git a/libunwind/src/CMakeLists.txt b/libunwind/src/CMakeLists.txt
+index 780430ba70ba..8f53719d4007 100644
+--- a/libunwind/src/CMakeLists.txt
++++ b/libunwind/src/CMakeLists.txt
+@@ -168,7 +168,8 @@ if (LIBUNWIND_ENABLE_SHARED)
+   set_target_properties(unwind_shared
+     PROPERTIES
+       LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
+-      LINKER_LANGUAGE C
++      # changed from C due to https://github.com/llvm/llvm-project/issues/90332
++      LINKER_LANGUAGE CXX
+       OUTPUT_NAME "${LIBUNWIND_SHARED_OUTPUT_NAME}"
+       VERSION "1.0"
+       SOVERSION "1"
+@@ -214,7 +215,8 @@ if (LIBUNWIND_ENABLE_STATIC)
+   set_target_properties(unwind_static
+     PROPERTIES
+       LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
+-      LINKER_LANGUAGE C
++      # changed from C due to https://github.com/llvm/llvm-project/issues/90332
++      LINKER_LANGUAGE CXX
+       OUTPUT_NAME "${LIBUNWIND_STATIC_OUTPUT_NAME}"
+   )
+ 

@@ -1,25 +1,27 @@
-{% set version = "17.0.0.rc3" %}
+{% set version = "18.1.8" %}
+
+{% if sys_abi is undefined %}
+{% set sys_abi = "dummy" %}
+{% endif %}
 
 package:
   name: libcxx_and_libcxxabi
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-    sha256: 60493f4e974fcca7b739aea4901af2d957b0eaea34b42815359be59cf6c88fa2
+  - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
+    sha256: 09c08693a9afd6236f27a2ebae62cda656eba19021ef3f94d59e931d662d4856
     patches:
-      - patches/0001-Support-legacy-standalone-builds.patch
-      # See https://lists.llvm.org/pipermail/libcxx-dev/2021-July/001172.html
-      - patches/0002-Fix-ABI-compatibility-with-system.patch
-      - patches/0003-custom-error-message-for-old-sdk.patch
-      # upstream removed fallbacks in case the underlying libc didn't support C11 in
-      # https://github.com/llvm/llvm-project/commit/21f73d5826fb5024a27eaacafadfa316f58949c5;
-      # using new libcxx with old clang versions (beyond what upstream supports) relies on
-      # having these fallbacks in place. Drop if conflict-resolution becomes too messy.
-      - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
+      # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
+      - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
+      - patches/0002-custom-error-message-for-old-sdk.patch
+      # disable feature that requires up-to-date libcxxabi, which we don't ship
+      - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
+      # work around https://github.com/llvm/llvm-project/issues/90332
+      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -32,9 +34,11 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}       # [not osx]
+    # use sys_abi as selector, so smithy breaks up CI jobs
+    - {{ stdlib('c') }}       # [osx and (sys_abi == "pre-12")]
+    - {{ stdlib('c') }}       # [osx and (sys_abi == "post-12")]
     - python >3               # [not osx]
-    # actually would need >=2.24, but we don't have that in conda-forge yet
-    - sysroot_linux-64 2.17   # [linux64]
   host:
     - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
@@ -53,14 +57,16 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
-        # actually would need >=2.24, but we don't have that in conda-forge yet
-        - sysroot_linux-64 2.17  # [linux64]
+        - {{ stdlib('c') }}
       host:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}           # [osx and x86_64]
       run_constrained:
-        - sysroot_linux-64 >=2.17                          # [linux64]
+        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
+        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+
+    # package for old sys_abi is not installable on macOS-12 image anymore
+    {% if sys_abi != "pre-12" %}
     test:
       requires:
         - clang                  # [osx]
@@ -76,6 +82,7 @@ outputs:
       commands:
         # Dummy var for different hashes
         - echo {{ dummy_var }}                                    # [osx]
+        - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
         - bash compile_test.sh                                    # [unix]
@@ -97,12 +104,13 @@ outputs:
         - openturns             # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
+        # these tests are unusual in that they use -Wl,-rpath, but not -L.
+        # we'd need the pre-12 system libcxx, but azure deleted the macOS-11 image
+        - libcxx-testing 0.18   # [osx]
+        - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
-        - libcxx-testing 0.14   # [osx]
-        - libcxx-testing 0.13   # [osx]
-        - libcxx-testing 0.12   # [osx]
-        - libcxx-testing 0.11   # [osx]
+    {% endif %}
 
   - name: libcxxabi
     build:
@@ -110,8 +118,9 @@ outputs:
     files:
       - lib/libc++abi.*
     requirements:
-      run_constrained:
-        - libcxx {{ version }}.*
+      build:
+        # for run-exports
+        - {{ stdlib('c') }}
     test:
       commands:
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
