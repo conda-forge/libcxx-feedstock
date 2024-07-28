@@ -12,10 +12,10 @@ channel_sources:
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
 c_compiler_version:     # [unix]
-  - 13                  # [linux]
+  - 14                  # [linux]
   - "*"                 # [osx]
 cxx_compiler_version:   # [unix]
-  - 13                  # [linux]
+  - 14                  # [linux]
   - "*"                 # [osx]
 
 # we want different hashes between osx-64 & osx-arm
