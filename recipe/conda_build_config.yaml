@@ -11,16 +11,40 @@ channel_sources:
 
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
-c_compiler_version:     # [linux]
-  - 12                  # [linux]
-cxx_compiler_version:   # [linux]
-  - 12                  # [linux]
+c_compiler_version:     # [unix]
+  - 14                  # [linux]
+  - "*"                 # [osx]
+cxx_compiler_version:   # [unix]
+  - 14                  # [linux]
+  - "*"                 # [osx]
 
-MACOSX_SDK_VERSION:         # [osx and x86_64]
-  - "10.14"                 # [osx and x86_64]
-MACOSX_DEPLOYMENT_TARGET:   # [osx and x86_64]
-  - "10.13"                 # [osx and x86_64]
-
+# we want different hashes between osx-64 & osx-arm
 dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
   - 1                   # [osx and arm64]
+
+MACOSX_SDK_VERSION:         # [osx]
+  - "10.14"                 # [osx and x86_64]
+  - "11.0"                  # [osx and arm64]
+
+c_stdlib_version:           # [linux]
+  # actually would need >=2.24, but we don't have that in conda-forge yet
+  - "2.17"                  # [linux]
+  # w.r.t. to the ABI of the system libcxx, this would need to be 12.0 on macos
+  # but as we only publish one build to main, maintain global lower bounds
+
+# in some scenarios, libraries will load a cached _system_ libc++, and if we have an
+# ABI-mismatch with that system lib, segfaults ensue (see libcxx-testing-feedstock);
+# because the ABI changed with macOS 12, we build a version each for before & after
+sys_abi:                    # [osx]
+  - pre-12                  # [osx]
+  - post-12                 # [osx]
+
+# publish the pre-12 ABI builds to a separate label
+channel_targets:                    # [osx]
+  - conda-forge libcxx_macos_lt_12  # [osx]
+  - conda-forge main                # [osx]
+
+zip_keys:                       # [osx]
+  - - sys_abi                   # [osx]
+    - channel_targets           # [osx]
