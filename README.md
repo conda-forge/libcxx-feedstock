@@ -82,14 +82,14 @@ Current release info
 Installing libcxx
 =================
 
-Installing `libcxx` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `libcxx` from the `conda-forge/label/llvm_rc` channel can be achieved by adding `conda-forge/label/llvm_rc` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/llvm_rc
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libcxx, libcxxabi` can be installed with `conda`:
+Once the `conda-forge/label/llvm_rc` channel has been enabled, `libcxx, libcxxabi` can be installed with `conda`:
 
 ```
 conda install libcxx libcxxabi
@@ -104,26 +104,26 @@ mamba install libcxx libcxxabi
 It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
 
 ```
-conda search libcxx --channel conda-forge
+conda search libcxx --channel conda-forge/label/llvm_rc
 ```
 
 or with `mamba`:
 
 ```
-mamba search libcxx --channel conda-forge
+mamba search libcxx --channel conda-forge/label/llvm_rc
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libcxx --channel conda-forge
+mamba repoquery search libcxx --channel conda-forge/label/llvm_rc
 
 # List packages depending on `libcxx`:
-mamba repoquery whoneeds libcxx --channel conda-forge
+mamba repoquery whoneeds libcxx --channel conda-forge/label/llvm_rc
 
 # List dependencies of `libcxx`:
-mamba repoquery depends libcxx --channel conda-forge
+mamba repoquery depends libcxx --channel conda-forge/label/llvm_rc
 ```
 
 
