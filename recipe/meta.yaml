@@ -1,4 +1,4 @@
-{% set version = "18.1.8" %}
+{% set version = "19.1.0.rc1" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -10,7 +10,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 09c08693a9afd6236f27a2ebae62cda656eba19021ef3f94d59e931d662d4856
+    sha256: cd3b42caf8e78c497712a661303672c1a6279eb1a5ff8735488087319ab95214
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -21,7 +21,7 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
