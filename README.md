@@ -36,31 +36,31 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12</td>
+              <td>osx_64_sys_abipost-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_sys_abipost-12" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_channel_targetsconda-forge_mainsys_abipost-12</td>
+              <td>osx_64_sys_abipre-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_mainsys_abipost-12" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_sys_abipre-12" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12</td>
+              <td>osx_arm64_sys_abipost-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_sys_abipost-12" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_channel_targetsconda-forge_mainsys_abipost-12</td>
+              <td>osx_arm64_sys_abipre-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_mainsys_abipost-12" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_sys_abipre-12" alt="variant">
                 </a>
               </td>
             </tr>

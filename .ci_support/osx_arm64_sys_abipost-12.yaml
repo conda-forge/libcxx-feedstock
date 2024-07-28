@@ -9,7 +9,7 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/llvm_rc,conda-forge
 channel_targets:
-- conda-forge libcxx_macos_lt_12
+- conda-forge llvm_rc
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
@@ -19,9 +19,6 @@ dummy_var:
 macos_machine:
 - arm64-apple-darwin20.0.0
 sys_abi:
-- pre-12
+- post-12
 target_platform:
 - osx-arm64
-zip_keys:
-- - sys_abi
-  - channel_targets
