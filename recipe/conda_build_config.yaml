@@ -32,10 +32,3 @@ c_stdlib_version:           # [linux]
   - "2.17"                  # [linux]
   # w.r.t. to the ABI of the system libcxx, this would need to be 12.0 on macos
   # but as we only publish one build to main, maintain global lower bounds
-
-# in some scenarios, libraries will load a cached _system_ libc++, and if we have an
-# ABI-mismatch with that system lib, segfaults ensue (see libcxx-testing-feedstock);
-# because the ABI changed with macOS 12, we build a version each for before & after
-sys_abi:                    # [osx]
-  - pre-12                  # [osx]
-  - post-12                 # [osx]
