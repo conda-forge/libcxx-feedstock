@@ -50,7 +50,6 @@ outputs:
     files:
       - include/c++                 # [unix]
       - lib/libc++.*                # [unix]
-      - lib/libc++fs.*              # [unix]
       - lib/libc++experimental.*    # [unix]
       - Library/include/c++         # [win]
       - Library/bin/c++*.dll        # [win]
