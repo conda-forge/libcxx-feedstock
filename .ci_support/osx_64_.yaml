@@ -1,11 +1,11 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '11.0'
+- '10.13'
 MACOSX_SDK_VERSION:
-- '11.0'
+- '10.14'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '11.0'
+- '10.13'
 channel_sources:
 - conda-forge/label/llvm_rc,conda-forge
 channel_targets:
@@ -15,10 +15,8 @@ cxx_compiler:
 cxx_compiler_version:
 - '*'
 dummy_var:
-- '1'
+- '0'
 macos_machine:
-- arm64-apple-darwin20.0.0
-sys_abi:
-- pre-12
+- x86_64-apple-darwin13.4.0
 target_platform:
-- osx-arm64
+- osx-64
