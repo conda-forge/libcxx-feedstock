@@ -5,7 +5,7 @@ LLVM_PREFIX=$PREFIX
 if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
     export CXXFLAGS="$CXXFLAGS -isysroot $CONDA_BUILD_SYSROOT"
-    export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT -lunwind"
+    export LDFLAGS="$LDFLAGS -isysroot $CONDA_BUILD_SYSROOT -L/usr/lib/system -lunwind"
 
     export CMAKE_EXTRA_ARGS="-DCMAKE_OSX_SYSROOT=$CONDA_BUILD_SYSROOT -DLIBCXX_ENABLE_VENDOR_AVAILABILITY_ANNOTATIONS=ON"
 fi
