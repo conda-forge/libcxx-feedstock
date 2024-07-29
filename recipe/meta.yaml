@@ -46,14 +46,14 @@ requirements:
 outputs:
   - name: libcxx
     files:
-      - include/c++
-      - Library/include/c++
-      - lib/libc++.*
-      - lib/libc++fs.*
-      - lib/libc++experimental.*
-      - Library/bin/c++*.dll
-      - Library/lib/c++*.lib
-      - Library/lib/libc++*.lib
+      - include/c++                 # [unix]
+      - lib/libc++.*                # [unix]
+      - lib/libc++fs.*              # [unix]
+      - lib/libc++experimental.*    # [unix]
+      - Library/include/c++         # [win]
+      - Library/bin/c++*.dll        # [win]
+      - Library/lib/c++*.lib        # [win]
+      - Library/lib/libc++*.lib     # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
