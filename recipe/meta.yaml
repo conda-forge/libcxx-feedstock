@@ -122,6 +122,9 @@ outputs:
   - name: libcxxabi
     build:
       skip: true  # [not linux]
+      # even though libcxxabi shouldn't be affected, distinguish builds
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
     files:
       - lib/libc++abi.*
     requirements:
