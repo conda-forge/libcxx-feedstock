@@ -31,15 +31,15 @@ build:
   missing_dso_whitelist:
     - /usr/lib/libc++abi.dylib
 
+# use selectors here so smithy breaks up CI jobs
+# [sys_abi]
+
 requirements:
   build:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
-    - {{ stdlib('c') }}       # [not osx]
-    # use sys_abi as selector, so smithy breaks up CI jobs
-    - {{ stdlib('c') }}       # [osx and (sys_abi == "pre-12")]
-    - {{ stdlib('c') }}       # [osx and (sys_abi == "post-12")]
+    - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
