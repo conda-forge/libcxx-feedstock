@@ -2,6 +2,7 @@
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
+{% set hardening = "dummy" %}
 {% endif %}
 
 package:
@@ -29,15 +30,16 @@ build:
   missing_dso_whitelist:
     - /usr/lib/libc++abi.dylib
 
+# use selectors here so smithy breaks up CI jobs
+# [sys_abi]
+# [hardening]
+
 requirements:
   build:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
-    - {{ stdlib('c') }}       # [not osx]
-    # use sys_abi as selector, so smithy breaks up CI jobs
-    - {{ stdlib('c') }}       # [osx and (sys_abi == "pre-12")]
-    - {{ stdlib('c') }}       # [osx and (sys_abi == "post-12")]
+    - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
     - clangdev {{ version }}  # [not osx]
@@ -45,6 +47,12 @@ requirements:
 
 outputs:
   - name: libcxx
+    build:
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
+      run_exports:                                      # [hardening == "debug"]
+        # packages built with hardened lib must not be installable without extra label
+        - libcxx =*=debug*                              # [hardening == "debug"]
     files:
       - include/c++                 # [unix]
       - lib/libc++.*                # [unix]
