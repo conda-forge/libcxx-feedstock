@@ -16,6 +16,8 @@ cxx_compiler_version:
 - '*'
 dummy_var:
 - '1'
+hardening:
+- none
 macos_machine:
 - arm64-apple-darwin20.0.0
 sys_abi:
@@ -23,5 +25,6 @@ sys_abi:
 target_platform:
 - osx-arm64
 zip_keys:
-- - sys_abi
+- - hardening
   - channel_targets
+  - sys_abi
