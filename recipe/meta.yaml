@@ -21,7 +21,7 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -49,6 +49,8 @@ outputs:
       - include/c++                 # [unix]
       - lib/libc++.*                # [unix]
       - lib/libc++experimental.*    # [unix]
+      # for C++20 modules, which are installed into $PREFIX/share/libc++
+      - share/libc++/*              # [unix]
       - Library/include/c++         # [win]
       - Library/bin/c++*.dll        # [win]
       - Library/lib/c++*.lib        # [win]
