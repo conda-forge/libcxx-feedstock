@@ -9,6 +9,8 @@ if [[ "$target_platform" == osx-* ]]; then
 
     export CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_OSX_SYSROOT=$CONDA_BUILD_SYSROOT"
     export CMAKE_ARGS="$CMAKE_ARGS -DLIBCXX_ENABLE_VENDOR_AVAILABILITY_ANNOTATIONS=ON"
+    # we want to build against the system libcxxabi, not ship our own
+    export CMAKE_ARGS="$CMAKE_ARGS -DLIBCXX_CXX_ABI=system-libcxxabi"
 fi
 
 export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"
@@ -37,8 +39,3 @@ ninja -C build cxx cxxabi unwind
 
 # Install
 ninja -C build install-cxx install-cxxabi install-unwind
-
-if [[ "$target_platform" == osx-* ]]; then
-    # on osx we point libc++ to the system libc++abi
-    $INSTALL_NAME_TOOL -change "@rpath/libc++abi.1.dylib" "/usr/lib/libc++abi.dylib" $PREFIX/lib/libc++.1.0.dylib
-fi
