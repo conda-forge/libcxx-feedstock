@@ -5,6 +5,8 @@ LINK_FLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -Wl,-v -v"
 # target platform is empty here now
 if [[ "$target_platform" == osx* ]]; then
     llvm-nm $PREFIX/lib/libc++.1.dylib
+    # to be able to use libc++'s tzdb code
+    CXXFLAGS="-D_LIBCPP_DISABLE_AVAILABILITY"
 else
     LINK_FLAGS="${LINK_FLAGS} -lc++abi"
 fi
@@ -36,3 +38,16 @@ do
     clang++ -stdlib=libc++ -std=c++14 -O2 -g $f $LINK_FLAGS
     ./a.out
 done
+
+# tzdb integration (experimental as of v19)
+cd test_sources/tzdb
+clang++ -stdlib=libc++ -fexperimental-library -std=c++20 -O2 -g tzdb.cpp -o tzdb $LINK_FLAGS
+clang++ -stdlib=libc++ -fexperimental-library -std=c++20 -O2 -g tzdb-override.cpp -o tzdb-override $LINK_FLAGS
+./tzdb
+./tzdb-override
+
+# also test tzdb without any environment activation
+unset PREFIX
+unset CONDA_PREFIX
+./tzdb
+./tzdb-override

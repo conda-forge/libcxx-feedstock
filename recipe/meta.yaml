@@ -19,6 +19,8 @@ source:
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
       # work around https://github.com/llvm/llvm-project/issues/90332
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
+      # allow chrono implementation to work on osx
+      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
   number: 3
@@ -61,6 +63,7 @@ outputs:
         - {{ stdlib('c') }}
       host:
       run:
+        - tzdata
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
