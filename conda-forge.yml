@@ -10,6 +10,4 @@ channel_priority: flexible
 github:
   branch_name: main
   tooling_branch_name: main
-conda_build:
-  pkg_format: '2'
 test: native_and_emulated
