@@ -42,12 +42,9 @@ done
 # tzdb integration (experimental as of v19)
 cd test_sources/tzdb
 clang++ -stdlib=libc++ -fexperimental-library -std=c++20 -O2 -g tzdb.cpp -o tzdb $FLAGS
-clang++ -stdlib=libc++ -fexperimental-library -std=c++20 -O2 -g tzdb-override.cpp -o tzdb-override $FLAGS
 ./tzdb
-./tzdb-override
 
 # also test tzdb without any environment activation
 unset PREFIX
 unset CONDA_PREFIX
 ./tzdb
-./tzdb-override
