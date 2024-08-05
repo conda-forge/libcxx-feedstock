@@ -19,9 +19,11 @@ source:
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
       # work around https://github.com/llvm/llvm-project/issues/90332
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
+      # allow chrono implementation to work on osx
+      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
@@ -49,6 +51,8 @@ outputs:
       - include/c++                 # [unix]
       - lib/libc++.*                # [unix]
       - lib/libc++experimental.*    # [unix]
+      # for C++20 modules, which are installed into $PREFIX/share/libc++
+      - share/libc++/*              # [unix]
       - Library/include/c++         # [win]
       - Library/bin/c++*.dll        # [win]
       - Library/lib/c++*.lib        # [win]
@@ -59,6 +63,7 @@ outputs:
         - {{ stdlib('c') }}
       host:
       run:
+        - tzdata
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
@@ -87,11 +92,19 @@ outputs:
         # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
         # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
         # we want to have zero lines that don't either: contain our link or are for <=10.13 (lowest occurring in that file is 10.9)
-        - if [ 0 -eq $(cat ${PREFIX}/include/c++/v1/__availability | grep "availability(macos" | grep -vE "(conda-forge|10.9|10.1[0-3])" | wc -l) ]; then exit 0; else exit 1; fi  # [osx]
+        - if [ 0 -ne $(cat ${PREFIX}/include/c++/v1/__configuration/availability.h | grep "availability(macos" | grep -vE "(conda-forge|10.9|10.1[0-3])" | wc -l) ]; then exit 1; fi  # [osx]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
         - test -f $PREFIX/lib/libc++abi.so                        # [linux]
+
+        # for full chrono support, libcxx needs leap-seconds.list, which
+        # isn't shipped in ubuntu-22.04 nor macos-14 images (ubuntu-24.04
+        # should have it, but isn't available in azure pipelines yet).
+        - ls -lL /usr/share/zoneinfo
+        # This check is intended to start failing once an image starts shipping
+        # that file, so we can re-enable the leapsecond portion of the tzdb-tests
+        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
