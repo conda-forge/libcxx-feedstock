@@ -55,6 +55,8 @@ outputs:
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
+      ignore_run_exports:           # [linux]
+        - libstdcxx-ng              # [linux]
     files:
       - include/c++                 # [unix]
       - lib/libc++.*                # [unix]
@@ -70,6 +72,7 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
       host:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run:
         # re-enable this once chrono implementation is in shared library
         # - tzdata
@@ -144,6 +147,7 @@ outputs:
       build:
         # for run-exports
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
     test:
       commands:
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
