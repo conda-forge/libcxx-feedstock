@@ -14,7 +14,7 @@ source:
     sha256: cd3b42caf8e78c497712a661303672c1a6279eb1a5ff8735488087319ab95214
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
-      # - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
+      - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
@@ -71,11 +71,15 @@ outputs:
         - {{ stdlib('c') }}
       host:
       run:
-        - tzdata
+        # re-enable this once chrono implementation is in shared library
+        # - tzdata
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
+        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
 
+    # package for old sys_abi is not installable on macOS-12 image anymore
+    {% if sys_abi != "pre-12" %}
     test:
       requires:
         - clang                  # [osx]
@@ -126,6 +130,7 @@ outputs:
         - libcxx-testing 0.18   # [osx]
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
+    {% endif %}
 
   - name: libcxxabi
     build:
