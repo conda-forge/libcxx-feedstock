@@ -14,8 +14,12 @@ cxx_compiler_version:
 - '14'
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
+hardening:
+- none
 target_platform:
 - linux-64
 zip_keys:
 - - c_stdlib_version
   - cdt_name
+- - hardening
+  - channel_targets
