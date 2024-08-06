@@ -1,5 +1,4 @@
 #include <iostream>
-#include <functional>
 
 int main() {
     std::cout << "Hello World from C++!" << std::endl;
