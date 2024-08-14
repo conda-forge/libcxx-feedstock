@@ -23,13 +23,13 @@ source:
       - patches/0005-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
-  ignore_run_exports:
-    # don't ignore all run-exports from {{ compiler('cxx') }}, we need libgcc
-    - libstdcxx     # [linux]
-    - libstdcxx-ng  # [linux]
+  ignore_run_exports_from:
+    # we want to ignore libstdcxx, but not libgcc; the latter also comes in through
+    # compiler('c'), and conda keeps that despite ignoring the cxx run-exports
+    - {{ compiler('cxx') }}
   missing_dso_whitelist:
     - /usr/lib/libc++abi.dylib
 
@@ -41,6 +41,7 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
