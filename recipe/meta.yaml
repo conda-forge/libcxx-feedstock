@@ -22,11 +22,13 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
   ignore_run_exports:
-    - libstdcxx-ng
+    # don't ignore all run-exports from {{ compiler('cxx') }}, we need libgcc
+    - libstdcxx     # [linux]
+    - libstdcxx-ng  # [linux]
   missing_dso_whitelist:
     - /usr/lib/libc++abi.dylib
 
