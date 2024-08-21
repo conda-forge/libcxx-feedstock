@@ -1,4 +1,4 @@
-{% set version = "19.1.0.rc2" %}
+{% set version = "19.1.0.rc3" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 5332e77a658136c778fc32ec2a3687de4d63e0ff48010be205c4e7af6e76f1f1
+    sha256: 57f926edf60a92947fa9b8b0adfdf3c6f2182a4ecf1c929176218eef619d7411
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -27,8 +27,6 @@ build:
   number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
-  ignore_run_exports:
-    - libstdcxx-ng
   missing_dso_whitelist:
     - /usr/lib/libc++abi.dylib
 
@@ -41,6 +39,7 @@ requirements:
     - cmake
     - ninja
     - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
@@ -55,8 +54,10 @@ outputs:
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
-      ignore_run_exports:           # [linux]
-        - libstdcxx-ng              # [linux]
+      ignore_run_exports_from:
+        # we want to ignore libstdcxx, but not libgcc; the latter also comes in through
+        # compiler('c'), and conda keeps that despite ignoring the cxx run-exports
+        - {{ compiler('cxx') }}     # [linux]
     files:
       - include/c++                 # [unix]
       - lib/libc++.*                # [unix]
@@ -70,6 +71,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ compiler('c') }}
         - {{ stdlib('c') }}
       host:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
