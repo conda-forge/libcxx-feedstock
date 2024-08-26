@@ -26,12 +26,6 @@ build:
   number: 4
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
-  ignore_run_exports_from:
-    # we want to ignore libstdcxx, but not libgcc; the latter also comes in through
-    # compiler('c'), and conda keeps that despite ignoring the cxx run-exports
-    - {{ compiler('cxx') }}
-  missing_dso_whitelist:
-    - /usr/lib/libc++abi.dylib
 
 # use selectors here so smithy breaks up CI jobs
 # [sys_abi]
@@ -120,6 +114,10 @@ outputs:
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
+      ignore_run_exports_from:
+        # we want to ignore libstdcxx, but not libgcc; the latter also comes in through
+        # compiler('c'), and conda keeps that despite ignoring the cxx run-exports
+        - {{ compiler('cxx') }}
     files:
       - lib/libc++.so               # [linux]
       - lib/libc++.so.*             # [linux]
@@ -129,8 +127,10 @@ outputs:
     requirements:
       build:
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
       host:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
@@ -155,6 +155,7 @@ outputs:
       build:
         # for run-exports
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
       run_constrained:
         - libcxx {{ version }}.*
     test:
