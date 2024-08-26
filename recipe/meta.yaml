@@ -24,11 +24,9 @@ source:
       - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
-  missing_dso_whitelist:
-    - /usr/lib/libc++abi.dylib
 
 # use selectors here so smithy breaks up CI jobs
 # [sys_abi]
@@ -47,41 +45,31 @@ requirements:
     - llvmdev {{ version }}   # [not osx]
 
 outputs:
-  - name: libcxx
+  - name: libcxx-devel
     build:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
       string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
-      ignore_run_exports_from:
-        # we want to ignore libstdcxx, but not libgcc; the latter also comes in through
-        # compiler('c'), and conda keeps that despite ignoring the cxx run-exports
-        - {{ compiler('cxx') }}     # [linux]
     files:
       - include/c++                 # [unix]
-      - lib/libc++.*                # [unix]
+      - lib/libc++.a                # [unix]
       - lib/libc++experimental.*    # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
       - share/libc++/*              # [unix]
       - Library/include/c++         # [win]
-      - Library/bin/c++*.dll        # [win]
       - Library/lib/c++*.lib        # [win]
       - Library/lib/libc++*.lib     # [win]
     requirements:
-      build:
-        - {{ compiler('cxx') }}
-        - {{ compiler('c') }}
-        - {{ stdlib('c') }}
       host:
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+        - {{ pin_subpackage("libcxx", exact=True) }}
       run:
         # re-enable this once chrono implementation is in shared library
         # - tzdata
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+        - {{ pin_subpackage("libcxx", exact=True) }}
       run_constrained:
-        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
-        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+        - __osx <12     # [osx and (sys_abi == "pre-12")]
 
     # package for old sys_abi is not installable on macOS-12 image anymore
     {% if sys_abi != "pre-12" %}
@@ -128,14 +116,54 @@ outputs:
       downstreams:              # [osx]
         - python-symengine      # [osx]
         - openturns             # [osx]
+      # disabled until libcxx-testing depends on `libcxx-devel`
+      {% if False %}
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
-        # we'd need the pre-12 system libcxx, but azure deleted the macOS-11 image
         - libcxx-testing 0.18   # [osx]
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
+      {% endif %}
     {% endif %}
+
+  - name: libcxx
+    build:
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
+      run_exports:                                      # [hardening == "debug"]
+        # packages built with hardened lib must not be installable without extra label
+        - libcxx =*=debug*                              # [hardening == "debug"]
+      ignore_run_exports_from:
+        # we want to ignore libstdcxx, but not libgcc; the latter also comes in through
+        # compiler('c'), and conda keeps that despite ignoring the cxx run-exports
+        - {{ compiler('cxx') }}
+    files:
+      - lib/libc++.so               # [linux]
+      - lib/libc++.so.*             # [linux]
+      - lib/libc++.dylib            # [osx]
+      - lib/libc++.*.dylib          # [osx]
+      - Library/bin/c++*.dll        # [win]
+    requirements:
+      build:
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+      run:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+      run_constrained:
+        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+    test:
+      commands:
+        # presence of shared libraries
+        - test -f $PREFIX/lib/libc++.so                 # [linux]
+        - test -f $PREFIX/lib/libc++.dylib              # [osx]
+        # absence of static libs & headers
+        - test ! -f $PREFIX/lib/libc++.a                # [unix]
+        - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
+        - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
     build:
@@ -150,6 +178,8 @@ outputs:
         # for run-exports
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+      run_constrained:
+        - libcxx {{ version }}.*
     test:
       commands:
         - test -f $PREFIX/lib/libc++abi.so  # [linux]
