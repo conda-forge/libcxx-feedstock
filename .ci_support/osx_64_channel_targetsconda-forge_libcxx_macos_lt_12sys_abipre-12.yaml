@@ -2,6 +2,10 @@ MACOSX_DEPLOYMENT_TARGET:
 - '10.13'
 MACOSX_SDK_VERSION:
 - '10.14'
+c_compiler:
+- clang_bootstrap
+c_compiler_version:
+- '17'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -13,7 +17,7 @@ channel_targets:
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
-- '16'
+- '17'
 dummy_var:
 - '0'
 macos_machine:
@@ -23,5 +27,7 @@ sys_abi:
 target_platform:
 - osx-64
 zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 - - sys_abi
   - channel_targets
