@@ -56,6 +56,8 @@ outputs:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
         - {{ pin_subpackage("libcxx", exact=True) }}
+      run_constrained:
+        - __osx <12     # [osx and (sys_abi == "pre-12")]
 
     # package for old sys_abi is not installable on macOS-12 image anymore
     {% if sys_abi != "pre-12" %}
@@ -132,7 +134,6 @@ outputs:
       run:
         - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
       run_constrained:
-        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       commands:
