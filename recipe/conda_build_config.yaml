@@ -13,6 +13,26 @@ cxx_compiler_version:   # [linux]
 MACOSX_SDK_VERSION:  # [osx and x86_64]
   - 10.14            # [osx and x86_64]
 
+# we want different hashes between osx-64 & osx-arm
 dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
   - 1                   # [osx and arm64]
+
+# w.r.t. to the ABI of the system libcxx, c_stdlib_version would need to be 12.0
+# on macos, but as we only publish one build to main, maintain global lower bounds
+
+# in some scenarios, libraries will load a cached _system_ libc++, and if we have an
+# ABI-mismatch with that system lib, segfaults ensue (see libcxx-testing-feedstock);
+# because the ABI changed with macOS 12, we build a version each for before & after
+sys_abi:                    # [osx]
+  - pre-12                  # [osx]
+  - post-12                 # [osx]
+
+# publish the pre-12 ABI builds to a separate label
+channel_targets:                    # [osx]
+  - conda-forge libcxx_macos_lt_12  # [osx]
+  - conda-forge main                # [osx]
+
+zip_keys:                       # [osx]
+  - - sys_abi                   # [osx]
+    - channel_targets           # [osx]
