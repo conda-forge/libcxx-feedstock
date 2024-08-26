@@ -36,17 +36,31 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64</td>
+              <td>osx_64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64</td>
+              <td>osx_64_channel_targetsconda-forge_mainsys_abipost-12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_mainsys_abipost-12" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12sys_abipre-12" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_channel_targetsconda-forge_mainsys_abipost-12</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_mainsys_abipost-12" alt="variant">
                 </a>
               </td>
             </tr>
@@ -63,6 +77,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx-green.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx--devel-green.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxxabi-green.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) |
 
 Installing libcxx
@@ -75,16 +90,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libcxx, libcxxabi` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libcxx, libcxx-devel, libcxxabi` can be installed with `conda`:
 
 ```
-conda install libcxx libcxxabi
+conda install libcxx libcxx-devel libcxxabi
 ```
 
 or with `mamba`:
 
 ```
-mamba install libcxx libcxxabi
+mamba install libcxx libcxx-devel libcxxabi
 ```
 
 It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
@@ -131,7 +146,7 @@ available continuous integration services. Thanks to the awesome service provide
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
 [Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
 it is possible to build and upload installable packages to the
-[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+[conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
