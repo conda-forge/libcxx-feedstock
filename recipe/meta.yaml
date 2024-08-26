@@ -23,7 +23,7 @@ source:
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
-  number: 4
+  number: 5
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -44,13 +44,14 @@ requirements:
 
 outputs:
   - name: libcxx-devel
-    files:
-      - include/c++                 # [unix]
-      - lib/libc++.a                # [unix]
-      - lib/libc++experimental.*    # [unix]
-      - Library/include/c++         # [win]
-      - Library/lib/c++*.lib        # [win]
-      - Library/lib/libc++*.lib     # [win]
+    # temporarily still in libcxx, until we update compiler stack w.r.t. libcxx-devel
+    # files:
+    #   - include/c++                 # [unix]
+    #   - lib/libc++.a                # [unix]
+    #   - lib/libc++experimental.*    # [unix]
+    #   - Library/include/c++         # [win]
+    #   - Library/lib/c++*.lib        # [win]
+    #   - Library/lib/libc++*.lib     # [win]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
@@ -129,6 +130,13 @@ outputs:
       - lib/libc++.dylib            # [osx]
       - lib/libc++.*.dylib          # [osx]
       - Library/bin/c++*.dll        # [win]
+    # temporarily still in libcxx, until we update compiler stack w.r.t. libcxx-devel
+      - include/c++                 # [unix]
+      - lib/libc++.a                # [unix]
+      - lib/libc++experimental.*    # [unix]
+      - Library/include/c++         # [win]
+      - Library/lib/c++*.lib        # [win]
+      - Library/lib/libc++*.lib     # [win]
     requirements:
       build:
         - {{ stdlib('c') }}
@@ -146,9 +154,9 @@ outputs:
         - test -f $PREFIX/lib/libc++.so                 # [linux]
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
         # absence of static libs & headers
-        - test ! -f $PREFIX/lib/libc++.a                # [unix]
-        - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
-        - test ! -d $PREFIX/include/c++                 # [unix]
+        # - test ! -f $PREFIX/lib/libc++.a                # [unix]
+        # - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
+        # - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
     build:
