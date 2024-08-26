@@ -103,8 +103,6 @@ outputs:
       downstreams:              # [osx]
         - python-symengine      # [osx]
         - openturns             # [osx]
-      # disabled until libcxx-testing depends on `libcxx-devel`
-      {% if False %}
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
@@ -112,7 +110,6 @@ outputs:
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
         - libcxx-testing 0.15   # [osx]
-      {% endif %}
     {% endif %}
 
   - name: libcxx
