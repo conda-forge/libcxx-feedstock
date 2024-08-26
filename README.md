@@ -98,6 +98,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx-green.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx--devel-green.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxxabi-green.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) |
 
 Installing libcxx
@@ -110,16 +111,16 @@ conda config --add channels conda-forge/label/libcxx_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/libcxx_debug` channel has been enabled, `libcxx, libcxxabi` can be installed with `conda`:
+Once the `conda-forge/label/libcxx_debug` channel has been enabled, `libcxx, libcxx-devel, libcxxabi` can be installed with `conda`:
 
 ```
-conda install libcxx libcxxabi
+conda install libcxx libcxx-devel libcxxabi
 ```
 
 or with `mamba`:
 
 ```
-mamba install libcxx libcxxabi
+mamba install libcxx libcxx-devel libcxxabi
 ```
 
 It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
