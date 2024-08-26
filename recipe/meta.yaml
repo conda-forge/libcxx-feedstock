@@ -49,25 +49,19 @@ requirements:
     - llvmdev {{ version }}   # [not osx]
 
 outputs:
-  - name: libcxx
+  - name: libcxx-devel
     files:
       - include/c++                 # [unix]
-      - lib/libc++.*                # [unix]
+      - lib/libc++.a                # [unix]
       - lib/libc++experimental.*    # [unix]
       - Library/include/c++         # [win]
-      - Library/bin/c++*.dll        # [win]
       - Library/lib/c++*.lib        # [win]
       - Library/lib/libc++*.lib     # [win]
     requirements:
-      build:
-        - {{ compiler('cxx') }}
-        - {{ stdlib('c') }}
       host:
+        - {{ pin_subpackage("libcxx", exact=True) }}
       run:
-        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
-      run_constrained:
-        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
-        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+        - {{ pin_subpackage("libcxx", exact=True) }}
 
     # package for old sys_abi is not installable on macOS-12 image anymore
     {% if sys_abi != "pre-12" %}
@@ -116,6 +110,39 @@ outputs:
         - libcxx-testing 0.12   # [osx]
         - libcxx-testing 0.11   # [osx]
     {% endif %}
+
+  - name: libcxx
+    build:
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
+      run_exports:                                      # [hardening == "debug"]
+        # packages built with hardened lib must not be installable without extra label
+        - libcxx =*=debug*                              # [hardening == "debug"]
+    files:
+      - lib/libc++.so               # [linux]
+      - lib/libc++.so.*             # [linux]
+      - lib/libc++.dylib            # [osx]
+      - lib/libc++.*.dylib          # [osx]
+      - Library/bin/c++*.dll        # [win]
+    requirements:
+      build:
+        - {{ stdlib('c') }}
+        - {{ compiler('cxx') }}
+      host:
+      run:
+        - {{ pin_subpackage("libcxxabi", exact=True) }}    # [linux]
+      run_constrained:
+        - __osx <12                                        # [osx and (sys_abi == "pre-12")]
+        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+    test:
+      commands:
+        # presence of shared libraries
+        - test -f $PREFIX/lib/libc++.so                 # [linux]
+        - test -f $PREFIX/lib/libc++.dylib              # [osx]
+        # absence of static libs & headers
+        - test ! -f $PREFIX/lib/libc++.a                # [unix]
+        - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
+        - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
     build:
