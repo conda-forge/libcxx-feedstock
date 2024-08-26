@@ -12,7 +12,6 @@ source:
   - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
     sha256: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
     patches:
-      - patches/0001-libcxxabi-10.9-compatibility.patch  # [osx and x86_64]
       - patches/0002-Support-legacy-standalone-builds.patch
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0003-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
