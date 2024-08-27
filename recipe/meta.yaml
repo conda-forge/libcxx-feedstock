@@ -1,4 +1,5 @@
 {% set version = "17.0.6" %}
+{% set major = version.split(".")[0] %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -23,7 +24,7 @@ source:
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
-  number: 4
+  number: 5
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -44,13 +45,14 @@ requirements:
 
 outputs:
   - name: libcxx-devel
-    files:
-      - include/c++                 # [unix]
-      - lib/libc++.a                # [unix]
-      - lib/libc++experimental.*    # [unix]
-      - Library/include/c++         # [win]
-      - Library/lib/c++*.lib        # [win]
-      - Library/lib/libc++*.lib     # [win]
+    # temporarily still in libcxx, until we update compiler stack w.r.t. libcxx-devel
+    # files:
+    #   - include/c++                 # [unix]
+    #   - lib/libc++.a                # [unix]
+    #   - lib/libc++experimental.*    # [unix]
+    #   - Library/include/c++         # [win]
+    #   - Library/lib/c++*.lib        # [win]
+    #   - Library/lib/libc++*.lib     # [win]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
@@ -96,20 +98,16 @@ outputs:
       downstreams:              # [osx]
         - python-symengine      # [osx]
         - openturns             # [osx]
-      # disabled until libcxx-testing depends on `libcxx-devel`
-      {% if False %}
         # test current libcxx against old clang builds;
-        # version correspondence is 0.{{ CLANG_MAJOR }}
+        # version correspondence is 0.{{ CLANG_MAJOR }}.{{ LIBCXX_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
-        - libcxx-testing 0.18   # [osx]
-        - libcxx-testing 0.17   # [osx]
-        - libcxx-testing 0.16   # [osx]
-        - libcxx-testing 0.15   # [osx]
-        - libcxx-testing 0.14   # [osx]
-        - libcxx-testing 0.13   # [osx]
-        - libcxx-testing 0.12   # [osx]
-        - libcxx-testing 0.11   # [osx]
-      {% endif %}
+        - libcxx-testing 0.17.{{ major }}   # [osx]
+        - libcxx-testing 0.16.{{ major }}   # [osx]
+        - libcxx-testing 0.15.{{ major }}   # [osx]
+        - libcxx-testing 0.14.{{ major }}   # [osx]
+        - libcxx-testing 0.13.{{ major }}   # [osx]
+        - libcxx-testing 0.12.{{ major }}   # [osx]
+        - libcxx-testing 0.11.{{ major }}   # [osx]
     {% endif %}
 
   - name: libcxx
@@ -129,6 +127,13 @@ outputs:
       - lib/libc++.dylib            # [osx]
       - lib/libc++.*.dylib          # [osx]
       - Library/bin/c++*.dll        # [win]
+    # temporarily still in libcxx, until we update compiler stack w.r.t. libcxx-devel
+      - include/c++                 # [unix]
+      - lib/libc++.a                # [unix]
+      - lib/libc++experimental.*    # [unix]
+      - Library/include/c++         # [win]
+      - Library/lib/c++*.lib        # [win]
+      - Library/lib/libc++*.lib     # [win]
     requirements:
       build:
         - {{ stdlib('c') }}
@@ -146,9 +151,9 @@ outputs:
         - test -f $PREFIX/lib/libc++.so                 # [linux]
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
         # absence of static libs & headers
-        - test ! -f $PREFIX/lib/libc++.a                # [unix]
-        - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
-        - test ! -d $PREFIX/include/c++                 # [unix]
+        # - test ! -f $PREFIX/lib/libc++.a                # [unix]
+        # - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
+        # - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
     build:
