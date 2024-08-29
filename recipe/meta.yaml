@@ -51,7 +51,7 @@ outputs:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
-        - {{ pin_subpackage("libcxx", exact=True) }}
+        - {{ pin_subpackage("libcxx", max_pin=None) }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
 
