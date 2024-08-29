@@ -24,7 +24,7 @@ source:
       - patches/0004-Revert-libc-Remove-workaround-for-C11-features-on-co.patch
 
 build:
-  number: 5
+  number: 6
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -47,11 +47,7 @@ outputs:
   - name: libcxx-devel
     files:
       - include/c++                 # [unix]
-      - lib/libc++.a                # [unix]
-      - lib/libc++experimental.*    # [unix]
       - Library/include/c++         # [win]
-      - Library/lib/c++*.lib        # [win]
-      - Library/lib/libc++*.lib     # [win]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
@@ -126,6 +122,10 @@ outputs:
       - lib/libc++.dylib            # [osx]
       - lib/libc++.*.dylib          # [osx]
       - Library/bin/c++*.dll        # [win]
+      - lib/libc++.a                # [unix]
+      - lib/libc++experimental.*    # [unix]
+      - Library/lib/c++*.lib        # [win]
+      - Library/lib/libc++*.lib     # [win]
     requirements:
       build:
         - {{ stdlib('c') }}
@@ -139,12 +139,12 @@ outputs:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       commands:
-        # presence of shared libraries
+        # presence of shared & static libraries
         - test -f $PREFIX/lib/libc++.so                 # [linux]
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
-        # absence of static libs & headers
-        - test ! -f $PREFIX/lib/libc++.a                # [unix]
-        - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
+        - test -f $PREFIX/lib/libc++.a                  # [unix]
+        - test -f $PREFIX/lib/libc++experimental.a      # [unix]
+        # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
