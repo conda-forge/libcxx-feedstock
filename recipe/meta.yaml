@@ -22,7 +22,7 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 6
+  number: 7
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -39,7 +39,7 @@ requirements:
     - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
-    - clangdev {{ version }}  # [not osx]
+    # - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
 outputs:
@@ -50,19 +50,14 @@ outputs:
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
-    # temporarily still in libcxx, until we update compiler stack w.r.t. libcxx-devel
-    # files:
-    #   - include/c++                 # [unix]
-    #   - lib/libc++.a                # [unix]
-    #   - lib/libc++experimental.*    # [unix]
-    #   - Library/include/c++         # [win]
-    #   - Library/lib/c++*.lib        # [win]
-    #   - Library/lib/libc++*.lib     # [win]
+    files:
+      - include/c++                 # [unix]
+      - Library/include/c++         # [win]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
-        - {{ pin_subpackage("libcxx", exact=True) }}
+        - {{ pin_subpackage("libcxx", max_pin=None) }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
 
@@ -129,11 +124,8 @@ outputs:
       - lib/libc++.dylib            # [osx]
       - lib/libc++.*.dylib          # [osx]
       - Library/bin/c++*.dll        # [win]
-    # temporarily still in libcxx, until we update compiler stack w.r.t. libcxx-devel
-      - include/c++                 # [unix]
       - lib/libc++.a                # [unix]
       - lib/libc++experimental.*    # [unix]
-      - Library/include/c++         # [win]
       - Library/lib/c++*.lib        # [win]
       - Library/lib/libc++*.lib     # [win]
     requirements:
@@ -149,13 +141,13 @@ outputs:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       commands:
-        # presence of shared libraries
+        # presence of shared & static libraries
         - test -f $PREFIX/lib/libc++.so                 # [linux]
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
-        # absence of static libs & headers
-        # - test ! -f $PREFIX/lib/libc++.a                # [unix]
-        # - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
-        # - test ! -d $PREFIX/include/c++                 # [unix]
+        - test -f $PREFIX/lib/libc++.a                  # [unix]
+        - test -f $PREFIX/lib/libc++experimental.a      # [unix]
+        # absence of headers
+        - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
     build:
