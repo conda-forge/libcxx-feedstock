@@ -41,7 +41,6 @@ requirements:
     - {{ stdlib('c') }}
     - python >3               # [not osx]
   host:
-    - clangdev {{ version }}  # [not osx]
     - llvmdev {{ version }}   # [not osx]
 
 outputs:
@@ -54,20 +53,16 @@ outputs:
         - libcxx =*=debug*                              # [hardening == "debug"]
     files:
       - include/c++                 # [unix]
-      - lib/libc++.a                # [unix]
-      - lib/libc++experimental.*    # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
       - share/libc++/*              # [unix]
       - Library/include/c++         # [win]
-      - Library/lib/c++*.lib        # [win]
-      - Library/lib/libc++*.lib     # [win]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
         # re-enable this once chrono implementation is in shared library
         # - tzdata
-        - {{ pin_subpackage("libcxx", exact=True) }}
+        - {{ pin_subpackage("libcxx", max_pin=None) }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
 
@@ -116,15 +111,12 @@ outputs:
       downstreams:              # [osx]
         - python-symengine      # [osx]
         - openturns             # [osx]
-      # disabled until libcxx-testing depends on `libcxx-devel`
-      {% if False %}
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
         - libcxx-testing 0.18   # [osx]
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
-      {% endif %}
     {% endif %}
 
   - name: libcxx
@@ -144,6 +136,11 @@ outputs:
       - lib/libc++.dylib            # [osx]
       - lib/libc++.*.dylib          # [osx]
       - Library/bin/c++*.dll        # [win]
+      # static libs for cross-compilation, due to lack of host-exports
+      - lib/libc++.a                # [unix]
+      - lib/libc++experimental.*    # [unix]
+      - Library/lib/c++*.lib        # [win]
+      - Library/lib/libc++*.lib     # [win]
     requirements:
       build:
         - {{ stdlib('c') }}
@@ -157,12 +154,12 @@ outputs:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
     test:
       commands:
-        # presence of shared libraries
+        # presence of shared & static libraries
         - test -f $PREFIX/lib/libc++.so                 # [linux]
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
-        # absence of static libs & headers
-        - test ! -f $PREFIX/lib/libc++.a                # [unix]
-        - test ! -f $PREFIX/lib/libc++experimental.a    # [unix]
+        - test -f $PREFIX/lib/libc++.a                  # [unix]
+        - test -f $PREFIX/lib/libc++experimental.a      # [unix]
+        # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
   - name: libcxxabi
