@@ -59,8 +59,8 @@ outputs:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
-        # re-enable this once chrono implementation is in shared library
-        # - tzdata
+        # re-enable this for osx once chrono implementation is in shared library
+        - tzdata  # [linux]
         - {{ pin_subpackage("libcxx", max_pin=None) }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
@@ -97,12 +97,11 @@ outputs:
         - test -f $PREFIX/lib/libc++abi.so                        # [linux]
 
         # for full chrono support, libcxx needs leap-seconds.list, which
-        # isn't shipped in ubuntu-22.04 nor macos-14 images (ubuntu-24.04
-        # should have it, but isn't available in azure pipelines yet).
+        # isn't shipped macos-14 image
         - ls -lL /usr/share/zoneinfo
         # This check is intended to start failing once an image starts shipping
         # that file, so we can re-enable the leapsecond portion of the tzdb-tests
-        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi
+        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi  # [osx]
 
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
