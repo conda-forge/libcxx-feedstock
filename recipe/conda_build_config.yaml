@@ -48,7 +48,7 @@ sys_abi:                    # [osx]
   # - pre-12                  # [osx]
 
 channel_sources:
-  - conda-forge/label/llvm_rc,conda-forge
+  - conda-forge,conda-forge/label/llvm_rc
 
 # publish the pre-12 ABI & hardened builds to a separate label
 channel_targets:
