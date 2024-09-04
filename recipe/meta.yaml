@@ -40,8 +40,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - python >3               # [not osx]
-  host:
-    - llvmdev {{ version }}   # [not osx]
 
 outputs:
   - name: libcxx-devel
