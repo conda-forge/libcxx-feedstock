@@ -18,8 +18,8 @@ source:
       - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
-      # work around https://github.com/llvm/llvm-project/issues/90332
-      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
+      # tentative fix for https://github.com/llvm/llvm-project/issues/90332
+      - patches/0004-runtimes-Probe-for-nostdlib-and-nostdinc-with-the-C-.patch
 
 build:
   number: 7
