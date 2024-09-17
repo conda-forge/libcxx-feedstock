@@ -11,9 +11,9 @@ c_stdlib:
 c_stdlib_version:
 - '11.0'
 channel_sources:
-- conda-forge,conda-forge/label/llvm_rc
+- conda-forge
 channel_targets:
-- conda-forge llvm_rc
+- conda-forge libcxx_debug
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
@@ -21,7 +21,7 @@ cxx_compiler_version:
 dummy_var:
 - '1'
 hardening:
-- none
+- debug
 macos_machine:
 - arm64-apple-darwin20.0.0
 sys_abi:
