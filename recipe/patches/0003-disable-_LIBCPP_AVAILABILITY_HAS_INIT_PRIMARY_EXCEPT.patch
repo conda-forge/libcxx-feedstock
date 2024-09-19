@@ -1,7 +1,7 @@
-From b696d088e01cfa8b3e7dd226342ca37bd8c95621 Mon Sep 17 00:00:00 2001
+From 1fa872f42eb17226d5f37425f393c72bc12cfc92 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 22:04:04 +1100
-Subject: [PATCH 3/4] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
+Subject: [PATCH 3/5] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
  unconditionally
 
 When _LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS is not defined, things
@@ -18,19 +18,21 @@ macOS baseline is >=15.0, as we rely on the libcxxabi shipped by the system.
 
 See also https://github.com/llvm/llvm-project/issues/77653 & https://github.com/llvm/llvm-project/issues/86077
 ---
- libcxx/include/__availability | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ libcxx/include/__configuration/availability.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/libcxx/include/__availability b/libcxx/include/__availability
-index 59fafbbee393..50dab515d2a7 100644
---- a/libcxx/include/__availability
-+++ b/libcxx/include/__availability
-@@ -103,7 +103,7 @@
+diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
+index 70de9989b457..bbcb17a910aa 100644
+--- a/libcxx/include/__configuration/availability.h
++++ b/libcxx/include/__configuration/availability.h
+@@ -352,8 +352,8 @@
  // These macros controls the availability of __cxa_init_primary_exception
  // in the built library, which std::make_exception_ptr might use
  // (see libcxx/include/__exception/exception_ptr.h).
--#  define _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION 1
-+#  define _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION 0
- #  define _LIBCPP_AVAILABILITY_INIT_PRIMARY_EXCEPTION
+-#define _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION _LIBCPP_INTRODUCED_IN_LLVM_18
+-#define _LIBCPP_AVAILABILITY_INIT_PRIMARY_EXCEPTION _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE
++#define _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION 0
++#define _LIBCPP_AVAILABILITY_INIT_PRIMARY_EXCEPTION /* nothing */
  
- // These macros control the availability of all parts of <filesystem> that
+ // This controls the availability of C++23 <print>, which
+ // has a dependency on the built library (it needs access to
