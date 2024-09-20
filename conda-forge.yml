@@ -3,10 +3,10 @@ bot:
   - 16.x
 build_platform:
   osx_arm64: osx_64
+channel_priority: flexible
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
-channel_priority: flexible
 github:
   branch_name: main
   tooling_branch_name: main
