@@ -15,8 +15,4 @@ channel_priority: flexible
 github:
   branch_name: main
   tooling_branch_name: main
-remote_ci_setup:
-# https://github.com/conda-forge/conda-forge-ci-setup-feedstock/issues/342
-- conda-forge-ci-setup<4.9
-- conda-build>=24.1
 test: native_and_emulated
