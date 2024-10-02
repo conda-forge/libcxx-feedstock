@@ -84,8 +84,7 @@ outputs:
         - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
-        - bash compile_test.sh                                    # [unix]
-        - compile_test.bat                                        # [win]
+
         # make sure we inserted link to our docs wherever it is necessary;
         # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
         # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
@@ -103,6 +102,9 @@ outputs:
         # This check is intended to start failing once an image starts shipping
         # that file, so we can re-enable the leapsecond portion of the tzdb-tests
         - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi
+
+        - bash compile_test.sh                                    # [unix]
+        - compile_test.bat                                        # [win]
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
