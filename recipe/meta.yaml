@@ -1,4 +1,4 @@
-{% set version = "19.1.0" %}
+{% set version = "19.1.1" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 0a08341036ca99a106786f50f9c5cb3fbe458b3b74cab6089fd368d0edb2edfe
+    sha256: 115dfd98a353d05bffdab3f80db22f159da48aca0124e8c416f437adcd54b77f
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -84,8 +84,7 @@ outputs:
         - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
-        - bash compile_test.sh                                    # [unix]
-        - compile_test.bat                                        # [win]
+
         # make sure we inserted link to our docs wherever it is necessary;
         # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
         # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
@@ -104,6 +103,9 @@ outputs:
         # that file, so we can re-enable the leapsecond portion of the tzdb-tests
         - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi
 
+        - bash compile_test.sh                                    # [unix]
+        - compile_test.bat                                        # [win]
+
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
       downstreams:              # [osx]
@@ -112,6 +114,7 @@ outputs:
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
+        - libcxx-testing 0.19   # [osx]
         - libcxx-testing 0.18   # [osx]
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]
