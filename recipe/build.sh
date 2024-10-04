@@ -11,6 +11,7 @@ if [[ "$target_platform" == osx-* ]]; then
     export CMAKE_ARGS="$CMAKE_ARGS -DLIBCXX_ENABLE_VENDOR_AVAILABILITY_ANNOTATIONS=ON"
     # we want to build against the system libcxxabi, not ship our own
     export CMAKE_ARGS="$CMAKE_ARGS -DLIBCXX_CXX_ABI=system-libcxxabi"
+    export CMAKE_ARGS="$CMAKE_ARGS -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$CONDA_BUILD_SYSROOT/usr/include"
 fi
 
 export CFLAGS="$CFLAGS -I$LLVM_PREFIX/include -I$BUILD_PREFIX/include"
