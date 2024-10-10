@@ -4,7 +4,7 @@ azure:
       vmImage: ubuntu-24.04
   settings_osx:
     pool:
-      vmImage: macos-14
+      vmImage: macos-15
 bot:
   abi_migration_branches:
   - 18.x
