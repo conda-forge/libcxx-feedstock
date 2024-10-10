@@ -5,7 +5,7 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macos-14
+    vmImage: macos-15
   strategy:
     matrix:
       osx_64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12:
