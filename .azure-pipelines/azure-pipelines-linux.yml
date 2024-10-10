@@ -5,7 +5,7 @@
 jobs:
 - job: linux
   pool:
-    vmImage: ubuntu-latest
+    vmImage: ubuntu-24.04
   strategy:
     matrix:
       linux_64_channel_targetsconda-forge_libcxx_debughardeningdebug:
