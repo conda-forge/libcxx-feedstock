@@ -1,0 +1,118 @@
+From 7137c054c1f6d90c5b8dc92619da885d8bc23abc Mon Sep 17 00:00:00 2001
+From: Louis Dionne <ldionne.2@gmail.com>
+Date: Wed, 2 Oct 2024 15:50:21 -0400
+Subject: [PATCH 6/6] [libc++] Fix broken configuration system-libcxxabi on
+ Apple
+
+On Apple platforms, using system-libcxxabi as an ABI library wouldn't
+work because we'd try to re-export symbols from libc++abi that the
+system libc++abi.dylib might not have. Instead, only re-export those
+symbols when we're using the in-tree libc++abi.
+
+This does mean that libc++.dylib won't re-export any libc++abi symbols
+when building against the system libc++abi, which could be fixed in
+various ways. However, the best solution really depends on the intended
+use case, so this patch doesn't try to solve that problem.
+
+As a drive-by, also improve the diagnostic message when the user forgets
+to set the LIBCXX_CXX_ABI_INCLUDE_PATHS variable, which would previously
+lead to a confusing error.
+
+Closes #104672
+---
+ libcxx/cmake/Modules/HandleLibCXXABI.cmake | 25 +++++++++++++++++++++-
+ libcxx/src/CMakeLists.txt                  |  8 ++-----
+ libcxxabi/src/CMakeLists.txt               |  2 ++
+ 3 files changed, 28 insertions(+), 7 deletions(-)
+
+diff --git a/libcxx/cmake/Modules/HandleLibCXXABI.cmake b/libcxx/cmake/Modules/HandleLibCXXABI.cmake
+index 34e9a672a960..52236f473f35 100644
+--- a/libcxx/cmake/Modules/HandleLibCXXABI.cmake
++++ b/libcxx/cmake/Modules/HandleLibCXXABI.cmake
+@@ -83,6 +83,10 @@ endfunction()
+ 
+ # Link against a system-provided libstdc++
+ if ("${LIBCXX_CXX_ABI}" STREQUAL "libstdc++")
++  if(NOT LIBCXX_CXX_ABI_INCLUDE_PATHS)
++    message(FATAL_ERROR "LIBCXX_CXX_ABI_INCLUDE_PATHS must be set when selecting libstdc++ as an ABI library")
++  endif()
++
+   add_library(libcxx-abi-headers INTERFACE)
+   import_private_headers(libcxx-abi-headers "${LIBCXX_CXX_ABI_INCLUDE_PATHS}"
+     "cxxabi.h;bits/c++config.h;bits/os_defines.h;bits/cpu_defines.h;bits/cxxabi_tweaks.h;bits/cxxabi_forced.h")
+@@ -96,6 +100,10 @@ if ("${LIBCXX_CXX_ABI}" STREQUAL "libstdc++")
+ 
+ # Link against a system-provided libsupc++
+ elseif ("${LIBCXX_CXX_ABI}" STREQUAL "libsupc++")
++  if(NOT LIBCXX_CXX_ABI_INCLUDE_PATHS)
++    message(FATAL_ERROR "LIBCXX_CXX_ABI_INCLUDE_PATHS must be set when selecting libsupc++ as an ABI library")
++  endif()
++
+   add_library(libcxx-abi-headers INTERFACE)
+   import_private_headers(libcxx-abi-headers "${LIBCXX_CXX_ABI_INCLUDE_PATHS}"
+     "cxxabi.h;bits/c++config.h;bits/os_defines.h;bits/cpu_defines.h;bits/cxxabi_tweaks.h;bits/cxxabi_forced.h")
+@@ -114,7 +122,18 @@ elseif ("${LIBCXX_CXX_ABI}" STREQUAL "libcxxabi")
+   target_compile_definitions(libcxx-abi-headers INTERFACE "-DLIBCXX_BUILDING_LIBCXXABI")
+ 
+   if (TARGET cxxabi_shared)
+-    add_library(libcxx-abi-shared ALIAS cxxabi_shared)
++    add_library(libcxx-abi-shared INTERFACE)
++    target_link_libraries(libcxx-abi-shared INTERFACE cxxabi_shared)
++
++    # When using the in-tree libc++abi as an ABI library, libc++ re-exports the
++    # libc++abi symbols (on platforms where it can) because libc++abi is only an
++    # implementation detail of libc++.
++    target_link_libraries(libcxx-abi-shared INTERFACE cxxabi-reexports)
++
++    # Populate the OUTPUT_NAME property of libcxx-abi-shared because that is used when
++    # generating a linker script.
++    get_target_property(_output_name cxxabi_shared OUTPUT_NAME)
++    set_target_properties(libcxx-abi-shared PROPERTIES "OUTPUT_NAME" "${_output_name}")
+   endif()
+ 
+   if (TARGET cxxabi_static)
+@@ -131,6 +150,10 @@ elseif ("${LIBCXX_CXX_ABI}" STREQUAL "libcxxabi")
+ 
+ # Link against a system-provided libc++abi
+ elseif ("${LIBCXX_CXX_ABI}" STREQUAL "system-libcxxabi")
++  if(NOT LIBCXX_CXX_ABI_INCLUDE_PATHS)
++    message(FATAL_ERROR "LIBCXX_CXX_ABI_INCLUDE_PATHS must be set when selecting system-libcxxabi as an ABI library")
++  endif()
++
+   add_library(libcxx-abi-headers INTERFACE)
+   import_private_headers(libcxx-abi-headers "${LIBCXX_CXX_ABI_INCLUDE_PATHS}" "cxxabi.h;__cxxabi_config.h")
+   target_compile_definitions(libcxx-abi-headers INTERFACE "-DLIBCXX_BUILDING_LIBCXXABI")
+diff --git a/libcxx/src/CMakeLists.txt b/libcxx/src/CMakeLists.txt
+index 0dfc9647558d..b9ecbb196694 100644
+--- a/libcxx/src/CMakeLists.txt
++++ b/libcxx/src/CMakeLists.txt
+@@ -229,14 +229,10 @@ if (LIBCXX_ENABLE_SHARED)
+     target_link_libraries(cxx_shared PUBLIC libcxx-abi-shared)
+   endif()
+ 
+-  # Maybe re-export symbols from libc++abi
+-  # In particular, we don't re-export the symbols if libc++abi is merged statically
+-  # into libc++ because in that case there's no dylib to re-export from.
++  # Maybe force some symbols to be weak, not weak or not exported.
++  # TODO: This shouldn't depend on the platform, and ideally it should be done in the sources.
+   if (APPLE AND LIBCXX_CXX_ABI MATCHES "libcxxabi$"
+             AND NOT LIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY)
+-    target_link_libraries(cxx_shared PRIVATE cxxabi-reexports)
+-
+-    # TODO: These exports controls should not be tied to whether we re-export libc++abi symbols
+     target_link_libraries(cxx_shared PRIVATE
+       "-Wl,-unexported_symbols_list,${CMAKE_CURRENT_SOURCE_DIR}/../lib/libc++unexp.exp"
+       "-Wl,-force_symbols_not_weak_list,${CMAKE_CURRENT_SOURCE_DIR}/../lib/notweak.exp"
+diff --git a/libcxxabi/src/CMakeLists.txt b/libcxxabi/src/CMakeLists.txt
+index c1a7bcb14eb1..ade7fc104339 100644
+--- a/libcxxabi/src/CMakeLists.txt
++++ b/libcxxabi/src/CMakeLists.txt
+@@ -213,6 +213,8 @@ if (LIBCXXABI_ENABLE_SHARED)
+     list(APPEND LIBCXXABI_INSTALL_TARGETS "cxxabi_shared")
+   endif()
+ 
++  # TODO: Move this to libc++'s HandleLibCXXABI.cmake since this is effectively trying to control
++  #       what libc++ re-exports.
+   add_library(cxxabi-reexports INTERFACE)
+   function(reexport_symbols file)
+     # -exported_symbols_list is only available on Apple platforms
