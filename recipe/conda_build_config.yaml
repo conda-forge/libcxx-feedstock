@@ -6,10 +6,10 @@ cxx_compiler:        # [osx]
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
 c_compiler_version:     # [unix]
-  - 13                  # [linux]
+  - 14                  # [linux]
   - "*"                 # [osx]
 cxx_compiler_version:   # [unix]
-  - 13                  # [linux]
+  - 14                  # [linux]
   - "*"                 # [osx]
 
 # we want different hashes between osx-64 & osx-arm
@@ -29,3 +29,35 @@ c_stdlib_version:           # [linux]
 
 channel_targets:
   - conda-forge libcxx_dev
+
+# hardening modes can be useful to detect misuse or undefined behaviour, especially
+# as all modes maintain the same ABI; while the fast mode has essentially no runtime
+# impact, it uses a default assertion handler that just crashes (see #162) and is
+# therefore not a good choice for production builds. We provide fully hardened
+# "debug" builds in a separate channel, which can be used for testing, but must be
+# avoided in production (which we enforce with a run-export). For more details see
+# https://libcxx.llvm.org/Hardening.html
+hardening:
+  - none
+  # - debug
+  # - none                    # [osx]
+
+# in some scenarios, libraries will load a cached _system_ libc++, and if we have an
+# ABI-mismatch with that system lib, segfaults ensue (see libcxx-testing-feedstock);
+# because the ABI changed with macOS 12, we build a version each for before & after
+sys_abi:                    # [osx]
+  - post-12                 # [osx]
+  # - post-12                 # [osx]
+  # - pre-12                  # [osx]
+
+# # publish the pre-12 ABI & hardened builds to a separate label
+# channel_targets:
+#   - conda-forge main
+#   - conda-forge libcxx_debug
+#   - conda-forge libcxx_macos_lt_12  # [osx]
+
+zip_keys:
+  -
+    - hardening
+    - channel_targets
+    - sys_abi                   # [osx]

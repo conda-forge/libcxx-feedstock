@@ -1,6 +1,11 @@
+azure:
+  settings_osx:
+    pool:
+      vmImage: macos-14
 bot:
   abi_migration_branches:
-  - 16.x
+  - 18.x
+  - 17.x
 build_platform:
   osx_arm64: osx_64
 conda_build:
@@ -10,7 +15,4 @@ channel_priority: flexible
 github:
   branch_name: main
   tooling_branch_name: main
-provider:
-  linux_aarch64: default
-  linux_ppc64le: default
 test: native_and_emulated
