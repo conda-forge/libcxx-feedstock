@@ -1,4 +1,4 @@
-From bf8c76c5be4a6923267959f629650d375ffe1fb5 Mon Sep 17 00:00:00 2001
+From 523bd80b771d7448bd81a303b8eafe314e5baf02 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 13 Jul 2021 01:57:06 -0500
 Subject: [PATCH 1/5] Fix ABI compatibility with system
@@ -8,22 +8,22 @@ Subject: [PATCH 1/5] Fix ABI compatibility with system
  1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/libcxx/src/locale.cpp b/libcxx/src/locale.cpp
-index 4efdc63c0966..812d1a386096 100644
+index a1e10401f0b2..9e47db09b431 100644
 --- a/libcxx/src/locale.cpp
 +++ b/libcxx/src/locale.cpp
 @@ -174,10 +174,6 @@ locale::__imp::__imp(size_t refs) : facet(refs), facets_(N), name_("C") {
    install(&make<codecvt<char16_t, char, mbstate_t> >(1u));
    install(&make<codecvt<char32_t, char, mbstate_t> >(1u));
    _LIBCPP_SUPPRESS_DEPRECATED_POP
--#ifndef _LIBCPP_HAS_NO_CHAR8_T
+-#if _LIBCPP_HAS_CHAR8_T
 -  install(&make<codecvt<char16_t, char8_t, mbstate_t> >(1u));
 -  install(&make<codecvt<char32_t, char8_t, mbstate_t> >(1u));
 -#endif
    install(&make<numpunct<char> >(1u));
- #ifndef _LIBCPP_HAS_NO_WIDE_CHARACTERS
+ #if _LIBCPP_HAS_WIDE_CHARACTERS
    install(&make<numpunct<wchar_t> >(1u));
 @@ -216,6 +212,10 @@ locale::__imp::__imp(size_t refs) : facet(refs), facets_(N), name_("C") {
- #ifndef _LIBCPP_HAS_NO_WIDE_CHARACTERS
+ #if _LIBCPP_HAS_WIDE_CHARACTERS
    install(&make<std::messages<wchar_t> >(1u));
  #endif
 +#ifndef _LIBCPP_HAS_NO_CHAR8_T
@@ -37,21 +37,21 @@ index 4efdc63c0966..812d1a386096 100644
      install(new codecvt_byname<char16_t, char, mbstate_t>(name_));
      install(new codecvt_byname<char32_t, char, mbstate_t>(name_));
      _LIBCPP_SUPPRESS_DEPRECATED_POP
--#ifndef _LIBCPP_HAS_NO_CHAR8_T
+-#if _LIBCPP_HAS_CHAR8_T
 -    install(new codecvt_byname<char16_t, char8_t, mbstate_t>(name_));
 -    install(new codecvt_byname<char32_t, char8_t, mbstate_t>(name_));
 -#endif
      install(new numpunct_byname<char>(name_));
- #ifndef _LIBCPP_HAS_NO_WIDE_CHARACTERS
+ #if _LIBCPP_HAS_WIDE_CHARACTERS
      install(new numpunct_byname<wchar_t>(name_));
 @@ -268,6 +264,10 @@ locale::__imp::__imp(const string& name, size_t refs) : facet(refs), facets_(N),
- #ifndef _LIBCPP_HAS_NO_WIDE_CHARACTERS
+ #if _LIBCPP_HAS_WIDE_CHARACTERS
      install(new messages_byname<wchar_t>(name_));
  #endif
 +#ifndef _LIBCPP_HAS_NO_CHAR8_T
 +    install(new codecvt_byname<char16_t, char8_t, mbstate_t>(name_));
 +    install(new codecvt_byname<char32_t, char8_t, mbstate_t>(name_));
 +#endif
- #ifndef _LIBCPP_HAS_NO_EXCEPTIONS
+ #if _LIBCPP_HAS_EXCEPTIONS
    } catch (...) {
      for (unsigned i = 0; i < facets_.size(); ++i)
