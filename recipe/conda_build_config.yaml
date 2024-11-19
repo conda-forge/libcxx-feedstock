@@ -29,7 +29,7 @@ c_stdlib_version:           # [linux]
   # but as we only publish one build to main, maintain global lower bounds
 
 channel_targets:
-  - conda-forge libcxx_dev
+  - conda-forge llvm_dev
 
 # hardening modes can be useful to detect misuse or undefined behaviour, especially
 # as all modes maintain the same ABI; while the fast mode has essentially no runtime
