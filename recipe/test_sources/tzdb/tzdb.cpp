@@ -86,8 +86,10 @@ test_load_leapseconds()
   std::printf("found %zu leapseconds\n", len);
 
   // this is correct as of tzdata 2024a
-  // disabled currently due to missing leap-seconds.list, see meta.yaml
-  // VERIFY( db.leap_seconds.size() == 27 );
+  // disabled currently due to missing leap-seconds.list on osx, see meta.yaml
+#if defined(__linux__)
+  VERIFY( db.leap_seconds.size() == 27 );
+#endif
 }
 
 int main()

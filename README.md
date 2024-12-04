@@ -104,14 +104,14 @@ Current release info
 Installing libcxx
 =================
 
-Installing `libcxx` from the `conda-forge/label/libcxx_debug` channel can be achieved by adding `conda-forge/label/libcxx_debug` to your channels with:
+Installing `libcxx` from the `conda-forge/label/libcxx_macos_lt_12` channel can be achieved by adding `conda-forge/label/libcxx_macos_lt_12` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/libcxx_debug
+conda config --add channels conda-forge/label/libcxx_macos_lt_12
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/libcxx_debug` channel has been enabled, `libcxx, libcxx-devel, libcxxabi` can be installed with `conda`:
+Once the `conda-forge/label/libcxx_macos_lt_12` channel has been enabled, `libcxx, libcxx-devel, libcxxabi` can be installed with `conda`:
 
 ```
 conda install libcxx libcxx-devel libcxxabi
@@ -126,26 +126,26 @@ mamba install libcxx libcxx-devel libcxxabi
 It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
 
 ```
-conda search libcxx --channel conda-forge/label/libcxx_debug
+conda search libcxx --channel conda-forge/label/libcxx_macos_lt_12
 ```
 
 or with `mamba`:
 
 ```
-mamba search libcxx --channel conda-forge/label/libcxx_debug
+mamba search libcxx --channel conda-forge/label/libcxx_macos_lt_12
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libcxx --channel conda-forge/label/libcxx_debug
+mamba repoquery search libcxx --channel conda-forge/label/libcxx_macos_lt_12
 
 # List packages depending on `libcxx`:
-mamba repoquery whoneeds libcxx --channel conda-forge/label/libcxx_debug
+mamba repoquery whoneeds libcxx --channel conda-forge/label/libcxx_macos_lt_12
 
 # List dependencies of `libcxx`:
-mamba repoquery depends libcxx --channel conda-forge/label/libcxx_debug
+mamba repoquery depends libcxx --channel conda-forge/label/libcxx_macos_lt_12
 ```
 
 

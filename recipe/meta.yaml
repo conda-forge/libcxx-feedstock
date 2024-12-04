@@ -1,4 +1,4 @@
-{% set version = "19.1.4" %}
+{% set version = "19.1.5" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 010e1fd3cabee8799bd2f8a6fbc68f28207494f315cf9da7057a2820f79fd531
+    sha256: e2204b9903cd9d7ee833a2f56a18bef40a33df4793e31cc090906b32cbd8a1f5
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -58,8 +58,8 @@ outputs:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
-        # re-enable this once chrono implementation is in shared library
-        # - tzdata
+        # re-enable this for osx once chrono implementation is in shared library
+        - tzdata  # [linux]
         - {{ pin_subpackage("libcxx", max_pin=None) }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
@@ -96,12 +96,11 @@ outputs:
         - test -f $PREFIX/lib/libc++abi.so                        # [linux]
 
         # for full chrono support, libcxx needs leap-seconds.list, which
-        # isn't shipped in ubuntu-22.04 nor macos-14 images (ubuntu-24.04
-        # should have it, but isn't available in azure pipelines yet).
+        # isn't shipped macos-14 image
         - ls -lL /usr/share/zoneinfo
         # This check is intended to start failing once an image starts shipping
         # that file, so we can re-enable the leapsecond portion of the tzdb-tests
-        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi
+        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi  # [osx]
 
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
