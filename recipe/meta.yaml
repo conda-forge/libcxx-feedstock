@@ -11,8 +11,8 @@ package:
 
 source:
   # - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  - url: https://github.com/llvm/llvm-project/archive/0cda970ecc8a885acf7298a61370a1368b0ea39b.tar.gz
-    sha256: a9749646c9889a850b4bdac253d5db148e043e6a631c6a4556a2ade5a42a4cd0
+  - url: https://github.com/llvm/llvm-project/archive/d6ec7c82f383ae4268f350f4d2e267af45fae8c0.tar.gz
+    sha256: 81e2a81196ac36405b480236e864e76ba79f1707d29e000a627fdbed6e345f2b
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -25,7 +25,7 @@ source:
       - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
