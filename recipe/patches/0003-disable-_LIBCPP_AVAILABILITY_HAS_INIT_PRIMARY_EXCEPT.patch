@@ -1,4 +1,4 @@
-From 1fa872f42eb17226d5f37425f393c72bc12cfc92 Mon Sep 17 00:00:00 2001
+From 95421fd66d41d1cad4eb8d427a038786a524e950 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 22:04:04 +1100
 Subject: [PATCH 3/5] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION

@@ -18,10 +18,10 @@ source:
       - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
-      # work around https://github.com/llvm/llvm-project/issues/90332
-      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
-      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      # backport https://github.com/llvm/llvm-project/pull/108357
+      - patches/0005-runtimes-Probe-for-nostdlib-and-nostdinc-with-the-C-.patch
 
 build:
   number: 0
