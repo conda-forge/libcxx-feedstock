@@ -44,9 +44,9 @@ requirements:
 outputs:
   - name: libcxx-devel
     build:
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "none"]
       string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
-      run_exports:                                      # [hardening == "debug"]
+      run_exports:   # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
     files:
@@ -107,7 +107,7 @@ outputs:
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
-      downstreams:              # [osx]
+      downstreams:   # [osx]
         - python-symengine      # [osx]
         - openturns             # [osx]
         # test current libcxx against old clang builds;
@@ -121,9 +121,9 @@ outputs:
 
   - name: libcxx
     build:
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "none"]
       string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
-      run_exports:                                      # [hardening == "debug"]
+      run_exports:   # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
         - libcxx =*=debug*                              # [hardening == "debug"]
       ignore_run_exports_from:
@@ -166,7 +166,7 @@ outputs:
     build:
       skip: true  # [not linux]
       # even though libcxxabi shouldn't be affected, distinguish builds
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "none"]
       string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
     files:
       - lib/libc++abi.*
