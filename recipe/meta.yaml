@@ -1,4 +1,4 @@
-{% set version = "19.1.0.rc4" %}
+{% set version = "19.1.7" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,17 +11,17 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 570ea538eae9939e1b008c4e8055227dae3ab58054c74707ad1d5a8cb51536c3
+    sha256: 59abea1c22e64933fad4de1671a61cdb934098793c7a31b333ff58dc41bff36c
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
-      # work around https://github.com/llvm/llvm-project/issues/90332
-      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
-      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      # backport https://github.com/llvm/llvm-project/pull/108357
+      - patches/0005-runtimes-Probe-for-nostdlib-and-nostdinc-with-the-C-.patch
 
 build:
   number: 0
@@ -58,8 +58,8 @@ outputs:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
       run:
-        # re-enable this once chrono implementation is in shared library
-        # - tzdata
+        # re-enable this for osx once chrono implementation is in shared library
+        - tzdata  # [linux]
         - {{ pin_subpackage("libcxx", max_pin=None) }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
@@ -84,8 +84,7 @@ outputs:
         - echo {{ sys_abi }}                                      # [osx]
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
-        - bash compile_test.sh                                    # [unix]
-        - compile_test.bat                                        # [win]
+
         # make sure we inserted link to our docs wherever it is necessary;
         # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
         # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
@@ -97,12 +96,14 @@ outputs:
         - test -f $PREFIX/lib/libc++abi.so                        # [linux]
 
         # for full chrono support, libcxx needs leap-seconds.list, which
-        # isn't shipped in ubuntu-22.04 nor macos-14 images (ubuntu-24.04
-        # should have it, but isn't available in azure pipelines yet).
+        # isn't shipped macos-14 image
         - ls -lL /usr/share/zoneinfo
         # This check is intended to start failing once an image starts shipping
         # that file, so we can re-enable the leapsecond portion of the tzdb-tests
-        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi
+        - if [ 0 -ne $(ls -lL /usr/share/zoneinfo | grep leap-seconds.list | wc -l) ]; then exit 1; fi  # [osx]
+
+        - bash compile_test.sh                                    # [unix]
+        - compile_test.bat                                        # [win]
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
@@ -112,6 +113,7 @@ outputs:
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
+        - libcxx-testing 0.19   # [osx]
         - libcxx-testing 0.18   # [osx]
         - libcxx-testing 0.17   # [osx]
         - libcxx-testing 0.16   # [osx]

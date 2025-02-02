@@ -39,6 +39,7 @@ do
     ./a.out
 done
 
+if [[ "$target_platform" == linux* ]]; then
 # tzdb integration (experimental as of v19)
 cd test_sources/tzdb
 clang++ -stdlib=libc++ -fexperimental-library -std=c++20 -O2 -g tzdb.cpp -o tzdb $FLAGS
@@ -48,3 +49,4 @@ clang++ -stdlib=libc++ -fexperimental-library -std=c++20 -O2 -g tzdb.cpp -o tzdb
 unset PREFIX
 unset CONDA_PREFIX
 ./tzdb
+fi
