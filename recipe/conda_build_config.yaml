@@ -20,8 +20,8 @@ MACOSX_SDK_VERSION:         # [osx]
   - "11.0"                  # [osx and arm64]
 
 c_stdlib_version:           # [linux]
-  # actually would need >=2.24, but we don't have that in conda-forge yet
-  - "2.17"                  # [linux]
+  # upstream requires >=2.24, but we only have RHEL increments (2.17, 2.28, 2.34)
+  - "2.28"                  # [linux]
   # w.r.t. to the ABI of the system libcxx, this would need to be 12.0 on macos
   # but as we only publish one build to main, maintain global lower bounds
 
