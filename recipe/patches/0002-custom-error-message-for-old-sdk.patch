@@ -1,18 +1,18 @@
-From 7a6b8cee3b11db797a01eb2bdd9a0e4c31bf6aca Mon Sep 17 00:00:00 2001
+From dbc4e28095865cd67f48567ea68aab7bdaa1abde Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
 Subject: [PATCH 2/5] custom error message for old sdk
 
 Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---
- libcxx/include/__configuration/availability.h | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ libcxx/include/__configuration/availability.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
-index ab483a07c9c1..70de9989b457 100644
+index 261cf9c1ae9d..dc03f5531d5b 100644
 --- a/libcxx/include/__configuration/availability.h
 +++ b/libcxx/include/__configuration/availability.h
-@@ -135,12 +135,12 @@
+@@ -122,7 +122,7 @@
  // LLVM 19
  // TODO: Fill this in
  #  define _LIBCPP_INTRODUCED_IN_LLVM_19 0
@@ -20,23 +20,17 @@ index ab483a07c9c1..70de9989b457 100644
 +#  define _LIBCPP_INTRODUCED_IN_LLVM_19_ATTRIBUTE __attribute__((macos, strict, introduced = 15.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))
  
  // LLVM 18
- // TODO: Fill this in
- #  define _LIBCPP_INTRODUCED_IN_LLVM_18 0
--#  define _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE __attribute__((unavailable))
-+#  define _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE __attribute__((macos, strict, introduced = 15.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))
- 
- // LLVM 17
- #  if (defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 140400) ||       \
-@@ -152,7 +152,7 @@
- #    define _LIBCPP_INTRODUCED_IN_LLVM_17 1
+ #  if (defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 150000) ||       \
+@@ -136,7 +136,7 @@
+ #    define _LIBCPP_INTRODUCED_IN_LLVM_18 1
  #  endif
- #  define _LIBCPP_INTRODUCED_IN_LLVM_17_ATTRIBUTE                                                                 \
--    __attribute__((availability(macos, strict, introduced = 14.4)))                                               \
-+    __attribute__((availability(macos, strict, introduced = 14.4, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))) \
-     __attribute__((availability(ios, strict, introduced = 17.4)))                                                 \
-     __attribute__((availability(tvos, strict, introduced = 17.4)))                                                \
-     __attribute__((availability(watchos, strict, introduced = 10.4)))
-@@ -167,7 +167,7 @@
+ #  define _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE                                                                 \
+-    __attribute__((availability(macos, strict, introduced = 15.0)))                                               \
++    __attribute__((availability(macos, strict, introduced = 15.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))) \
+     __attribute__((availability(ios, strict, introduced = 18.0)))                                                 \
+     __attribute__((availability(tvos, strict, introduced = 18.0)))                                                \
+     __attribute__((availability(watchos, strict, introduced = 11.0)))                                             \
+@@ -155,7 +155,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_16 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_16_ATTRIBUTE                                                                 \
@@ -44,8 +38,8 @@ index ab483a07c9c1..70de9989b457 100644
 +    __attribute__((availability(macos, strict, introduced = 14.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))) \
      __attribute__((availability(ios, strict, introduced = 17.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 17.0)))                                                \
-     __attribute__((availability(watchos, strict, introduced = 10.0)))
-@@ -182,7 +182,7 @@
+     __attribute__((availability(watchos, strict, introduced = 10.0)))                                             \
+@@ -174,7 +174,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_15 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_15_ATTRIBUTE                                                                 \
@@ -53,17 +47,8 @@ index ab483a07c9c1..70de9989b457 100644
 +    __attribute__((availability(macos, strict, introduced = 13.4, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))) \
      __attribute__((availability(ios, strict, introduced = 16.5)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 16.5)))                                                \
-     __attribute__((availability(watchos, strict, introduced = 9.5)))
-@@ -201,7 +201,7 @@
- #    define _LIBCPP_INTRODUCED_IN_LLVM_13 1
- #  endif
- #  define _LIBCPP_INTRODUCED_IN_LLVM_13_ATTRIBUTE                                                                 \
--    __attribute__((availability(macos, strict, introduced = 13.0)))                                               \
-+    __attribute__((availability(macos, strict, introduced = 13.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))) \
-     __attribute__((availability(ios, strict, introduced = 16.0)))                                                 \
-     __attribute__((availability(tvos, strict, introduced = 16.0)))                                                \
-     __attribute__((availability(watchos, strict, introduced = 9.0)))
-@@ -216,7 +216,7 @@
+     __attribute__((availability(watchos, strict, introduced = 9.5)))                                              \
+@@ -197,7 +197,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_12 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_12_ATTRIBUTE                                                                 \
@@ -71,8 +56,8 @@ index ab483a07c9c1..70de9989b457 100644
 +    __attribute__((availability(macos, strict, introduced = 12.3, message="see https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk"))) \
      __attribute__((availability(ios, strict, introduced = 15.3)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 15.3)))                                                \
-     __attribute__((availability(watchos, strict, introduced = 8.3)))
-@@ -231,7 +231,7 @@
+     __attribute__((availability(watchos, strict, introduced = 8.3)))                                              \
+@@ -214,7 +214,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_11 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_11_ATTRIBUTE                                                                 \
@@ -81,7 +66,7 @@ index ab483a07c9c1..70de9989b457 100644
      __attribute__((availability(ios, strict, introduced = 14.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 14.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 7.0)))
-@@ -250,12 +250,12 @@
+@@ -229,12 +229,12 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_9 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_9_ATTRIBUTE                                                                  \

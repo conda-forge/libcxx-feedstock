@@ -1,4 +1,4 @@
-From 2ff612a0e19739e0523c98f6580a09c4dbd6bd73 Mon Sep 17 00:00:00 2001
+From d8128c0c4c6523e97bff5547daab08e16480877f Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 13:01:28 +1100
 Subject: [PATCH 4/5] Work around stray `-nostdlib++` flags causing errors with
@@ -47,26 +47,26 @@ index 126c872f0d48..ab9ea1d5ce01 100644
  
  if(HAIKU)
 diff --git a/libunwind/src/CMakeLists.txt b/libunwind/src/CMakeLists.txt
-index 780430ba70ba..8f53719d4007 100644
+index ecbd019bb29e..0d8128593684 100644
 --- a/libunwind/src/CMakeLists.txt
 +++ b/libunwind/src/CMakeLists.txt
-@@ -168,7 +168,8 @@ if (LIBUNWIND_ENABLE_SHARED)
-   set_target_properties(unwind_shared
-     PROPERTIES
-       LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
--      LINKER_LANGUAGE C
-+      # changed from C due to https://github.com/llvm/llvm-project/issues/90332
-+      LINKER_LANGUAGE CXX
-       OUTPUT_NAME "${LIBUNWIND_SHARED_OUTPUT_NAME}"
-       VERSION "1.0"
-       SOVERSION "1"
-@@ -214,7 +215,8 @@ if (LIBUNWIND_ENABLE_STATIC)
-   set_target_properties(unwind_static
-     PROPERTIES
-       LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
--      LINKER_LANGUAGE C
-+      # changed from C due to https://github.com/llvm/llvm-project/issues/90332
-+      LINKER_LANGUAGE CXX
-       OUTPUT_NAME "${LIBUNWIND_STATIC_OUTPUT_NAME}"
-   )
+@@ -180,7 +180,8 @@ set_target_properties(unwind_shared
+   PROPERTIES
+     EXCLUDE_FROM_ALL "$<IF:$<BOOL:${LIBUNWIND_ENABLE_SHARED}>,FALSE,TRUE>"
+     LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
+-    LINKER_LANGUAGE C
++    # changed from C due to https://github.com/llvm/llvm-project/issues/90332
++    LINKER_LANGUAGE CXX
+     OUTPUT_NAME "${LIBUNWIND_SHARED_OUTPUT_NAME}"
+     VERSION     "${LIBUNWIND_LIBRARY_VERSION}"
+     SOVERSION   "1"
+@@ -227,7 +228,8 @@ set_target_properties(unwind_static
+   PROPERTIES
+     EXCLUDE_FROM_ALL "$<IF:$<BOOL:${LIBUNWIND_ENABLE_STATIC}>,FALSE,TRUE>"
+     LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"
+-    LINKER_LANGUAGE C
++    # changed from C due to https://github.com/llvm/llvm-project/issues/90332
++    LINKER_LANGUAGE CXX
+     OUTPUT_NAME "${LIBUNWIND_STATIC_OUTPUT_NAME}"
+ )
  
