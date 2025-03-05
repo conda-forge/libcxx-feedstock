@@ -1,4 +1,4 @@
-{% set version = "19.1.7" %}
+{% set version = "20.1.0.rc3" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,17 +11,17 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 59abea1c22e64933fad4de1671a61cdb934098793c7a31b333ff58dc41bff36c
+    sha256: 5e8e26a61f8339c020fdf6c5037b4dfb3cd015a2237f17cd6b5bbefc9179a2c6
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
       - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
       - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
+      # work around https://github.com/llvm/llvm-project/issues/90332
+      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
-      - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
-      # backport https://github.com/llvm/llvm-project/pull/108357
-      - patches/0005-runtimes-Probe-for-nostdlib-and-nostdinc-with-the-C-.patch
+      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
   number: 0
