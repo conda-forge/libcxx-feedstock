@@ -1,0 +1,25 @@
+From d7c9846f50d0b987a465de98feb153f136d01542 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Wed, 31 Jul 2024 14:57:49 +1100
+Subject: [PATCH 4/4] patch __libcpp_tzdb_directory to allow use on osx
+
+---
+ libcxx/src/experimental/tzdb.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/libcxx/src/experimental/tzdb.cpp b/libcxx/src/experimental/tzdb.cpp
+index f38f495c2d0b..8cc6f3309702 100644
+--- a/libcxx/src/experimental/tzdb.cpp
++++ b/libcxx/src/experimental/tzdb.cpp
+@@ -52,11 +52,7 @@ namespace chrono {
+ // This function is weak so it can be overriden in the tests. The
+ // declaration is in the test header test/support/test_tzdb.h
+ _LIBCPP_WEAK string_view __libcpp_tzdb_directory() {
+-#if defined(__linux__)
+   return "/usr/share/zoneinfo/";
+-#else
+-#  error "unknown path to the IANA Time Zone Database"
+-#endif
+ }
+ 
+ //===----------------------------------------------------------------------===//

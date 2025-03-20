@@ -1,0 +1,32 @@
+From 832e619b000d8df597290f4fa8bfbaeacab30566 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sun, 26 May 2024 22:04:04 +1100
+Subject: [PATCH 2/4] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
+ unconditionally
+
+The required symbols (`___cxa_init_primary_exception` etc.) are in libcxxabi,
+which we intentionally don't ship ourselves.
+
+Therefore, we must disable this feature unconditionally, at least until our
+macOS baseline is >=15.0, as we rely on the libcxxabi shipped by the system.
+
+See also https://github.com/llvm/llvm-project/issues/77653 & https://github.com/llvm/llvm-project/issues/86077
+---
+ libcxx/include/__configuration/availability.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
+index 261cf9c1ae9d..4922c4c0102f 100644
+--- a/libcxx/include/__configuration/availability.h
++++ b/libcxx/include/__configuration/availability.h
+@@ -331,8 +331,8 @@
+ // These macros controls the availability of __cxa_init_primary_exception
+ // in the built library, which std::make_exception_ptr might use
+ // (see libcxx/include/__exception/exception_ptr.h).
+-#define _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION _LIBCPP_INTRODUCED_IN_LLVM_18
+-#define _LIBCPP_AVAILABILITY_INIT_PRIMARY_EXCEPTION _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE
++#define _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION 0
++#define _LIBCPP_AVAILABILITY_INIT_PRIMARY_EXCEPTION /* nothing */
+ 
+ // This controls the availability of C++23 <print>, which
+ // has a dependency on the built library (it needs access to
