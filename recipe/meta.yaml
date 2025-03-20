@@ -23,7 +23,7 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
 
 build:
-  number: 7
+  number: 8
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
