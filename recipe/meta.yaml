@@ -1,4 +1,4 @@
-{% set version = "20.0.0.dev6" %}
+{% set version = "21.0.0.dev1" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,21 +11,20 @@ package:
 
 source:
   # - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  - url: https://github.com/llvm/llvm-project/archive/3b5e9eed2f67c1fb6dcf7033e92509ba2b0381e9.tar.gz
-    sha256: 29c26ef6c079376cf4dfdbca1cd2e6c53bb2e47eaafc66e13d396bdacdde1336
+  - url: https://github.com/llvm/llvm-project/archive/e5129b7e2092c54e503f60cc0ac552c765d5a144.tar.gz
+    sha256: f8506cf5d53a5d555384a8917432db40ef8a2b89a5172d64f8a753b649f0274b
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
-      - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
-      - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
+      - patches/0002-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
       # work around https://github.com/llvm/llvm-project/issues/90332
-      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
+      - patches/0003-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
-      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -86,11 +85,6 @@ outputs:
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
 
-        # make sure we inserted link to our docs wherever it is necessary;
-        # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
-        # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
-        # we want to have zero lines that don't either: contain our link or are for <=10.13 (lowest occurring in that file is 10.9)
-        - if [ 0 -ne $(cat ${PREFIX}/include/c++/v1/__configuration/availability.h | grep "availability(macos" | grep -vE "(conda-forge|10.9|10.1[0-3])" | wc -l) ]; then exit 1; fi  # [osx]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]

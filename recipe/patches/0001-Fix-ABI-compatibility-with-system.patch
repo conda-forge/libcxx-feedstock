@@ -1,14 +1,14 @@
-From 9131c7b7e8fbc354fd0d3e37d320fba7d098eea0 Mon Sep 17 00:00:00 2001
+From 9b7dc72a758db56bd05b715b3f9c1829556c7290 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 13 Jul 2021 01:57:06 -0500
-Subject: [PATCH 1/5] Fix ABI compatibility with system
+Subject: [PATCH 1/4] Fix ABI compatibility with system
 
 ---
  libcxx/src/locale.cpp | 16 ++++++++--------
  1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/libcxx/src/locale.cpp b/libcxx/src/locale.cpp
-index a1e10401f0b2..9e47db09b431 100644
+index 9ea59a3a19ca..91b2666d8a24 100644
 --- a/libcxx/src/locale.cpp
 +++ b/libcxx/src/locale.cpp
 @@ -174,10 +174,6 @@ locale::__imp::__imp(size_t refs) : facet(refs), facets_(N), name_("C") {
