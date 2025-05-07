@@ -51,7 +51,7 @@ outputs:
     files:
       - include/c++                 # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
-      - share/libc++/*              # [unix]
+      - share/libc++                # [unix]
       - Library/include/c++         # [win]
     requirements:
       host:
