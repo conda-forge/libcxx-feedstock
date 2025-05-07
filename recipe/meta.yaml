@@ -101,6 +101,11 @@ outputs:
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
 
+        # presence of std modules
+        - test -d $PREFIX/share/libc++                  # [unix]
+        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
+
+
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
       downstreams:              # [osx]
@@ -155,9 +160,6 @@ outputs:
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
         - test -f $PREFIX/lib/libc++.a                  # [unix]
         - test -f $PREFIX/lib/libc++experimental.a      # [unix]
-        # presence of std modules
-        - test -d $PREFIX/share/libc++                  # [unix]
-        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
         # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
