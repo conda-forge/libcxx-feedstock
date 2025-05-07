@@ -23,7 +23,7 @@ source:
       - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -51,8 +51,10 @@ outputs:
     files:
       - include/c++                 # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
-      - share/libc++/*              # [unix]
+      - share/libc++                # [unix]
       - Library/include/c++         # [win]
+      # also for C++20 modules
+      - lib/libc++.modules.json     # [unix]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
@@ -98,6 +100,11 @@ outputs:
 
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
+
+        # presence of std modules
+        - test -d $PREFIX/share/libc++                  # [unix]
+        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
+
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
