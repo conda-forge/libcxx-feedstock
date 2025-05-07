@@ -53,6 +53,8 @@ outputs:
       # for C++20 modules, which are installed into $PREFIX/share/libc++
       - share/libc++                # [unix]
       - Library/include/c++         # [win]
+      # also for C++20 modules
+      - lib/libc++.modules.json     # [unix]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
@@ -153,8 +155,9 @@ outputs:
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
         - test -f $PREFIX/lib/libc++.a                  # [unix]
         - test -f $PREFIX/lib/libc++experimental.a      # [unix]
-        # presence of std module
+        # presence of std modules
         - test -d $PREFIX/share/libc++                  # [unix]
+        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
         # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
