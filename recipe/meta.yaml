@@ -153,6 +153,8 @@ outputs:
         - test -f $PREFIX/lib/libc++.dylib              # [osx]
         - test -f $PREFIX/lib/libc++.a                  # [unix]
         - test -f $PREFIX/lib/libc++experimental.a      # [unix]
+        # presence of std module
+        - test -d $PREFIX/share/libc++                  # [unix]
         # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
