@@ -1,7 +1,7 @@
 From 4bbaf6820bfaf05b5d9f56ccaaddcd83e65fd316 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 22:04:04 +1100
-Subject: [PATCH 3/5] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
+Subject: [PATCH 3/6] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
  unconditionally
 
 The required symbols (`___cxa_init_primary_exception` etc.) are in libcxxabi,
