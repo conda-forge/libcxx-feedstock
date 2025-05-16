@@ -22,9 +22,11 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
       - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      # backport https://github.com/llvm/llvm-project/pull/137871
+      - patches/0006-libc-Work-around-new-GCC-15-type_traits-builtins-tha.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 

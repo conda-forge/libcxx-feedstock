@@ -1,0 +1,105 @@
+From a4c18c995cef709da2181ec01a115bcb3722fbb8 Mon Sep 17 00:00:00 2001
+From: Roland McGrath <mcgrathr@google.com>
+Date: Tue, 13 May 2025 12:23:50 -0700
+Subject: [PATCH 6/6] [libc++] Work around new GCC 15 type_traits builtins that
+ can't be used as Clang's can (#137871)
+
+GCC 15 has added builtins for various C++ type traits that Clang
+already had.  Since `__has_builtin(...)` now finds these, the #if
+branches previously only used for Clang are now used for GCC 15.
+However, GCC 15 requires that these builtins only be used in type
+aliases, not in template aliases.
+
+For now, just don't use the `__has_builtin(...)` branches under newer
+GCC versions, so both 14 and 15 work during the transition.  This
+can be cleaned up later to use all the GCC 15 builtins available.
+
+Fixed: #137704
+Fixed: #117319
+---
+ libcxx/include/__type_traits/add_lvalue_reference.h | 2 +-
+ libcxx/include/__type_traits/add_pointer.h          | 2 +-
+ libcxx/include/__type_traits/add_rvalue_reference.h | 2 +-
+ libcxx/include/__type_traits/decay.h                | 2 +-
+ libcxx/include/__type_traits/remove_all_extents.h   | 2 +-
+ libcxx/include/__type_traits/remove_extent.h        | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/libcxx/include/__type_traits/add_lvalue_reference.h b/libcxx/include/__type_traits/add_lvalue_reference.h
+index f861420a10e0..36479cb22eb3 100644
+--- a/libcxx/include/__type_traits/add_lvalue_reference.h
++++ b/libcxx/include/__type_traits/add_lvalue_reference.h
+@@ -18,7 +18,7 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
+-#if __has_builtin(__add_lvalue_reference)
++#if __has_builtin(__add_lvalue_reference) && !defined(_LIBCPP_COMPILER_GCC)
+ 
+ template <class _Tp>
+ using __add_lvalue_reference_t _LIBCPP_NODEBUG = __add_lvalue_reference(_Tp);
+diff --git a/libcxx/include/__type_traits/add_pointer.h b/libcxx/include/__type_traits/add_pointer.h
+index d10b5cf70c64..24e65f629314 100644
+--- a/libcxx/include/__type_traits/add_pointer.h
++++ b/libcxx/include/__type_traits/add_pointer.h
+@@ -20,7 +20,7 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
+-#if !defined(_LIBCPP_WORKAROUND_OBJCXX_COMPILER_INTRINSICS) && __has_builtin(__add_pointer)
++#if !defined(_LIBCPP_WORKAROUND_OBJCXX_COMPILER_INTRINSICS) && __has_builtin(__add_pointer) && !defined(_LIBCPP_COMPILER_GCC)
+ 
+ template <class _Tp>
+ using __add_pointer_t _LIBCPP_NODEBUG = __add_pointer(_Tp);
+diff --git a/libcxx/include/__type_traits/add_rvalue_reference.h b/libcxx/include/__type_traits/add_rvalue_reference.h
+index ed4f8633bce1..c9127bcbfb2b 100644
+--- a/libcxx/include/__type_traits/add_rvalue_reference.h
++++ b/libcxx/include/__type_traits/add_rvalue_reference.h
+@@ -18,7 +18,7 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
+-#if __has_builtin(__add_rvalue_reference)
++#if __has_builtin(__add_rvalue_reference) && !defined(_LIBCPP_COMPILER_GCC)
+ 
+ template <class _Tp>
+ using __add_rvalue_reference_t _LIBCPP_NODEBUG = __add_rvalue_reference(_Tp);
+diff --git a/libcxx/include/__type_traits/decay.h b/libcxx/include/__type_traits/decay.h
+index 2fd73d3dde45..804af7061c6c 100644
+--- a/libcxx/include/__type_traits/decay.h
++++ b/libcxx/include/__type_traits/decay.h
+@@ -25,7 +25,7 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
+-#if __has_builtin(__decay)
++#if __has_builtin(__decay) && !defined(_LIBCPP_COMPILER_GCC)
+ template <class _Tp>
+ using __decay_t _LIBCPP_NODEBUG = __decay(_Tp);
+ 
+diff --git a/libcxx/include/__type_traits/remove_all_extents.h b/libcxx/include/__type_traits/remove_all_extents.h
+index cb40ea4e4e1e..7fc661d6504c 100644
+--- a/libcxx/include/__type_traits/remove_all_extents.h
++++ b/libcxx/include/__type_traits/remove_all_extents.h
+@@ -18,7 +18,7 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
+-#if __has_builtin(__remove_all_extents)
++#if __has_builtin(__remove_all_extents) && !defined(_LIBCPP_COMPILER_GCC)
+ template <class _Tp>
+ struct _LIBCPP_NO_SPECIALIZATIONS remove_all_extents {
+   using type _LIBCPP_NODEBUG = __remove_all_extents(_Tp);
+diff --git a/libcxx/include/__type_traits/remove_extent.h b/libcxx/include/__type_traits/remove_extent.h
+index 636e392c9b10..048fc85bee47 100644
+--- a/libcxx/include/__type_traits/remove_extent.h
++++ b/libcxx/include/__type_traits/remove_extent.h
+@@ -18,7 +18,7 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
+-#if __has_builtin(__remove_extent)
++#if __has_builtin(__remove_extent) && !defined(_LIBCPP_COMPILER_GCC)
+ template <class _Tp>
+ struct _LIBCPP_NO_SPECIALIZATIONS remove_extent {
+   using type _LIBCPP_NODEBUG = __remove_extent(_Tp);
