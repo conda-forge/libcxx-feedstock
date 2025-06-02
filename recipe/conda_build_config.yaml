@@ -5,13 +5,10 @@ cxx_compiler:        # [osx]
 
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
-# but v20 isn't ready for GCC 15 yet
 c_compiler_version:     # [unix]
-  - 14                  # [linux]
-  - "*"                 # [osx]
+  - "*"                 # [unix]
 cxx_compiler_version:   # [unix]
-  - 14                  # [linux]
-  - "*"                 # [osx]
+  - "*"                 # [unix]
 
 # we want different hashes between osx-64 & osx-arm
 dummy_var:              # [osx]
