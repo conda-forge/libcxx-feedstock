@@ -16,12 +16,13 @@ source:
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
+      - patches/0002-custom-error-message-for-old-sdk.patch
       # disable feature that requires up-to-date libcxxabi, which we don't ship
-      - patches/0002-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
+      - patches/0003-disable-_LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPT.patch
       # work around https://github.com/llvm/llvm-project/issues/90332
-      - patches/0003-Work-around-stray-nostdlib-flags-causing-errors-with.patch
+      - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
-      - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
 
 build:
   number: 0
@@ -52,8 +53,10 @@ outputs:
     files:
       - include/c++                 # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
-      - share/libc++/*              # [unix]
+      - share/libc++                # [unix]
       - Library/include/c++         # [win]
+      # also for C++20 modules
+      - lib/libc++.modules.json     # [unix]
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
@@ -85,6 +88,11 @@ outputs:
         - if not exist %LIBRARY_INC%\\c++\\v1\\iterator exit 1    # [win]
         - test -f $PREFIX/include/c++/v1/iterator                 # [unix]
 
+        # make sure we inserted link to our docs wherever it is necessary;
+        # i.e. everywhere there's a string "availability(macos,...,introduced=<ver>)" for osx version >10.13;
+        # 'grep -v' inverts the match but returns non-zero exit code if no lines are returned; so we use 'wc -l';
+        # we want to have zero lines that don't either: contain our link or are for <=10.13 (lowest occurring in that file is 10.9)
+        - if [ 0 -ne $(cat ${PREFIX}/include/c++/v1/__configuration/availability.h | grep "availability(macos" | grep -vE "(conda-forge|10.9|10.1[0-3])" | wc -l) ]; then exit 1; fi  # [osx]
         # !!!!!!!!!!!! README !!!!!!!!!!!!!!!!!!
         # we do not ship libcxxabi on OSX - this breaks exception passing
         - if [ -f $PREFIX/lib/libc++abi.dylib ]; then exit 1; fi  # [osx]
@@ -99,6 +107,11 @@ outputs:
 
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
+
+        # presence of std modules
+        - test -d $PREFIX/share/libc++                  # [unix]
+        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
+
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
