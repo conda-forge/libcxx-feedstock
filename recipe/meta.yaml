@@ -72,11 +72,11 @@ outputs:
     test:
       requires:
         - clang                  # [osx]
-        - clangxx
         - ld64                   # [osx]
         - cctools                # [osx]
         - llvm-tools             # [osx]
         - {{ compiler('cxx') }}  # [not osx]
+        - clangxx                # [not osx]
       files:
         - test_sources
         - compile_test.sh   # [unix]
