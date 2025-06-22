@@ -18,9 +18,10 @@ dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
   - 1                   # [osx and arm64]
 
+c_stdlib_version:           # [osx]
+  - "12.0"                  # [osx]
 MACOSX_SDK_VERSION:         # [osx]
-  - "10.14"                 # [osx and x86_64]
-  - "11.0"                  # [osx and arm64]
+  - "13.3"                  # [osx]
 
 c_stdlib_version:           # [linux]
   # upstream requires >=2.24, but we only have RHEL increments (2.17, 2.28, 2.34)
