@@ -8,11 +8,23 @@ jobs:
     vmImage: macos-14
   strategy:
     matrix:
-      osx_64_:
-        CONFIG: osx_64_
+      osx_64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12:
+        CONFIG: osx_64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_:
-        CONFIG: osx_arm64_
+      osx_64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12:
+        CONFIG: osx_64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12
+        UPLOAD_PACKAGES: 'True'
+      osx_64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12:
+        CONFIG: osx_64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12:
+        CONFIG: osx_arm64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12:
+        CONFIG: osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12:
+        CONFIG: osx_arm64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables: {}
