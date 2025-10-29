@@ -23,6 +23,8 @@ source:
       - patches/0004-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
       # backport https://github.com/llvm/llvm-project/pull/108357
       - patches/0005-runtimes-Probe-for-nostdlib-and-nostdinc-with-the-C-.patch
+      # make headers platform neutral for conda-forge
+      - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
 
 build:
   number: 1
@@ -56,6 +58,8 @@ outputs:
       run:
         - __unix   # [unix]
         - __win    # [win]
+      run_constrained:
+        - libcxx-devel {{ version }}
 
   - name: libcxx-devel
     build:
@@ -70,7 +74,7 @@ outputs:
     requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
-        - {{ pin_subpackage("libcxx-headers", max_pin="x.x.x") }}
+        - {{ pin_subpackage("libcxx-headers", exact=True) }}
       run:
         # re-enable this for osx once chrono implementation is in shared library
         - tzdata  # [linux]
