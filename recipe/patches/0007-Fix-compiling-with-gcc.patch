@@ -1,0 +1,30 @@
+From db9e7722f47c654f57e41391eff73cb9810053c8 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Thu, 30 Oct 2025 08:46:06 -0700
+Subject: [PATCH 7/7] Fix compiling with gcc
+
+i.e. compilers without __using_if_exists__ attribute.
+This was fixed as won't fix in https://github.com/llvm/llvm-project/issues/98906
+but we need it for g++
+---
+ libcxx/include/cstdlib | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/libcxx/include/cstdlib b/libcxx/include/cstdlib
+index adeee29b93fd..efd694036323 100644
+--- a/libcxx/include/cstdlib
++++ b/libcxx/include/cstdlib
+@@ -145,8 +145,10 @@ using ::mbstowcs _LIBCPP_USING_IF_EXISTS;
+ using ::wcstombs _LIBCPP_USING_IF_EXISTS;
+ #  endif
+ #  if !defined(_LIBCPP_CXX03_LANG)
++# if __has_attribute(__using_if_exists__) || !defined(__APPLE__) || (defined MAC_OS_VERSION_15_0 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_15_0)
+ using ::at_quick_exit _LIBCPP_USING_IF_EXISTS;
+ using ::quick_exit _LIBCPP_USING_IF_EXISTS;
++# endif
+ #  endif
+ #  if _LIBCPP_STD_VER >= 17
+ using ::aligned_alloc _LIBCPP_USING_IF_EXISTS;
+-- 
+2.45.2
+

@@ -24,9 +24,11 @@ source:
       - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
       # make headers platform neutral for conda-forge
       - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
+      # support gcc
+      - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
