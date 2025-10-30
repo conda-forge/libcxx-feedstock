@@ -4,8 +4,13 @@ Date: Thu, 30 Oct 2025 08:46:06 -0700
 Subject: [PATCH 7/7] Fix compiling with gcc
 
 i.e. compilers without __using_if_exists__ attribute.
-This was fixed as won't fix in https://github.com/llvm/llvm-project/issues/98906
-but we need it for g++
+This was closed as won't fix in https://github.com/llvm/llvm-project/issues/98906
+but we need it for g++.
+
+at_quick_exit is only defined for macos>=15.0 and clang is okay with this
+construct because _LIBCPP_USING_IF_EXISTS=attribute ((using_if_exists))
+deletes the using line.
+
 ---
  libcxx/include/cstdlib | 2 ++
  1 file changed, 2 insertions(+)
@@ -18,10 +23,10 @@ index adeee29b93fd..efd694036323 100644
  using ::wcstombs _LIBCPP_USING_IF_EXISTS;
  #  endif
  #  if !defined(_LIBCPP_CXX03_LANG)
-+# if __has_attribute(__using_if_exists__) || !defined(__APPLE__) || (defined MAC_OS_VERSION_15_0 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_15_0)
++#    if __has_attribute(__using_if_exists__) || !defined(__APPLE__) || (defined MAC_OS_VERSION_15_0 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_15_0)
  using ::at_quick_exit _LIBCPP_USING_IF_EXISTS;
  using ::quick_exit _LIBCPP_USING_IF_EXISTS;
-+# endif
++#    endif
  #  endif
  #  if _LIBCPP_STD_VER >= 17
  using ::aligned_alloc _LIBCPP_USING_IF_EXISTS;
