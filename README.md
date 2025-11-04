@@ -99,53 +99,54 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx-green.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx.svg)](https://anaconda.org/conda-forge/libcxx) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx--devel-green.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx-devel.svg)](https://anaconda.org/conda-forge/libcxx-devel) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libcxx--headers-green.svg)](https://anaconda.org/conda-forge/libcxx-headers) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxx-headers.svg)](https://anaconda.org/conda-forge/libcxx-headers) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxx-headers.svg)](https://anaconda.org/conda-forge/libcxx-headers) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxx-headers.svg)](https://anaconda.org/conda-forge/libcxx-headers) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libcxxabi-green.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcxxabi.svg)](https://anaconda.org/conda-forge/libcxxabi) |
 
 Installing libcxx
 =================
 
-Installing `libcxx` from the `conda-forge/label/libcxx_debug` channel can be achieved by adding `conda-forge/label/libcxx_debug` to your channels with:
+Installing `libcxx` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/libcxx_debug
+conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/libcxx_debug` channel has been enabled, `libcxx, libcxx-devel, libcxxabi` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libcxx, libcxx-devel, libcxx-headers, libcxxabi` can be installed with `conda`:
 
 ```
-conda install libcxx libcxx-devel libcxxabi
+conda install libcxx libcxx-devel libcxx-headers libcxxabi
 ```
 
 or with `mamba`:
 
 ```
-mamba install libcxx libcxx-devel libcxxabi
+mamba install libcxx libcxx-devel libcxx-headers libcxxabi
 ```
 
 It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
 
 ```
-conda search libcxx --channel conda-forge/label/libcxx_debug
+conda search libcxx --channel conda-forge
 ```
 
 or with `mamba`:
 
 ```
-mamba search libcxx --channel conda-forge/label/libcxx_debug
+mamba search libcxx --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libcxx --channel conda-forge/label/libcxx_debug
+mamba repoquery search libcxx --channel conda-forge
 
 # List packages depending on `libcxx`:
-mamba repoquery whoneeds libcxx --channel conda-forge/label/libcxx_debug
+mamba repoquery whoneeds libcxx --channel conda-forge
 
 # List dependencies of `libcxx`:
-mamba repoquery depends libcxx --channel conda-forge/label/libcxx_debug
+mamba repoquery depends libcxx --channel conda-forge
 ```
 
 
