@@ -23,9 +23,13 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
       - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      # make headers platform neutral for conda-forge
+      - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
+      # support gcc
+      - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -43,13 +47,10 @@ requirements:
     - python >3               # [not osx]
 
 outputs:
-  - name: libcxx-devel
+  # This output is generic so that we can use the headers for cross compiling
+  - name: libcxx-headers
     build:
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
-      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
-      run_exports:                                      # [hardening == "debug"]
-        # packages built with hardened lib must not be installable without extra label
-        - libcxx =*=debug*                              # [hardening == "debug"]
+      noarch: generic
     files:
       - include/c++                 # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
@@ -58,12 +59,31 @@ outputs:
       # also for C++20 modules
       - lib/libc++.modules.json     # [unix]
     requirements:
+      run:
+        - __unix   # [unix]
+        - __win    # [win]
+      run_constrained:
+        - libcxx-devel {{ version }}
+
+  - name: libcxx-devel
+    build:
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
+      run_exports:                                      # [hardening == "debug"]
+        # packages built with hardened lib must not be installable without extra label
+        - libcxx =*=debug*                              # [hardening == "debug"]
+    files:
+      # Add non-existent path as this is a meta package
+      - include2/c++
+    requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
+        - {{ pin_subpackage("libcxx-headers", exact=True) }}
       run:
         # re-enable this for osx once chrono implementation is in shared library
         - tzdata  # [linux]
         - {{ pin_subpackage("libcxx", max_pin=None) }}
+        - {{ pin_subpackage("libcxx-headers", max_pin="x.x.x") }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
 
