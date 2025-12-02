@@ -16,20 +16,19 @@ deletes the using line.
  1 file changed, 2 insertions(+)
 
 diff --git a/libcxx/include/cstdlib b/libcxx/include/cstdlib
-index adeee29b93fd..efd694036323 100644
+index c817fd8f4acc..d9f4c8bc1812 100644
 --- a/libcxx/include/cstdlib
 +++ b/libcxx/include/cstdlib
-@@ -145,8 +145,10 @@ using ::mbstowcs _LIBCPP_USING_IF_EXISTS;
+@@ -142,8 +142,10 @@ using ::mbstowcs _LIBCPP_USING_IF_EXISTS;
  using ::wcstombs _LIBCPP_USING_IF_EXISTS;
- #  endif
- #  if !defined(_LIBCPP_CXX03_LANG)
-+#    if __has_attribute(__using_if_exists__) || !defined(__APPLE__) || (defined MAC_OS_VERSION_15_0 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_15_0)
- using ::at_quick_exit _LIBCPP_USING_IF_EXISTS;
- using ::quick_exit _LIBCPP_USING_IF_EXISTS;
-+#    endif
- #  endif
- #  if _LIBCPP_STD_VER >= 17
+ #endif
+ #if !defined(_LIBCPP_CXX03_LANG)
+-using ::at_quick_exit _LIBCPP_USING_IF_EXISTS;
+-using ::quick_exit _LIBCPP_USING_IF_EXISTS;
++#  if __has_attribute(__using_if_exists__) || !defined(__APPLE__) || (defined MAC_OS_VERSION_15_0 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_15_0)
++  using ::at_quick_exit _LIBCPP_USING_IF_EXISTS;
++  using ::quick_exit _LIBCPP_USING_IF_EXISTS;
++#  endif
+ #endif
+ #if _LIBCPP_STD_VER >= 17
  using ::aligned_alloc _LIBCPP_USING_IF_EXISTS;
--- 
-2.45.2
-

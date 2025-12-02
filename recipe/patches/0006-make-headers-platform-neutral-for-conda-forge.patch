@@ -8,14 +8,14 @@ Subject: [PATCH 6/6] make headers platform neutral for conda-forge
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/libcxx/include/__config_site.in b/libcxx/include/__config_site.in
-index fc01aaf2d874..8776ddca71c9 100644
+index 67022146c908..95c1c82f3b5c 100644
 --- a/libcxx/include/__config_site.in
 +++ b/libcxx/include/__config_site.in
-@@ -22,7 +22,11 @@
- #cmakedefine01 _LIBCPP_HAS_THREAD_API_WIN32
- #define _LIBCPP_HAS_THREAD_API_C11 0 // FIXME: Is this guarding dead code?
+@@ -20,7 +20,11 @@
+ #cmakedefine _LIBCPP_HAS_THREAD_API_EXTERNAL
+ #cmakedefine _LIBCPP_HAS_THREAD_API_WIN32
  #cmakedefine _LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
--#cmakedefine01 _LIBCPP_HAS_VENDOR_AVAILABILITY_ANNOTATIONS
+-#cmakedefine _LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
 +#ifdef __APPLE__
 +#define _LIBCPP_HAS_VENDOR_AVAILABILITY_ANNOTATIONS 1
 +#else
@@ -23,4 +23,4 @@ index fc01aaf2d874..8776ddca71c9 100644
 +#endif
  #cmakedefine _LIBCPP_NO_VCRUNTIME
  #cmakedefine _LIBCPP_TYPEINFO_COMPARISON_IMPLEMENTATION @_LIBCPP_TYPEINFO_COMPARISON_IMPLEMENTATION@
- #cmakedefine01 _LIBCPP_HAS_FILESYSTEM
+ #cmakedefine _LIBCPP_HAS_NO_FILESYSTEM
