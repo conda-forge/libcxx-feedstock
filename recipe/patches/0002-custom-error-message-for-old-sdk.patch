@@ -1,7 +1,7 @@
-From e8d474fcf37c9ac316649e93f8913e414c49f8f3 Mon Sep 17 00:00:00 2001
+From c3aca9330bad3da1ff2476cf029e9c5834e9c105 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
-Subject: [PATCH 2/5] custom error message for old sdk
+Subject: [PATCH 2/6] custom error message for old sdk
 
 Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---
@@ -9,10 +9,10 @@ Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
  1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
-index aa2e75b6f6fe..263efe7ea397 100644
+index ae58e36b508b..004ea005a160 100644
 --- a/libcxx/include/__configuration/availability.h
 +++ b/libcxx/include/__configuration/availability.h
-@@ -123,12 +123,12 @@
+@@ -128,12 +128,12 @@
  // LLVM 20
  // TODO: Fill this in
  #  define _LIBCPP_INTRODUCED_IN_LLVM_20 0
@@ -27,7 +27,7 @@ index aa2e75b6f6fe..263efe7ea397 100644
  
  // LLVM 18
  #  if (defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 150000) ||       \
-@@ -142,7 +142,7 @@
+@@ -147,7 +147,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_18 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE                                                                 \
@@ -36,7 +36,7 @@ index aa2e75b6f6fe..263efe7ea397 100644
      __attribute__((availability(ios, strict, introduced = 18.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 18.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 11.0)))                                             \
-@@ -161,7 +161,7 @@
+@@ -166,7 +166,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_16 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_16_ATTRIBUTE                                                                 \
@@ -45,7 +45,7 @@ index aa2e75b6f6fe..263efe7ea397 100644
      __attribute__((availability(ios, strict, introduced = 17.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 17.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 10.0)))                                             \
-@@ -180,7 +180,7 @@
+@@ -185,7 +185,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_15 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_15_ATTRIBUTE                                                                 \
@@ -54,7 +54,7 @@ index aa2e75b6f6fe..263efe7ea397 100644
      __attribute__((availability(ios, strict, introduced = 16.3)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 16.3)))                                                \
      __attribute__((availability(watchos, strict, introduced = 9.3)))                                              \
-@@ -203,7 +203,7 @@
+@@ -208,7 +208,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_12 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_12_ATTRIBUTE                                                                 \
@@ -63,7 +63,7 @@ index aa2e75b6f6fe..263efe7ea397 100644
      __attribute__((availability(ios, strict, introduced = 15.3)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 15.3)))                                                \
      __attribute__((availability(watchos, strict, introduced = 8.3)))                                              \
-@@ -220,7 +220,7 @@
+@@ -225,7 +225,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_11 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_11_ATTRIBUTE                                                                 \
@@ -72,7 +72,7 @@ index aa2e75b6f6fe..263efe7ea397 100644
      __attribute__((availability(ios, strict, introduced = 14.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 14.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 7.0)))
-@@ -235,12 +235,12 @@
+@@ -240,12 +240,12 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_9 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_9_ATTRIBUTE                                                                  \

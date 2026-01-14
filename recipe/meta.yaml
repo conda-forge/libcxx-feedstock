@@ -1,4 +1,4 @@
-{% set version = "21.1.0.rc3" %}
+{% set version = "21.1.8" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: f54cd5397f60a9f22f0b4a24fb9e9a1625a2499aca97c6cf3b418a77d039923a
+    sha256: 7ba3f2a8d8fda88be18a31d011e8195d3b7f87f9fa92b20c94cba2d7f65b0e3f
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -22,6 +22,10 @@ source:
       - patches/0004-Work-around-stray-nostdlib-flags-causing-errors-with.patch
       # allow chrono implementation to work on osx
       - patches/0005-patch-__libcpp_tzdb_directory-to-allow-use-on-osx.patch
+      # make headers platform neutral for conda-forge
+      - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
+      # support gcc
+      - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
   number: 0
@@ -42,13 +46,10 @@ requirements:
     - python >3               # [not osx]
 
 outputs:
-  - name: libcxx-devel
+  # This output is generic so that we can use the headers for cross compiling
+  - name: libcxx-headers
     build:
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
-      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
-      run_exports:                                      # [hardening == "debug"]
-        # packages built with hardened lib must not be installable without extra label
-        - libcxx =*=debug*                              # [hardening == "debug"]
+      noarch: generic
     files:
       - include/c++                 # [unix]
       # for C++20 modules, which are installed into $PREFIX/share/libc++
@@ -57,12 +58,31 @@ outputs:
       # also for C++20 modules
       - lib/libc++.modules.json     # [unix]
     requirements:
+      run:
+        - __unix   # [unix]
+        - __win    # [win]
+      run_constrained:
+        - libcxx-devel {{ version }}
+
+  - name: libcxx-devel
+    build:
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
+      run_exports:                                      # [hardening == "debug"]
+        # packages built with hardened lib must not be installable without extra label
+        - libcxx =*=debug*                              # [hardening == "debug"]
+    files:
+      # Add non-existent path as this is a meta package
+      - include2/c++
+    requirements:
       host:
         - {{ pin_subpackage("libcxx", exact=True) }}
+        - {{ pin_subpackage("libcxx-headers", exact=True) }}
       run:
         # re-enable this for osx once chrono implementation is in shared library
         - tzdata  # [linux]
         - {{ pin_subpackage("libcxx", max_pin=None) }}
+        - {{ pin_subpackage("libcxx-headers", max_pin="x.x.x") }}
       run_constrained:
         - __osx <12     # [osx and (sys_abi == "pre-12")]
 
@@ -166,6 +186,7 @@ outputs:
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
+        - libcxx-testing 0.21   # [osx]
         - libcxx-testing 0.20   # [osx]
         - libcxx-testing 0.19   # [osx]
         - libcxx-testing 0.18   # [osx]
