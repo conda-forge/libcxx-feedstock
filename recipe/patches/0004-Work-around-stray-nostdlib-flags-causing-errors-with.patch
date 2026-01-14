@@ -1,7 +1,7 @@
-From a2f2655ba6726bd01d23b2cbabc4bd52e20376d4 Mon Sep 17 00:00:00 2001
+From 64bc31820bc31db4f71e11f30cba3f6f6337ca24 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 13:01:28 +1100
-Subject: [PATCH 4/6] Work around stray `-nostdlib++` flags causing errors with
+Subject: [PATCH 4/7] Work around stray `-nostdlib++` flags causing errors with
  C compiler
 
 ---
@@ -47,7 +47,7 @@ index d42ceffb1f63..eab194cf73df 100644
  
  if(HAIKU)
 diff --git a/libunwind/src/CMakeLists.txt b/libunwind/src/CMakeLists.txt
-index 71663a22cdf4..858c343c70b4 100644
+index 6e947039fb0d..bb1e073fce4a 100644
 --- a/libunwind/src/CMakeLists.txt
 +++ b/libunwind/src/CMakeLists.txt
 @@ -153,7 +153,8 @@ set_target_properties(unwind_shared
@@ -60,7 +60,7 @@ index 71663a22cdf4..858c343c70b4 100644
      OUTPUT_NAME "${LIBUNWIND_SHARED_OUTPUT_NAME}"
      VERSION     "${LIBUNWIND_LIBRARY_VERSION}"
      SOVERSION   "1"
-@@ -201,7 +202,8 @@ set_target_properties(unwind_static
+@@ -194,7 +195,8 @@ set_target_properties(unwind_static
    PROPERTIES
      EXCLUDE_FROM_ALL "$<IF:$<BOOL:${LIBUNWIND_ENABLE_STATIC}>,FALSE,TRUE>"
      LINK_FLAGS "${LIBUNWIND_LINK_FLAGS}"

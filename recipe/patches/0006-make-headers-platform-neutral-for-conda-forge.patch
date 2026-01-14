@@ -1,14 +1,14 @@
-From bae712d3cba92a670c93deaeedf659973c69145c Mon Sep 17 00:00:00 2001
+From 71f7e2833482b9437db6c414c7220616b3602bb5 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Oct 2025 10:42:00 -0700
-Subject: [PATCH 6/6] make headers platform neutral for conda-forge
+Subject: [PATCH 6/7] make headers platform neutral for conda-forge
 
 ---
  libcxx/include/__config_site.in | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/libcxx/include/__config_site.in b/libcxx/include/__config_site.in
-index fc01aaf2d874..8776ddca71c9 100644
+index b09ca807ee81..fbc2193c50b6 100644
 --- a/libcxx/include/__config_site.in
 +++ b/libcxx/include/__config_site.in
 @@ -22,7 +22,11 @@
