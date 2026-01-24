@@ -1,0 +1,26 @@
+From 71f7e2833482b9437db6c414c7220616b3602bb5 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Wed, 29 Oct 2025 10:42:00 -0700
+Subject: [PATCH 6/7] make headers platform neutral for conda-forge
+
+---
+ libcxx/include/__config_site.in | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/libcxx/include/__config_site.in b/libcxx/include/__config_site.in
+index b09ca807ee81..fbc2193c50b6 100644
+--- a/libcxx/include/__config_site.in
++++ b/libcxx/include/__config_site.in
+@@ -22,7 +22,11 @@
+ #cmakedefine01 _LIBCPP_HAS_THREAD_API_WIN32
+ #define _LIBCPP_HAS_THREAD_API_C11 0 // FIXME: Is this guarding dead code?
+ #cmakedefine _LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
+-#cmakedefine01 _LIBCPP_HAS_VENDOR_AVAILABILITY_ANNOTATIONS
++#ifdef __APPLE__
++#define _LIBCPP_HAS_VENDOR_AVAILABILITY_ANNOTATIONS 1
++#else
++#define _LIBCPP_HAS_VENDOR_AVAILABILITY_ANNOTATIONS 0
++#endif
+ #cmakedefine _LIBCPP_NO_VCRUNTIME
+ #cmakedefine _LIBCPP_TYPEINFO_COMPARISON_IMPLEMENTATION @_LIBCPP_TYPEINFO_COMPARISON_IMPLEMENTATION@
+ #cmakedefine01 _LIBCPP_HAS_FILESYSTEM

@@ -1,17 +1,17 @@
-From dc24e891f067f9bbc34c8c8e6e66d10b0c02cd33 Mon Sep 17 00:00:00 2001
+From ed34be2a05bea97de9ad9ae3149cc13d96a92a83 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Wed, 31 Jul 2024 14:57:49 +1100
-Subject: [PATCH 5/5] patch __libcpp_tzdb_directory to allow use on osx
+Subject: [PATCH 5/7] patch __libcpp_tzdb_directory to allow use on osx
 
 ---
  libcxx/src/experimental/tzdb.cpp | 4 ----
  1 file changed, 4 deletions(-)
 
 diff --git a/libcxx/src/experimental/tzdb.cpp b/libcxx/src/experimental/tzdb.cpp
-index f38f495c2d0b..8cc6f3309702 100644
+index 3dc92fb7b7f2..03873b9d2367 100644
 --- a/libcxx/src/experimental/tzdb.cpp
 +++ b/libcxx/src/experimental/tzdb.cpp
-@@ -52,11 +52,7 @@ namespace chrono {
+@@ -54,11 +54,7 @@ _LIBCPP_CLANG_DIAGNOSTIC_IGNORED("-Wmissing-prototypes")
  // This function is weak so it can be overriden in the tests. The
  // declaration is in the test header test/support/test_tzdb.h
  _LIBCPP_WEAK string_view __libcpp_tzdb_directory() {
@@ -21,5 +21,5 @@ index f38f495c2d0b..8cc6f3309702 100644
 -#  error "unknown path to the IANA Time Zone Database"
 -#endif
  }
+ _LIBCPP_DIAGNOSTIC_POP
  
- //===----------------------------------------------------------------------===//
