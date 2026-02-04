@@ -1,7 +1,7 @@
-From 0a9f7ddc1ac5d65185c276907fb66e4e46dba39f Mon Sep 17 00:00:00 2001
+From 3be05fbf6331aa6169a04b755409d54b6d4c4191 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Wed, 31 Jul 2024 14:57:49 +1100
-Subject: [PATCH 5/6] patch __libcpp_tzdb_directory to allow use on osx
+Subject: [PATCH 5/7] patch __libcpp_tzdb_directory to allow use on osx
 
 ---
  libcxx/src/experimental/tzdb.cpp | 4 ----
