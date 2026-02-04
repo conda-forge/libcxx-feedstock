@@ -1,7 +1,7 @@
-From 99b1bb1c73ef199f5cbd8e06408665b1fa71e6bb Mon Sep 17 00:00:00 2001
+From af844b76248f7c0af27f12697e486b34d9ef2f4b Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 22:04:04 +1100
-Subject: [PATCH 3/6] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
+Subject: [PATCH 3/7] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
  unconditionally
 
 The required symbols (`___cxa_init_primary_exception` etc.) are in libcxxabi,
@@ -16,7 +16,7 @@ See also https://github.com/llvm/llvm-project/issues/77653 & https://github.com/
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
-index 004ea005a160..f394a5c51f96 100644
+index fa3691a233e9..25326c498aca 100644
 --- a/libcxx/include/__configuration/availability.h
 +++ b/libcxx/include/__configuration/availability.h
 @@ -317,8 +317,8 @@

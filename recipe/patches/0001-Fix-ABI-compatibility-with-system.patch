@@ -1,7 +1,7 @@
-From aacce1962ec0b3eb6b461f5a780c18a0447e6647 Mon Sep 17 00:00:00 2001
+From 7f3e96068b0b81c259fbe85b1ff40ed63b81e9e1 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 13 Jul 2021 01:57:06 -0500
-Subject: [PATCH 1/6] Fix ABI compatibility with system
+Subject: [PATCH 1/7] Fix ABI compatibility with system
 
 ---
  libcxx/src/locale.cpp | 16 ++++++++--------
