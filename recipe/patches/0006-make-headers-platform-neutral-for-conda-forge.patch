@@ -1,4 +1,4 @@
-From 6f6287867a659b7aecaeaf1d11355357844f13d5 Mon Sep 17 00:00:00 2001
+From b71092658eb9fa459aeda84dcaf01b864e84d195 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Oct 2025 10:42:00 -0700
 Subject: [PATCH 6/7] make headers platform neutral for conda-forge

@@ -1,4 +1,4 @@
-From 385239e5558c2548d05387307bfc1bef14650fc8 Mon Sep 17 00:00:00 2001
+From ac4361c6953fcd66704407d77ab7fad44d8c34ec Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 13:01:28 +1100
 Subject: [PATCH 4/7] Work around stray `-nostdlib++` flags causing errors with

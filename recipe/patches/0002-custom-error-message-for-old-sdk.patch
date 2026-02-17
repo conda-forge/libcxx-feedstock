@@ -1,4 +1,4 @@
-From 2b36ca797fad7886d513d25f76973d2cb664fe80 Mon Sep 17 00:00:00 2001
+From d109fa5acdb0663d7ce3eb17c69a3391701b5c33 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
 Subject: [PATCH 2/7] custom error message for old sdk
@@ -9,7 +9,7 @@ Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
  1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
-index ae58e36b508b..fa3691a233e9 100644
+index ae58e36b508b..a97ce5e4786c 100644
 --- a/libcxx/include/__configuration/availability.h
 +++ b/libcxx/include/__configuration/availability.h
 @@ -128,12 +128,12 @@
@@ -50,7 +50,7 @@ index ae58e36b508b..fa3691a233e9 100644
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_15_ATTRIBUTE                                                                 \
 -    __attribute__((availability(macos, strict, introduced = 13.3)))                                               \
-+    __attribute__((availability(macos, strict, introduced = 13.3, message="see https://conda-forge.org/docs/maintainer/knowledge_base#newer-c-features-with-old-sdk")))                                               \
++    __attribute__((availability(macos, strict, introduced = 13.3, message="see https://conda-forge.org/docs/maintainer/knowledge_base#newer-c-features-with-old-sdk"))) \
      __attribute__((availability(ios, strict, introduced = 16.3)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 16.3)))                                                \
      __attribute__((availability(watchos, strict, introduced = 9.3)))                                              \
