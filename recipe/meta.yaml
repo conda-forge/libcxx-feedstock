@@ -63,6 +63,13 @@ outputs:
         - __win    # [win]
       run_constrained:
         - libcxx-devel {{ version }}
+        # core headers like algorithm rely on `__builtin_ctzg`, which needs newer compilers; c.f.
+        # https://github.com/llvm/llvm-project/commit/9e3982d9ae8173171cd7247ee505e9c02079c6bf
+        - clangxx >=19
+        # for gxx we don't have a suitable non-target-specific output that all platforms depend on
+        - gxx_linux-64 >=14
+        - gxx_osx-64 >=14
+        - gxx_osx-arm64 >=14
 
   - name: libcxx-devel
     build:
