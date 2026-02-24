@@ -1,4 +1,4 @@
-From a9d9d9e3503c9c182963755a2448a69874b678ed Mon Sep 17 00:00:00 2001
+From 8dc3376a4558f0f6eb622b86719ff4fa82a51e88 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sun, 26 May 2024 22:04:04 +1100
 Subject: [PATCH 3/7] disable _LIBCPP_AVAILABILITY_HAS_INIT_PRIMARY_EXCEPTION
@@ -16,10 +16,10 @@ See also https://github.com/llvm/llvm-project/issues/77653 & https://github.com/
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
-index a97ce5e4786c..e410cd244677 100644
+index 7df83e54e1e4..af5ff4353d7e 100644
 --- a/libcxx/include/__configuration/availability.h
 +++ b/libcxx/include/__configuration/availability.h
-@@ -317,8 +317,8 @@
+@@ -257,8 +257,8 @@
  // These macros controls the availability of __cxa_init_primary_exception
  // in the built library, which std::make_exception_ptr might use
  // (see libcxx/include/__exception/exception_ptr.h).

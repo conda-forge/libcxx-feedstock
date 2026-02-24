@@ -29,59 +29,24 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_channel_targetsconda-forge_libcxx_debughardeningdebug</td>
+              <td>linux_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_channel_targetsconda-forge_libcxx_debughardeningdebug" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_channel_targetsconda-forge_mainhardeningnone</td>
+              <td>osx_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_channel_targetsconda-forge_mainhardeningnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12</td>
+              <td>osx_arm64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libcxx-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
                 </a>
               </td>
             </tr>
@@ -105,14 +70,14 @@ Current release info
 Installing libcxx
 =================
 
-Installing `libcxx` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `libcxx` from the `conda-forge/label/llvm_rc` channel can be achieved by adding `conda-forge/label/llvm_rc` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/llvm_rc
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libcxx, libcxx-devel, libcxx-headers, libcxxabi` can be installed with `conda`:
+Once the `conda-forge/label/llvm_rc` channel has been enabled, `libcxx, libcxx-devel, libcxx-headers, libcxxabi` can be installed with `conda`:
 
 ```
 conda install libcxx libcxx-devel libcxx-headers libcxxabi
@@ -127,26 +92,26 @@ mamba install libcxx libcxx-devel libcxx-headers libcxxabi
 It is possible to list all of the versions of `libcxx` available on your platform with `conda`:
 
 ```
-conda search libcxx --channel conda-forge
+conda search libcxx --channel conda-forge/label/llvm_rc
 ```
 
 or with `mamba`:
 
 ```
-mamba search libcxx --channel conda-forge
+mamba search libcxx --channel conda-forge/label/llvm_rc
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libcxx --channel conda-forge
+mamba repoquery search libcxx --channel conda-forge/label/llvm_rc
 
 # List packages depending on `libcxx`:
-mamba repoquery whoneeds libcxx --channel conda-forge
+mamba repoquery whoneeds libcxx --channel conda-forge/label/llvm_rc
 
 # List dependencies of `libcxx`:
-mamba repoquery depends libcxx --channel conda-forge
+mamba repoquery depends libcxx --channel conda-forge/label/llvm_rc
 ```
 
 
