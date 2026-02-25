@@ -97,12 +97,14 @@ outputs:
     {% if sys_abi != "pre-12" %}
     test:
       requires:
-        - clang                  # [osx]
+        # we cannot depend on `clangxx` here, because it pins a matching version of `libcxx-devel`;
+        # to avoid circularity, use `clang`, which is enough (also avoid old versions without the pin)
+        - clang >=19             # [osx]
         - ld64                   # [osx]
         - cctools                # [osx]
         - llvm-tools             # [osx]
         - {{ compiler('cxx') }}  # [not osx]
-        - clangxx
+        - clangxx                # [not osx]
       files:
         - test_sources
         - compile_test.sh   # [unix]
