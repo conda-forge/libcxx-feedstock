@@ -1,4 +1,4 @@
-{% set version = "22.1.0" %}
+{% set version = "22.1.1" %}
 
 {% if sys_abi is undefined %}
 {% set sys_abi = "dummy" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-    sha256: 933765a1c2cd518d95a9033a92d88d7109a79aefa4609247c31f28b8bc8dd96e
+    sha256: c48878550911a8a8993a749e6118446082656768e62b26456ac7d39c4422b409
     patches:
       # See https://discourse.llvm.org/t/shipping-custom-libc-on-macos/58606
       - patches/0001-Fix-ABI-compatibility-with-system.patch    # [sys_abi == "pre-12"]
@@ -28,7 +28,7 @@ source:
       - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
