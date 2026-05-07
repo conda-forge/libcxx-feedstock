@@ -13,7 +13,7 @@ if errorlevel 1 exit 1
 
 set "CXXFLAGS=%CXXFLAGS% -Wno-c++98-compat"
 
-cmake ^
+cmake %CMAKE_ARGS% ^
     -G "Ninja" ^
     -DCMAKE_BUILD_TYPE="%BUILD_CONFIG%" ^
     -DCMAKE_PREFIX_PATH:PATH="%LIBRARY_PREFIX%" ^
