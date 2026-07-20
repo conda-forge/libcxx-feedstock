@@ -1,18 +1,24 @@
-From df6fd64da3561e11f88c2aa686a1aff4bb83f9b4 Mon Sep 17 00:00:00 2001
+From d073fa015c9917762405767a70b40ca34f9e1c85 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Dec 2021 19:28:35 -0800
 Subject: [PATCH 2/7] custom error message for old sdk
 
 Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---
- libcxx/include/__configuration/availability.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ libcxx/include/__configuration/availability.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/libcxx/include/__configuration/availability.h b/libcxx/include/__configuration/availability.h
-index 40e11b331498..7df83e54e1e4 100644
+index 735af5d431cb..739e1f5dfcad 100644
 --- a/libcxx/include/__configuration/availability.h
 +++ b/libcxx/include/__configuration/availability.h
-@@ -73,12 +73,12 @@
+@@ -78,12 +78,12 @@
+ // LLVM 23
+ // TODO: Fill this in
+ #  define _LIBCPP_INTRODUCED_IN_LLVM_23 0
+-#  define _LIBCPP_INTRODUCED_IN_LLVM_23_ATTRIBUTE __attribute__((unavailable))
++#  define _LIBCPP_INTRODUCED_IN_LLVM_23_ATTRIBUTE __attribute__((availability(macos, strict, introduced = 99.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base#newer-c-features-with-old-sdk")))
+ 
  // LLVM 22
  // TODO: Fill this in
  #  define _LIBCPP_INTRODUCED_IN_LLVM_22 0
@@ -20,14 +26,17 @@ index 40e11b331498..7df83e54e1e4 100644
 +#  define _LIBCPP_INTRODUCED_IN_LLVM_22_ATTRIBUTE __attribute__((availability(macos, strict, introduced = 99.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base#newer-c-features-with-old-sdk")))
  
  // LLVM 21
- // TODO: Fill this in
- #  define _LIBCPP_INTRODUCED_IN_LLVM_21 0
--#  define _LIBCPP_INTRODUCED_IN_LLVM_21_ATTRIBUTE __attribute__((unavailable))
-+#  define _LIBCPP_INTRODUCED_IN_LLVM_21_ATTRIBUTE __attribute__((availability(macos, strict, introduced = 99.0, message="see https://conda-forge.org/docs/maintainer/knowledge_base#newer-c-features-with-old-sdk")))
- 
- // LLVM 20
- //
-@@ -93,7 +93,7 @@
+ #  if (defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 260400) ||       \
+@@ -97,7 +97,7 @@
+ #    define _LIBCPP_INTRODUCED_IN_LLVM_21 1
+ #  endif
+ #  define _LIBCPP_INTRODUCED_IN_LLVM_21_ATTRIBUTE                                                                 \
+-    __attribute__((availability(macos, strict, introduced = 26.4)))                                               \
++    __attribute__((availability(macos, strict, introduced = 26.4, message="see https://conda-forge.org/docs/maintainer/knowledge_base#newer-c-features-with-old-sdk"))) \
+     __attribute__((availability(ios, strict, introduced = 26.4)))                                                 \
+     __attribute__((availability(tvos, strict, introduced = 26.4)))                                                \
+     __attribute__((availability(watchos, strict, introduced = 26.4)))                                             \
+@@ -118,7 +118,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_20 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_20_ATTRIBUTE                                                                 \
@@ -36,7 +45,7 @@ index 40e11b331498..7df83e54e1e4 100644
      __attribute__((availability(ios, strict, introduced = 26.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 26.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 26.0)))                                             \
-@@ -110,7 +110,7 @@
+@@ -137,7 +137,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_19 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_19_ATTRIBUTE                                                                 \
@@ -45,7 +54,7 @@ index 40e11b331498..7df83e54e1e4 100644
      __attribute__((availability(ios, strict, introduced = 18.4)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 18.4)))                                                \
      __attribute__((availability(watchos, strict, introduced = 11.4)))                                             \
-@@ -128,7 +128,7 @@
+@@ -156,7 +156,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_18 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_18_ATTRIBUTE                                                                 \
@@ -54,7 +63,7 @@ index 40e11b331498..7df83e54e1e4 100644
      __attribute__((availability(ios, strict, introduced = 18.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 18.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 11.0)))                                             \
-@@ -147,7 +147,7 @@
+@@ -175,7 +175,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_16 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_16_ATTRIBUTE                                                                 \
@@ -63,7 +72,7 @@ index 40e11b331498..7df83e54e1e4 100644
      __attribute__((availability(ios, strict, introduced = 17.0)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 17.0)))                                                \
      __attribute__((availability(watchos, strict, introduced = 10.0)))                                             \
-@@ -166,7 +166,7 @@
+@@ -194,7 +194,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_15 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_15_ATTRIBUTE                                                                 \
@@ -72,7 +81,7 @@ index 40e11b331498..7df83e54e1e4 100644
      __attribute__((availability(ios, strict, introduced = 16.3)))                                                 \
      __attribute__((availability(tvos, strict, introduced = 16.3)))                                                \
      __attribute__((availability(watchos, strict, introduced = 9.3)))                                              \
-@@ -189,7 +189,7 @@
+@@ -217,7 +217,7 @@
  #    define _LIBCPP_INTRODUCED_IN_LLVM_12 1
  #  endif
  #  define _LIBCPP_INTRODUCED_IN_LLVM_12_ATTRIBUTE                                                                 \
