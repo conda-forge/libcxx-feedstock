@@ -11,4 +11,8 @@ github:
   tooling_branch_name: main
 provider:
   osx_arm64: default
+remote_ci_setup:
+  - conda-forge-ci-setup=4
+  # https://github.com/conda/conda-build/issues/6076
+  - conda-build <26.7
 test: native_and_emulated
