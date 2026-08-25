@@ -1,4 +1,4 @@
-From 32c41df3e9cd8a05134880c4c08670049359b409 Mon Sep 17 00:00:00 2001
+From 66eae3cb5c24e2a88b28031a3b52d1335a077762 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Wed, 31 Jul 2024 14:57:49 +1100
 Subject: [PATCH 5/7] patch __libcpp_tzdb_directory to allow use on osx
@@ -8,13 +8,13 @@ Subject: [PATCH 5/7] patch __libcpp_tzdb_directory to allow use on osx
  1 file changed, 4 deletions(-)
 
 diff --git a/libcxx/src/experimental/tzdb.cpp b/libcxx/src/experimental/tzdb.cpp
-index 3dc92fb7b7f2..03873b9d2367 100644
+index ca4aa1cabd76..c913c16ce803 100644
 --- a/libcxx/src/experimental/tzdb.cpp
 +++ b/libcxx/src/experimental/tzdb.cpp
-@@ -54,11 +54,7 @@ _LIBCPP_CLANG_DIAGNOSTIC_IGNORED("-Wmissing-prototypes")
+@@ -55,11 +55,7 @@ _LIBCPP_CLANG_DIAGNOSTIC_IGNORED("-Wmissing-prototypes")
  // This function is weak so it can be overriden in the tests. The
  // declaration is in the test header test/support/test_tzdb.h
- _LIBCPP_WEAK string_view __libcpp_tzdb_directory() {
+ [[gnu::weak]] string_view __libcpp_tzdb_directory() {
 -#if defined(__linux__)
    return "/usr/share/zoneinfo/";
 -#else
