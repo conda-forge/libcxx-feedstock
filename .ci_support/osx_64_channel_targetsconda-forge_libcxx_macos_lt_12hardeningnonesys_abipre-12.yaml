@@ -11,9 +11,9 @@ c_stdlib:
 c_stdlib_version:
 - '11.0'
 channel_sources:
-- conda-forge,conda-forge/label/llvm_rc
+- conda-forge
 channel_targets:
-- conda-forge llvm_rc
+- conda-forge libcxx_macos_lt_12
 cxx_compiler:
 - clang_bootstrap
 cxx_compiler_version:
@@ -25,7 +25,7 @@ hardening:
 macos_machine:
 - x86_64-apple-darwin13.4.0
 sys_abi:
-- post-12
+- pre-12
 target_platform:
 - osx-64
 zip_keys:
