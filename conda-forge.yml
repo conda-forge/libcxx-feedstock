@@ -1,8 +1,7 @@
 bot:
   abi_migration_branches:
+  - 22.x
   - 21.x
-  - 20.x
-  - 19.x
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
