@@ -1,0 +1,255 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ian Anderson <iana@apple.com>
+Date: Mon, 19 Jan 2026 20:12:40 +0000
+Subject: [PATCH 8/8] [libc++] Remove libc++'s <float.h> (#175849)
+
+The existence of <float.h> in libc++ leads to difficulties with modules,
+especially when it comes to supporting the various __need macros
+supported by the Clang builtin headers.
+
+Fortunately, libc++'s <float.h> only defines FLT_EVAL_METHOD and
+DECIMAL_DIG, which are already defined by the Clang builtin headers in
+C++11 mode. Hence, removing the header entirely should have no impact,
+apart from not defining FLT_EVAL_METHOD and DECIMAL_DIG in C++03 mode.
+However, that is arguably something that libc++ shouldn't be doing: if
+the underlying C library doesn't want to provide these definitions, then
+libc++ shouldn't force it to.
+
+Backported to LLVM 21.x from upstream commit 501645cbebf787794184eda48440bc03896a4f7b.
+The frozen C++03 headers (libcxx/include/__cxx03/) are left unchanged: in
+21.x they still use their own __cxx03/float.h, which is only used when
+_LIBCPP_USE_FROZEN_CXX03_HEADERS is defined.
+---
+ libcxx/include/CMakeLists.txt                 |  1 -
+ libcxx/include/cfloat                         | 14 ++-
+ libcxx/include/float.h                        | 99 -------------------
+ libcxx/include/module.modulemap.in            |  4 -
+ .../depr.c.headers/float_h.compile.pass.cpp   |  8 ++
+ .../support.limits/c.limits/cfloat.pass.cpp   |  4 +
+ 6 files changed, 18 insertions(+), 112 deletions(-)
+ delete mode 100644 libcxx/include/float.h
+
+diff --git a/libcxx/include/CMakeLists.txt b/libcxx/include/CMakeLists.txt
+index 9e9852de..8d995e5b 100644
+--- a/libcxx/include/CMakeLists.txt
++++ b/libcxx/include/CMakeLists.txt
+@@ -1017,7 +1017,6 @@ set(files
+   filesystem
+   flat_map
+   flat_set
+-  float.h
+   format
+   forward_list
+   fstream
+diff --git a/libcxx/include/cfloat b/libcxx/include/cfloat
+index 18b4afd2..82d51405 100644
+--- a/libcxx/include/cfloat
++++ b/libcxx/include/cfloat
+@@ -74,14 +74,12 @@ Macros:
+ #else
+ #  include <__config>
+ 
+-#  include <float.h>
+-
+-#  ifndef _LIBCPP_FLOAT_H
+-#   error <cfloat> tried including <float.h> but didn't find libc++'s <float.h> header. \
+-          This usually means that your header search paths are not configured properly. \
+-          The header search paths should contain the C++ Standard Library headers before \
+-          any C Standard Library, and you are probably using compiler flags that make that \
+-          not be the case.
++// <float.h> is not provided by libc++
++#  if __has_include(<float.h>)
++#    include <float.h>
++#    ifdef _LIBCPP_FLOAT_H
++#      error "If libc++ starts defining <float.h>, the __has_include check should move to libc++'s <float.h>"
++#    endif
+ #  endif
+ 
+ #  if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+diff --git a/libcxx/include/float.h b/libcxx/include/float.h
+deleted file mode 100644
+index a6e79db9..00000000
+--- a/libcxx/include/float.h
++++ /dev/null
+@@ -1,99 +0,0 @@
+-// -*- C++ -*-
+-//===----------------------------------------------------------------------===//
+-//
+-// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+-// See https://llvm.org/LICENSE.txt for license information.
+-// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+-//
+-//===----------------------------------------------------------------------===//
+-
+-#ifndef _LIBCPP_FLOAT_H
+-#define _LIBCPP_FLOAT_H
+-
+-/*
+-    float.h synopsis
+-
+-Macros:
+-
+-    FLT_ROUNDS
+-    FLT_EVAL_METHOD     // C99
+-    FLT_RADIX
+-
+-    FLT_MANT_DIG
+-    DBL_MANT_DIG
+-    LDBL_MANT_DIG
+-
+-    FLT_HAS_SUBNORM     // C11
+-    DBL_HAS_SUBNORM     // C11
+-    LDBL_HAS_SUBNORM    // C11
+-
+-    DECIMAL_DIG         // C99
+-    FLT_DECIMAL_DIG     // C11
+-    DBL_DECIMAL_DIG     // C11
+-    LDBL_DECIMAL_DIG    // C11
+-
+-    FLT_DIG
+-    DBL_DIG
+-    LDBL_DIG
+-
+-    FLT_MIN_EXP
+-    DBL_MIN_EXP
+-    LDBL_MIN_EXP
+-
+-    FLT_MIN_10_EXP
+-    DBL_MIN_10_EXP
+-    LDBL_MIN_10_EXP
+-
+-    FLT_MAX_EXP
+-    DBL_MAX_EXP
+-    LDBL_MAX_EXP
+-
+-    FLT_MAX_10_EXP
+-    DBL_MAX_10_EXP
+-    LDBL_MAX_10_EXP
+-
+-    FLT_MAX
+-    DBL_MAX
+-    LDBL_MAX
+-
+-    FLT_EPSILON
+-    DBL_EPSILON
+-    LDBL_EPSILON
+-
+-    FLT_MIN
+-    DBL_MIN
+-    LDBL_MIN
+-
+-    FLT_TRUE_MIN        // C11
+-    DBL_TRUE_MIN        // C11
+-    LDBL_TRUE_MIN       // C11
+-
+-*/
+-
+-#if defined(__cplusplus) && __cplusplus < 201103L && defined(_LIBCPP_USE_FROZEN_CXX03_HEADERS)
+-#  include <__cxx03/float.h>
+-#else
+-#  include <__config>
+-
+-#  if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+-#    pragma GCC system_header
+-#  endif
+-
+-#  if __has_include_next(<float.h>)
+-#    include_next <float.h>
+-#  endif
+-
+-#  ifdef __cplusplus
+-
+-#    ifndef FLT_EVAL_METHOD
+-#      define FLT_EVAL_METHOD __FLT_EVAL_METHOD__
+-#    endif
+-
+-#    ifndef DECIMAL_DIG
+-#      define DECIMAL_DIG __DECIMAL_DIG__
+-#    endif
+-
+-#  endif // __cplusplus
+-#endif   // defined(__cplusplus) && __cplusplus < 201103L && defined(_LIBCPP_USE_FROZEN_CXX03_HEADERS)
+-
+-#endif // _LIBCPP_FLOAT_H
+diff --git a/libcxx/include/module.modulemap.in b/libcxx/include/module.modulemap.in
+index 4509dc20..5b801357 100644
+--- a/libcxx/include/module.modulemap.in
++++ b/libcxx/include/module.modulemap.in
+@@ -2409,10 +2409,6 @@ module std_fenv_h [system] {
+   header "fenv.h"
+   export *
+ }
+-module std_float_h [system] {
+-  header "float.h"
+-  export *
+-}
+ module std_inttypes_h [system] {
+   header "inttypes.h"
+   export *
+diff --git a/libcxx/test/std/depr/depr.c.headers/float_h.compile.pass.cpp b/libcxx/test/std/depr/depr.c.headers/float_h.compile.pass.cpp
+index 8a029343..dd6b6ef6 100644
+--- a/libcxx/test/std/depr/depr.c.headers/float_h.compile.pass.cpp
++++ b/libcxx/test/std/depr/depr.c.headers/float_h.compile.pass.cpp
+@@ -7,6 +7,10 @@
+ //===----------------------------------------------------------------------===//
+ 
+ // test <float.h>
++//
++// Even though <float.h> is not provided by libc++, we still test that using it
++// with libc++ on the search path will work, and that it provides the necessary
++// content.
+ 
+ #include <float.h>
+ 
+@@ -16,9 +20,11 @@
+ #error FLT_ROUNDS not defined
+ #endif
+ 
++#if TEST_STD_VER >= 11
+ #ifndef FLT_EVAL_METHOD
+ #error FLT_EVAL_METHOD not defined
+ #endif
++#endif
+ 
+ #ifndef FLT_RADIX
+ #error FLT_RADIX not defined
+@@ -50,9 +56,11 @@
+ #error LDBL_MANT_DIG not defined
+ #endif
+ 
++#if TEST_STD_VER >= 11
+ #ifndef DECIMAL_DIG
+ #error DECIMAL_DIG not defined
+ #endif
++#endif
+ 
+ #if TEST_STD_VER > 14
+ #ifndef FLT_DECIMAL_DIG
+diff --git a/libcxx/test/std/language.support/support.limits/c.limits/cfloat.pass.cpp b/libcxx/test/std/language.support/support.limits/c.limits/cfloat.pass.cpp
+index 4d1a2907..feb0e412 100644
+--- a/libcxx/test/std/language.support/support.limits/c.limits/cfloat.pass.cpp
++++ b/libcxx/test/std/language.support/support.limits/c.limits/cfloat.pass.cpp
+@@ -16,9 +16,11 @@
+ #error FLT_ROUNDS not defined
+ #endif
+ 
++#if TEST_STD_VER >= 11
+ #ifndef FLT_EVAL_METHOD
+ #error FLT_EVAL_METHOD not defined
+ #endif
++#endif
+ 
+ #ifndef FLT_RADIX
+ #error FLT_RADIX not defined
+@@ -50,9 +52,11 @@
+ #error LDBL_MANT_DIG not defined
+ #endif
+ 
++#if TEST_STD_VER >= 11
+ #ifndef DECIMAL_DIG
+ #error DECIMAL_DIG not defined
+ #endif
++#endif
+ 
+ #if TEST_STD_VER > 14
+ #ifndef FLT_DECIMAL_DIG
