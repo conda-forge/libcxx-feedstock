@@ -27,9 +27,12 @@ source:
       - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
       # support gcc
       - patches/0007-Fix-compiling-with-gcc.patch
+      # backport of https://github.com/llvm/llvm-project/pull/175849, needed for the macOS 27 SDK
+      # together with the clang float.h backport (llvm/llvm-project#164348) in clangdev
+      - patches/0008-libc-Remove-libc-s-float.h-175849.patch
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
