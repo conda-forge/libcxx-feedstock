@@ -2,6 +2,10 @@ bot:
   abi_migration_branches:
   - 22.x
   - 21.x
+# for downstream tests with older clang, we need to allow using
+# matching older `libcxx-{devel,headers}`, even though we've already
+# built newer versions locally (which generally have higher priority)
+channel_priority: flexible
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
@@ -9,5 +13,5 @@ github:
   branch_name: main
   tooling_branch_name: main
 provider:
-  osx_arm64: default
+  osx_arm64: github_actions
 test: native_and_emulated

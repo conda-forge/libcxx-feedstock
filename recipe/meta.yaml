@@ -28,7 +28,7 @@ source:
       - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -70,6 +70,11 @@ outputs:
         - gxx_linux-64 >=14
         - gxx_osx-64 >=14
         - gxx_osx-arm64 >=14
+    test:
+      commands:
+        # presence of std modules
+        - test -d $PREFIX/share/libc++                  # [unix]
+        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
 
   - name: libcxx-devel
     build:
@@ -88,6 +93,10 @@ outputs:
       run:
         # re-enable this for osx once chrono implementation is in shared library
         - tzdata  # [linux]
+        # ensure we cannot mix debug & non-debug ABI
+        - libcxx * h*       # [hardening == "none"]
+        - libcxx * debug*   # [hardening == "debug"]
+        # but the version may be higher
         - {{ pin_subpackage("libcxx", max_pin=None) }}
         - {{ pin_subpackage("libcxx-headers", max_pin="x.x.x") }}
       run_constrained:
@@ -135,10 +144,6 @@ outputs:
 
         - bash compile_test.sh                                    # [unix]
         - compile_test.bat                                        # [win]
-
-        # presence of std modules
-        - test -d $PREFIX/share/libc++                  # [unix]
-        - test -f $PREFIX/lib/libc++.modules.json       # [unix]
 
       # Following 2 projects had issues with libc++, so check them
       # before releasing just to be sure.
