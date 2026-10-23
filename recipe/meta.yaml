@@ -195,6 +195,8 @@ outputs:
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
         # these tests are unusual in that they use -Wl,-rpath, but not -L.
+        - libcxx-testing 0.23   # [osx]
+        - libcxx-testing 0.22   # [osx]
         - libcxx-testing 0.21   # [osx]
         - libcxx-testing 0.20   # [osx]
         - libcxx-testing 0.19   # [osx]
