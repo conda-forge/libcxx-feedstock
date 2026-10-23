@@ -28,7 +28,7 @@ source:
       - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
