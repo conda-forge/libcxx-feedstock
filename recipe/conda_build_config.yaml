@@ -3,10 +3,6 @@ c_compiler:          # [osx]
 cxx_compiler:        # [osx]
   - clang_bootstrap  # [osx]
 
-# due to glibc constraint
-docker_image:                                       # [linux]
-  - quay.io/condaforge/linux-anvil-alma-x86_64:8    # [linux]
-
 # libcxx only supports the last released GCC version, see
 # https://libcxx.llvm.org/index.html#platform-and-compiler-support
 c_compiler_version:     # [unix]
@@ -19,14 +15,11 @@ dummy_var:              # [osx]
   - 0                   # [osx and x86_64]
   - 1                   # [osx and arm64]
 
-MACOSX_SDK_VERSION:         # [osx]
-  - "10.14"                 # [osx and x86_64]
-  - "11.0"                  # [osx and arm64]
-
-c_stdlib_version:           # [linux]
+c_stdlib_version:           # [unix]
   - "2.28"                  # [linux]
   # w.r.t. to the ABI of the system libcxx, this would need to be 12.0 on macos
   # but as we only publish one build to main, maintain global lower bounds
+  - "15.5"                  # [osx]
 
 channel_targets:
   - conda-forge llvm_dev
