@@ -28,7 +28,7 @@ source:
       - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -93,6 +93,10 @@ outputs:
       run:
         # re-enable this for osx once chrono implementation is in shared library
         - tzdata  # [linux]
+        # ensure we cannot mix debug & non-debug ABI
+        - libcxx * h*       # [hardening == "none"]
+        - libcxx * debug*   # [hardening == "debug"]
+        # but the version may be higher
         - {{ pin_subpackage("libcxx", max_pin=None) }}
         - {{ pin_subpackage("libcxx-headers", max_pin="x.x.x") }}
       run_constrained:
