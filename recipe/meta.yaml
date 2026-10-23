@@ -28,7 +28,7 @@ source:
       - patches/0007-Fix-compiling-with-gcc.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -73,7 +73,8 @@ outputs:
 
   - name: libcxx-devel
     build:
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none" and (not osx or sys_abi == "post-12")]
+      string: pre12_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "none" and osx and sys_abi == "pre-12"]
       string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
@@ -149,7 +150,8 @@ outputs:
 
   - name: libcxx
     build:
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}        # [hardening == "none" and (not osx or sys_abi == "post-12")]
+      string: pre12_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "none" and osx and sys_abi == "pre-12"]
       string: debug_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [hardening == "debug"]
       run_exports:                                      # [hardening == "debug"]
         # packages built with hardened lib must not be installable without extra label
