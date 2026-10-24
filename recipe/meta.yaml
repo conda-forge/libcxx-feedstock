@@ -191,7 +191,7 @@ outputs:
         # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
-    {% if False %}
+    {% if sys_abi != "pre-12" %}
       downstreams:              # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
