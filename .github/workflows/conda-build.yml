@@ -46,6 +46,39 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
+          - CONFIG: osx_arm64_channel_targetsconda-forge_libcxx_debughardeningdebugsys_abipost-12
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: ~/miniforge3/conda-bld
+            docker_run_args: 
+            free_disk_space: skip
+            os: macos
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['macos-15']
+            tools_install_dir: ~/miniforge3
+          - CONFIG: osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: ~/miniforge3/conda-bld
+            docker_run_args: 
+            free_disk_space: skip
+            os: macos
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['macos-15']
+            tools_install_dir: ~/miniforge3
+          - CONFIG: osx_arm64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: ~/miniforge3/conda-bld
+            docker_run_args: 
+            free_disk_space: skip
+            os: macos
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['macos-15']
+            tools_install_dir: ~/miniforge3
     steps:
 
     - name: Checkout code
