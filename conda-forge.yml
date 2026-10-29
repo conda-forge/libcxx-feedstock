@@ -1,13 +1,13 @@
+# no equivalent for GHA yet, need to do it manually; c.f.
+# https://github.com/conda-forge/conda-smithy/issues/2582
 azure:
   settings_osx:
     pool:
-      vmImage: macos-14
+      vmImage: macOS-14
 bot:
   abi_migration_branches:
   - 18.x
   - 17.x
-build_platform:
-  osx_arm64: osx_64
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
@@ -15,4 +15,6 @@ channel_priority: flexible
 github:
   branch_name: main
   tooling_branch_name: main
+provider:
+  osx_arm64: github_actions
 test: native_and_emulated
