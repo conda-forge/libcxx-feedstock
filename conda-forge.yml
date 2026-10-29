@@ -10,5 +10,5 @@ github:
   branch_name: main
   tooling_branch_name: main
 provider:
-  osx_arm64: default
+  osx_arm64: github_actions
 test: native_and_emulated
