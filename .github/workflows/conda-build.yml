@@ -55,7 +55,7 @@ jobs:
             os: macos
             pagefile_size: 0
             resize_partitions: False
-            runs_on: ['macos-15']
+            runs_on: ['macos-14']
             tools_install_dir: ~/miniforge3
           - CONFIG: osx_arm64_channel_targetsconda-forge_libcxx_macos_lt_12hardeningnonesys_abipre-12
             STORE_BUILD_ARTIFACTS: False
@@ -66,7 +66,7 @@ jobs:
             os: macos
             pagefile_size: 0
             resize_partitions: False
-            runs_on: ['macos-15']
+            runs_on: ['macos-14']
             tools_install_dir: ~/miniforge3
           - CONFIG: osx_arm64_channel_targetsconda-forge_mainhardeningnonesys_abipost-12
             STORE_BUILD_ARTIFACTS: False
@@ -77,7 +77,7 @@ jobs:
             os: macos
             pagefile_size: 0
             resize_partitions: False
-            runs_on: ['macos-15']
+            runs_on: ['macos-14']
             tools_install_dir: ~/miniforge3
     steps:
 

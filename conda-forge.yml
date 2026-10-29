@@ -1,3 +1,9 @@
+# no equivalent for GHA yet, need to do it manually; c.f.
+# https://github.com/conda-forge/conda-smithy/issues/2582
+azure:
+  settings_osx:
+    pool:
+      vmImage: macOS-14
 bot:
   abi_migration_branches:
   - 18.x
