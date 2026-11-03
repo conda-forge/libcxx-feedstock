@@ -26,8 +26,8 @@ source:
       - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
       # support gcc
       - patches/0007-Fix-compiling-with-gcc.patch
-      # re-export libc++abi symbols from libc++ when using system-libcxxabi
-      - patches/0008-link-with-cxxabi-reexports-for-system-libcxxabi.patch
+      # re-export all of the system libc++abi from libc++
+      - patches/0008-reexport-all-of-system-libcxxabi.patch
 
 build:
   number: 0

@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Tue, 3 Nov 2026 10:00:00 -0700
+Subject: [PATCH 8/8] re-export all of system libc++abi
+
+---
+ libcxx/cmake/Modules/HandleLibCXXABI.cmake | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/libcxx/cmake/Modules/HandleLibCXXABI.cmake b/libcxx/cmake/Modules/HandleLibCXXABI.cmake
+index f823db8..28b9d88 100644
+--- a/libcxx/cmake/Modules/HandleLibCXXABI.cmake
++++ b/libcxx/cmake/Modules/HandleLibCXXABI.cmake
+@@ -165,7 +165,14 @@ elseif ("${LIBCXX_CXX_ABI}" STREQUAL "system-libcxxabi")
+   import_private_headers(libcxx-abi-headers "${LIBCXX_CXX_ABI_INCLUDE_PATHS}" "cxxabi.h;__cxxabi_config.h")
+   target_compile_definitions(libcxx-abi-headers INTERFACE "-DLIBCXX_BUILDING_LIBCXXABI")
+ 
+-  import_shared_library(libcxx-abi-shared c++abi)
++  if (APPLE)
++    # Re-export everything from the system libc++abi, so that consumers
++    # linking only against libc++ still see all of its symbols.
++    add_library(libcxx-abi-shared INTERFACE IMPORTED GLOBAL)
++    target_link_libraries(libcxx-abi-shared INTERFACE "-Wl,-reexport-lc++abi")
++  else()
++    import_shared_library(libcxx-abi-shared c++abi)
++  endif()
+   target_link_libraries(libcxx-abi-shared INTERFACE libcxx-abi-headers)
+ 
+   import_static_library(libcxx-abi-static "${LIBCXX_CXX_ABI_LIBRARY_PATH}" c++abi)
