@@ -1,6 +1,10 @@
 set -ex
 
 LLVM_PREFIX=$PREFIX
+# up-to-date feedstocks will use recent compilers, which are max. 1-2 releases behind;
+# however, we leave some extra margin for older, unrerendered feedstocks. See
+# https://github.com/llvm/llvm-project/blob/llvmorg-23.1.5/libcxx/docs/VendorDocumentation.rst?plain=1#L344-L358
+MIN_HEADERS=$((${PKG_VERSION%%.*} - 4))
 
 if [[ "$target_platform" == osx-* ]]; then
     export CFLAGS="$CFLAGS -isysroot $CONDA_BUILD_SYSROOT"
@@ -26,11 +30,13 @@ cmake -G Ninja \
     -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
     -DCMAKE_INSTALL_PREFIX=$PREFIX \
     -DCMAKE_BUILD_TYPE=Release \
+    -DLIBCXX_AVAILABILITY_MINIMUM_HEADER_VERSION=${MIN_HEADERS} \
     -DLIBCXX_ENABLE_TIME_ZONE_DATABASE=ON \
     -DLIBCXX_INCLUDE_BENCHMARKS=OFF \
     -DLIBCXX_INCLUDE_DOCS=OFF \
     -DLIBCXX_INCLUDE_TESTS=OFF \
     -DLIBCXX_HARDENING_MODE="${hardening}" \
+    -DLIBCXXABI_AVAILABILITY_MINIMUM_HEADER_VERSION=${MIN_HEADERS} \
     -DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
     -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
     $CMAKE_ARGS
