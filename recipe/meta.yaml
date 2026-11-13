@@ -197,7 +197,8 @@ outputs:
         # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
-    {% if sys_abi != "pre-12" %}
+    # currently broken, see https://github.com/conda-forge/libcxx-feedstock/issues/77
+    {% if False %}
       downstreams:              # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
