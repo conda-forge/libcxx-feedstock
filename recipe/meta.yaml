@@ -26,9 +26,11 @@ source:
       - patches/0006-make-headers-platform-neutral-for-conda-forge.patch
       # support gcc
       - patches/0007-Fix-compiling-with-gcc.patch
+      # re-export all of the system libc++abi from libc++
+      - patches/0008-reexport-all-of-system-libcxxabi.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   skip: true  # [ppc64le or aarch64]
 
@@ -195,7 +197,8 @@ outputs:
         # absence of headers
         - test ! -d $PREFIX/include/c++                 # [unix]
 
-    {% if sys_abi != "pre-12" %}
+    # currently broken, see https://github.com/conda-forge/libcxx-feedstock/issues/77
+    {% if False %}
       downstreams:              # [osx]
         # test current libcxx against old clang builds;
         # version correspondence is 0.{{ CLANG_MAJOR }}
